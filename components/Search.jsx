@@ -2,65 +2,76 @@ import { useEffect, useState } from "react"
 
 export default function Search() {
     const [companyData, setCompanyData] = useState([])
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(false)
     const [companySearchInput, setCompanySearchInput] = useState("")
 
     useEffect(() => {
-        const debouce = setTimeout(() => {
-            const fetchData = async () => {
-                try {
-                    const res = await fetch(`https://www.data.gov.cy/api/action/datastore/search.json?resource_id=a1deb65d-102b-4e8e-9b9c-5b357d719477&q=${companySearchInput}`)
-                    const data = await res.json()
-                    setCompanyData(data.result.records)
-                } catch (err) {
-                    console.log(err)
-                } finally {
-                    setLoading(false)
-                }
+        if (companySearchInput.trim() !== "") {
+            setLoading(true)
+            const debouce = setTimeout(() => {
+                fetchData()
+            }, 300)
+
+            return () => {
+                clearTimeout(debouce)
             }
-            fetchData()
-        }, 300)
-
-        return () => {
-            clearTimeout(debouce)
+        } else {
+            setCompanyData([])
+            setLoading(false)
         }
-
     }, [companySearchInput])
 
-
-    //cleaning data in order to avoid dublication
-    const cleanCompanyData = companyData.reduce((acc, record) => {
-        if (!acc.some(item => item.organisation_name === record.organisation_name)) {
-            acc.push(record)
+    const fetchData = async () => {
+        try {
+            console.log("Fetching data for:", companySearchInput)
+            const res = await fetch(`http://localhost:5000/api/organisations?keyword=${(companySearchInput)}`)
+            const data = await res.json()
+            console.log("Received data:", data)
+            setCompanyData(data)
+        } catch (err) {
+            console.error("Error fetching data:", err)
+            setCompanyData([])
+        } finally {
+            setLoading(false)
         }
-        return acc
-    }, [])
+    }
 
-    const companyDataElements = cleanCompanyData.map((data) => {
+    const companyDataElements = companyData.map((data) => {
         return (
-            <div key={data.entry_id}>
-                <p>
+            <div className="result-container" key={data.registration_no}>
+                <p className="result-container-company">
                     {data.organisation_name}
                 </p>
             </div>
         )
     })
 
-
     const handleInputChange = (event) => {
         setCompanySearchInput(event.target.value)
-        console.log(companySearchInput)
     }
 
     return (
         <div>
-            <h1>Company search</h1>
-            <input
-                type="text"
-                onChange={handleInputChange}
-                value={companySearchInput}
-            />
-            {companySearchInput === "" ? <p>Enter company's name</p> : companyDataElements}
+            <div className="header-container">
+                <h3 className="logo-text">companySearch</h3>
+            </div>
+            <div className="search-container">
+                <input
+                    type="text"
+                    onChange={handleInputChange}
+                    value={companySearchInput}
+                    className="search-container-input"
+                />
+                {loading ? (
+                    <p>Loading...</p>
+                ) : companyData.length > 0 ? (
+                    companyDataElements
+                ) : companySearchInput.trim() !== "" ? (
+                    <p>No results found</p>
+                ) : (
+                    <p className="result-container-company">Enter company's name</p>
+                )}
+            </div>
         </div>
     )
 }
