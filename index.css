@@ -1,7 +1,5 @@
 * {
     box-sizing: border-box;
-    margin: 0;
-    padding: 0;
     background-color: #0f0f0f;
     color: #fff;
     font-family: "Roboto Flex", sans-serif;
@@ -12,7 +10,7 @@
     display: flex;
     justify-content: center;
     padding: 25px 120px;
-    width: 100vw;
+    width: 100vh60vh;
     z-index: 10;
 }
 
@@ -29,19 +27,53 @@
 
 .search-container-input {
     background-color: initial;
-    border: 1px solid #fff;
+    border: 1px solid #9e9e9e;
     border-radius: 10px;
-    height: 45px;
+    width: 50vh;
+    height: 40px;
     outline: none;
     padding-left: 10px;
+    margin-bottom: 20px;
 }
 
 .result-container {
-    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    border: 1px solid #161616;
+    border-radius: 10px;
+    min-width: 60vh;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #242424 #161616;
+    margin: 0;
+    max-height: 80vh;
+}
+
+.result-container-data {
+    margin: 0;
+    cursor: pointer;
+    border-bottom: 1px solid #161616;
+    width: 60vh;
+    background-color: transparent;
+}
+
+.result-container-data:hover {
+    background-color: #161616;
+}
+
+.result-container-data:last-child {
+    border-bottom: none;
+}
+
+.result-container-address {
+    color: #9e9e9e;
+    margin: 10px;
+    background-color: transparent;
 }
 
 .result-container-company {
-    color: grey;
-    margin-top: 20px;
-    cursor: pointer;
+    margin: 10px;
+    background-color: transparent;
 }

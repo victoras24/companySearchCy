@@ -4,6 +4,9 @@ export default function Search() {
     const [companyData, setCompanyData] = useState([])
     const [loading, setLoading] = useState(false)
     const [companySearchInput, setCompanySearchInput] = useState("")
+    const corsAnywhereUrl = 'http://localhost:8080/';
+    const apiURL = `https://www.data.gov.cy/api/action/datastore/search.json?resource_id=b48bf3b6-51f2-4368-8eaa-63d61836aaa9&q=${companySearchInput}`
+
 
     useEffect(() => {
         if (companySearchInput.trim() !== "") {
@@ -24,10 +27,10 @@ export default function Search() {
     const fetchData = async () => {
         try {
             console.log("Fetching data for:", companySearchInput)
-            const res = await fetch(`http://localhost:5000/api/organisations?keyword=${(companySearchInput)}`)
+            const res = await fetch(`${corsAnywhereUrl}${apiURL}`)
             const data = await res.json()
             console.log("Received data:", data)
-            setCompanyData(data)
+            setCompanyData(data.result.records)
         } catch (err) {
             console.error("Error fetching data:", err)
             setCompanyData([])
@@ -36,11 +39,15 @@ export default function Search() {
         }
     }
 
+
     const companyDataElements = companyData.map((data) => {
         return (
-            <div className="result-container" key={data.registration_no}>
+            <div key={data.registration_no} className="result-container-data">
                 <p className="result-container-company">
                     {data.organisation_name}
+                </p>
+                <p className="result-container-address">
+                    {data.street}{data.territory}
                 </p>
             </div>
         )
@@ -61,17 +68,18 @@ export default function Search() {
                     onChange={handleInputChange}
                     value={companySearchInput}
                     className="search-container-input"
+                    placeholder="Enter company's name"
                 />
                 {loading ? (
                     <p>Loading...</p>
                 ) : companyData.length > 0 ? (
-                    companyDataElements
-                ) : companySearchInput.trim() !== "" ? (
-                    <p>No results found</p>
-                ) : (
-                    <p className="result-container-company">Enter company's name</p>
-                )}
+                    <div className="result-container">
+                        {companyDataElements}
+                    </div>
+                ) : companySearchInput.trim() !== ""}
             </div>
         </div>
     )
 }
+
+
