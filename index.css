@@ -9,9 +9,8 @@
 .header-container {
     display: flex;
     justify-content: center;
-    padding: 25px 120px;
-    width: 100vh60vh;
-    z-index: 10;
+    align-items: center;
+    padding: 10px;
 }
 
 .logo-text {
@@ -21,59 +20,131 @@
 .search-container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    width: 100%;
+}
+
+.input-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 400px;
+    position: relative;
 }
 
 .search-container-input {
+    flex-grow: 1;
     background-color: initial;
     border: 1px solid #9e9e9e;
     border-radius: 10px;
-    width: 50vh;
     height: 40px;
     outline: none;
-    padding-left: 10px;
-    margin-bottom: 20px;
+    padding: 0 10px;
+    width: 100%;
 }
 
 .result-container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: start;
+    justify-content: flex-start;
+    align-items: stretch;
     border: 1px solid #161616;
     border-radius: 10px;
-    min-width: 60vh;
+    max-width: 60vh;
+    width: 100%;
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: #242424 #161616;
     margin: 0;
     max-height: 80vh;
+    margin-top: 20px;
+}
+
+.result-container-top-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    background-color: transparent;
 }
 
 .result-container-data {
     margin: 0;
     cursor: pointer;
     border-bottom: 1px solid #161616;
-    width: 60vh;
     background-color: transparent;
+    width: 100%;
+    padding: 10px;
 }
 
 .result-container-data:hover {
     background-color: #161616;
 }
 
+.result-container-company-status.active {
+    font-size: 12px;
+    color: #00DC82;
+    background-color: rgba(0, 220, 130, 0.2);
+    border: 1px solid rgba(0, 220, 130, 0.1);
+    border-radius: 20px;
+    padding: 5px;
+    text-align: center;
+}
+
+.result-container-company-status.inactive {
+    font-size: 12px;
+    color: #FF4C4C;
+    background-color: rgba(255, 76, 76, 0.2);
+    border: 1px solid rgba(255, 76, 76, 0.1);
+    border-radius: 20px;
+    padding: 5px;
+    text-align: center;
+}
+
+
 .result-container-data:last-child {
     border-bottom: none;
 }
 
+.status-bookmark-container {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background-color: transparent;
+}
+
 .result-container-address {
     color: #9e9e9e;
-    margin: 10px;
     background-color: transparent;
 }
 
 .result-container-company {
-    margin: 10px;
     background-color: transparent;
 }
+
+.loader {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: inline-block;
+    border-top: 3px solid #FFF;
+    border-right: 3px solid transparent;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+    position: absolute;
+    right: 20px;
+}
+
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* Navigation bar  */

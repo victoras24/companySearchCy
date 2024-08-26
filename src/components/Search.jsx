@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react"
 import { fetchCompanyData } from "../api/companiesApi"
 import { fetchAddressData } from "../api/addressApi"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBookmark } from '@fortawesome/free-solid-svg-icons'
+import { faBookmark as faBookmarkRegular } from '@fortawesome/free-regular-svg-icons'
+
 
 export default function Search() {
     const [companyData, setCompanyData] = useState([])
@@ -18,7 +22,7 @@ export default function Search() {
 
                 const combinedData = await Promise.all(companies.map(async (company) => {
                     const address = await fetchAddressData(corsAnywhereUrl, addressApiUrl, company.address_seq_no)
-                    return { ...company, address }
+                    return { ...company, address, isSaved: false }
                 }))
                 console.log(combinedData)
                 setCompanyData(combinedData)
@@ -33,7 +37,15 @@ export default function Search() {
         }
     }, [companySearchInput, corsAnywhereUrl, companiesApiUrl, addressApiUrl])
 
-
+    const toggleSavedStatus = (entryId) => {
+        setCompanyData(prevCompanyData => (
+            prevCompanyData.map((company) =>
+                company.entry_id === entryId ?
+                    { ...company, isSaved: !company.isSaved } :
+                    company
+            )
+        ))
+    }
 
     const companyDataElements = companyData.map((data) => {
         const addressInfo = data.address || []
@@ -43,9 +55,22 @@ export default function Search() {
 
         return (
             <div key={data.registration_no} className="result-container-data">
-                <p className="result-container-company">
-                    {data.organisation_name}
-                </p>
+                <div className="result-container-top-info">
+                    <h3 className="result-container-company">
+                        {data.organisation_name}
+                    </h3>
+                    <div className="status-bookmark-container">
+                        <p className={`result-container-company-status ${data.organisation_status === "Εγγεγραμμένη" ? "active" : "inactive"}`}>
+                            {data.organisation_status === "Εγγεγραμμένη" ? "Active" : "Inactive"}
+                        </p>
+                        {
+                            <FontAwesomeIcon
+                                onClick={() => { toggleSavedStatus(data.entry_id) }}
+                                icon={data.isSaved ? faBookmark : faBookmarkRegular}
+                            />
+                        }
+                    </div>
+                </div>
                 <p className="result-container-address">
                     {fullAddress}
                 </p>
@@ -59,16 +84,17 @@ export default function Search() {
 
     return (
         <div className="search-container">
-            <input
-                type="text"
-                onChange={handleInputChange}
-                value={companySearchInput}
-                className="search-container-input"
-                placeholder="Enter company's name"
-            />
-            {loading ? (
-                <p>Loading...</p>
-            ) : companyData.length > 0 ? (
+            <div className="input-container">
+                <input
+                    type="text"
+                    onChange={handleInputChange}
+                    value={companySearchInput}
+                    className="search-container-input"
+                    placeholder="Enter company's name"
+                />
+                {loading ? <span className="loader"></span> : ""}
+            </div>
+            {companyData.length > 0 ? (
                 <div className="result-container">
                     {companyDataElements}
                 </div>
