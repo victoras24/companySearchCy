@@ -1,10 +1,13 @@
-import Navbar
-    from "./Navbar"
+import Navbar from "./Navbar"
+import { Link } from "react-router-dom"
+
 export default function Header() {
     return (
-        <div className="header-container">
+        <div className="header-container" >
             <Navbar />
-            <h3 className="logo-text">companySearch</h3>
+            <Link to="/" className="logo-text">
+                <h3 className="logo-text"><span className="logo-text-white">company</span>Search</h3>
+            </Link>
         </div>
     )
 }

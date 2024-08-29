@@ -1,11 +1,17 @@
 import Search from "./components/Search"
-import Header from "./components/Header"
+import Layout from "./components/Layout"
+import Home from "./pages/Home"
+import { BrowserRouter, Routes, Route } from "react-router-dom"
 
 export default function App() {
     return (
-        <>
-            <Header />
-            <Search />
-        </>
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<Layout />} >
+                    <Route index element={<Home />} />
+                    <Route path="search" element={<Search />} />
+                </Route >
+            </Routes>
+        </BrowserRouter>
     )
 }

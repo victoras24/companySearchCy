@@ -20,7 +20,18 @@ html {
     padding: 10px;
 }
 
+
+
 .logo-text {
+    font-weight: 900;
+    cursor: pointer;
+    font-size: 18px;
+    color: #00DC82;
+    text-decoration: none;
+}
+
+.logo-text-white {
+    font-weight: 900;
     cursor: pointer;
     font-size: 18px;
 }
@@ -214,12 +225,64 @@ html {
     z-index: 3;
 }
 
-.navbar-content li {
+.navbar-item {
     padding: 1.2rem 1.5rem;
     display: block;
     cursor: pointer;
     background-color: transparent;
+    text-decoration: none;
 }
+
+/* Home page */
+
+.home-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 0 10px
+}
+
+.home-title {
+    margin-top: 2rem;
+    font-weight: 700;
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+    text-align: center;
+}
+
+.home-title-highlight {
+    margin-top: 2rem;
+    font-weight: 700;
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+    color: #00DC82;
+}
+
+
+.home-paragraph {
+    text-align: center;
+    opacity: 0.75;
+    font-size: 0.9em;
+}
+
+.home-search-button {
+    margin-top: 20px;
+    border: none;
+    background-color: #00DC82;
+    padding: 8px 10px;
+    border-radius: 6px;
+    font-size: 0.9em;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.home-search-button-icon {
+    background-color: transparent;
+    margin-right: 7px;
+}
+
+
 
 
 
