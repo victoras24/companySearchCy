@@ -2,8 +2,9 @@ import { useEffect, useState } from "react"
 import { fetchCompanyData } from "../api/companiesApi"
 import { fetchAddressData } from "../api/addressApi"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBookmark } from '@fortawesome/free-solid-svg-icons'
 import { faBookmark as faBookmarkRegular } from '@fortawesome/free-regular-svg-icons'
+import { faBookmark, faSearch, faTimes, faFilter } from '@fortawesome/free-solid-svg-icons';
+
 
 
 export default function Search() {
@@ -85,6 +86,7 @@ export default function Search() {
     return (
         <div className="search-container">
             <div className="input-container">
+                <FontAwesomeIcon icon={faSearch} className="input-icon" />
                 <input
                     type="text"
                     onChange={handleInputChange}
@@ -92,7 +94,15 @@ export default function Search() {
                     className="search-container-input"
                     placeholder="Enter company's name"
                 />
+                {companySearchInput && (
+                    <FontAwesomeIcon
+                        icon={faTimes}
+                        className="input-icon clear-icon"
+                        onClick={() => setCompanySearchInput('')}
+                    />
+                )}
                 {loading ? <span className="loader"></span> : ""}
+                <FontAwesomeIcon icon={faFilter} className="input-icon filter-icon" />
             </div>
             {companyData.length > 0 ? (
                 <div className="result-container">
