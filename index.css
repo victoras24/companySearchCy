@@ -43,7 +43,6 @@ html {
     justify-content: flex-start;
     width: 100%;
     height: 100vh;
-    padding-top: 20vh;
 }
 
 .input-container {
@@ -99,6 +98,74 @@ html {
     position: absolute;
     right: 56px;
     top: 9px;
+}
+
+.search-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem;
+}
+
+.search-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
+.search-description {
+    font-size: 1rem;
+    opacity: 0.75;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.search-tips {
+    margin-top: 2rem;
+    padding: 1rem;
+    background-color: rgba(0, 220, 130, 0.1);
+    border-radius: 6px;
+    max-width: 600px;
+}
+
+.search-tips h2 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    background-color: transparent;
+}
+
+.search-tips ul {
+    padding-left: 1.5rem;
+    background-color: transparent;
+}
+
+.search-tips li {
+    margin-bottom: 0.5rem;
+    background-color: transparent;
+
+}
+
+.no-results {
+    margin-top: 2rem;
+    text-align: center;
+    opacity: 0.75;
+}
+
+.search-footer {
+    margin-top: 3rem;
+    text-align: center;
+    font-size: 0.9rem;
+    opacity: 0.75;
+}
+
+.faq-link {
+    color: #00DC82;
+    text-decoration: none;
+    font-weight: 700;
+    margin-top: 0.5rem;
+    display: inline-block;
 }
 
 .result-container {
@@ -282,10 +349,185 @@ html {
     margin-right: 7px;
 }
 
+/* Key Features Section */
+.key-features {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 3rem;
+    width: 100%;
+}
 
+.feature {
+    text-align: center;
+    margin-bottom: 2rem;
+}
 
+.feature svg {
+    font-size: 2rem;
+    color: #00DC82;
+    margin-bottom: 1rem;
+}
 
+.feature h3 {
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
 
+.feature p {
+    opacity: 0.75;
+    font-size: 0.9em;
+}
+
+/* Testimonial Section */
+.testimonial {
+    text-align: center;
+    margin-top: 3rem;
+    padding: 1rem;
+    background-color: rgba(0, 220, 130, 0.1);
+    border-radius: 6px;
+}
+
+.testimonial blockquote {
+    font-style: italic;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    background-color: transparent;
+}
+
+.testimonial cite {
+    font-weight: 700;
+    font-size: 0.9em;
+}
+
+/* Call-to-Action for Advanced Features */
+.cta-advanced {
+    text-align: center;
+    margin-top: 3rem;
+}
+
+.cta-advanced h2 {
+    font-weight: 700;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.cta-advanced p {
+    opacity: 0.75;
+    font-size: 0.9em;
+    margin-bottom: 1rem;
+}
+
+.cta-button {
+    background-color: #00DC82;
+    color: white;
+    border: none;
+    padding: 8px 10px;
+    border-radius: 6px;
+    font-size: 0.9em;
+    cursor: pointer;
+}
+
+/* Recent Updates Section */
+.recent-updates {
+    margin-top: 3rem;
+    width: 100%;
+    max-width: 600px;
+}
+
+.recent-updates h2 {
+    font-weight: 700;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.recent-updates ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.recent-updates li {
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    background-color: rgba(0, 220, 130, 0.1);
+    border-radius: 6px;
+    font-size: 0.9em;
+}
+
+/* FAQ Section */
+.faq-preview {
+    margin-top: 3rem;
+    width: 100%;
+    max-width: 600px;
+}
+
+.faq-preview h2 {
+    font-weight: 700;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.faq-preview details {
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    background-color: rgba(0, 220, 130, 0.1);
+    border-radius: 6px;
+}
+
+.faq-preview summary {
+    font-weight: 700;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+.faq-preview p {
+    margin-top: 0.5rem;
+    font-size: 0.9em;
+    opacity: 0.75;
+    background-color: transparent;
+
+}
+
+.faq-preview a {
+    display: block;
+    text-align: center;
+    color: #00DC82;
+    text-decoration: none;
+    font-weight: 700;
+    margin-top: 1rem;
+}
+
+/* Divider  */
+
+/* h3 {
+    margin: 0;
+    display: grid;
+    width: 100%;
+    align-items: center;
+    text-align: center;
+    grid-template-columns: minmax(20px, 1fr) auto minmax(20px, 1fr);
+    grid-gap: 20px;
+    font-weight: 400;
+    font-size: 28px;
+    color: #818078;
+}
+
+h3:before,
+h3:after {
+    content: '';
+    height: 1px;
+}
+
+h3:after {
+    background: linear-gradient(to right, transparent, #818078);
+}
+
+h3:before {
+    background: linear-gradient(to right, #818078, transparent);
+} */
 
 
 /* Media query for larger screens */
@@ -309,5 +551,14 @@ html {
 
     .clear-icon {
         font-size: 20px;
+    }
+
+    .key-features {
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
+    .feature {
+        width: 30%;
     }
 }

@@ -84,33 +84,62 @@ export default function Search() {
     }
 
     return (
-        <div className="search-container">
-            <div className="input-container">
-                <FontAwesomeIcon icon={faSearch} className="input-icon" />
-                <input
-                    type="text"
-                    onChange={handleInputChange}
-                    value={companySearchInput}
-                    className="search-container-input"
-                    placeholder="Enter company's name"
-                />
-                {companySearchInput && (
-                    <FontAwesomeIcon
-                        icon={faTimes}
-                        className="input-icon clear-icon"
-                        onClick={() => setCompanySearchInput('')}
+        <div className="search-page">
+            <h1 className="search-title">Cyprus Company Search</h1>
+            <p className="search-description">Find detailed information about companies registered in Cyprus.</p>
+
+            <div className="search-container">
+                <div className="input-container">
+                    <FontAwesomeIcon icon={faSearch} className="input-icon" />
+                    <input
+                        type="text"
+                        onChange={handleInputChange}
+                        value={companySearchInput}
+                        className="search-container-input"
+                        placeholder="Enter company's name"
                     />
-                )}
-                {loading ? <span className="loader"></span> : ""}
-                <FontAwesomeIcon icon={faFilter} className="input-icon filter-icon" />
-            </div>
-            {companyData.length > 0 ? (
-                <div className="result-container">
-                    {companyDataElements}
+                    {companySearchInput && (
+                        <FontAwesomeIcon
+                            icon={faTimes}
+                            className="input-icon clear-icon"
+                            onClick={() => setCompanySearchInput('')}
+                        />
+                    )}
+                    {loading ? <span className="loader"></span> : ""}
+                    <FontAwesomeIcon icon={faFilter} className="input-icon filter-icon" />
                 </div>
-            ) : companySearchInput.trim() !== ""}
+
+                {companyData.length === 0 && companySearchInput.trim() === "" && (
+                    <div className="search-tips">
+                        <h2>Search Tips:</h2>
+                        <ul>
+                            <li>Enter the full or partial name of the company</li>
+                            <li>Results will show company name, status, and address</li>
+                            <li>Click on a result to view more details</li>
+                            <li>Use the filter icon to refine your search</li>
+                        </ul>
+                    </div>
+                )}
+
+                {companyData.length > 0 ? (
+                    <div className="result-container">
+                        {companyDataElements}
+                    </div>
+                ) : companySearchInput.trim() !== "" && !loading && (
+                    <div className="no-results">
+                        <p>No companies found matching your search. Try adjusting your search terms.</p>
+                    </div>
+                )}
+            </div>
+
+            <div className="search-footer">
+                <p>Data sourced from official Cyprus company registries. Updated daily.</p>
+                <a href="/faq" className="faq-link">Frequently Asked Questions</a>
+            </div>
         </div>
     )
 }
+
+
 
 

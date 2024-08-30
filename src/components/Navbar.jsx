@@ -31,6 +31,11 @@ export default function Navbar() {
                 <div className="navbar-background">
                     <ul className="navbar-content">
                         <NavLink
+                            to=""
+                            className="navbar-item">
+                            Home
+                        </NavLink>
+                        <NavLink
                             to="/search"
                             className="navbar-item">
                             Search
@@ -42,10 +47,6 @@ export default function Navbar() {
                         <NavLink
                             className="navbar-item">
                             History
-                        </NavLink>
-                        <NavLink
-                            className="navbar-item">
-                            Settings
                         </NavLink>
                     </ul>
                 </div>
