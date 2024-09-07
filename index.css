@@ -114,7 +114,8 @@ html {
     text-align: center;
 }
 
-.search-description {
+.search-description,
+.saved-description {
     font-size: 1rem;
     opacity: 0.75;
     margin-bottom: 2rem;
@@ -245,6 +246,22 @@ html {
 
 .result-container-company {
     background-color: transparent;
+}
+
+/* Saved page */
+
+.saved-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem;
+}
+
+.saved-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    text-align: center;
 }
 
 
@@ -498,6 +515,43 @@ html {
     text-decoration: none;
     font-weight: 700;
     margin-top: 1rem;
+}
+
+/* Group page */
+
+.group-add-button {
+    border: none;
+    background-color: #00DC82;
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 0.9em;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.create-group-container h3 {
+    background-color: transparent;
+}
+
+.create-group-container input {
+    border: none;
+    border-radius: 5px;
+}
+
+.create-group-container button {
+    border: none;
+    border-radius: 10px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.create-group-container {
+    flex-direction: column;
+    border: none;
+    border-radius: 10px;
+    background-color: #242424;
+    padding: 20px;
+    position: relative;
 }
 
 /* Divider  */

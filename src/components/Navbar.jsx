@@ -41,6 +41,7 @@ export default function Navbar() {
                             Search
                         </NavLink>
                         <NavLink
+                            to="/saved"
                             className="navbar-item">
                             Saved
                         </NavLink>
