@@ -1,4 +1,5 @@
 import { createContext, useState, useContext } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 const SavedCompanyContext = createContext();
 
@@ -9,7 +10,7 @@ export function SavedCompanyProvider({ children }) {
   const createGroup = (groupName) => {
     setGroups((prevState) => [
       ...prevState,
-      { name: groupName, companies: [] },
+      { id: uuidv4(), name: groupName, companies: [] },
     ]);
   };
 

@@ -1,13 +1,12 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { useCompanyContext } from "../context/SavedCompanyContext";
+import { Reorder } from "framer-motion";
 
 export default function Saved() {
   const [isGroup, setIsGroup] = useState(false);
   const [groupName, setGroupName] = useState("");
   const { groups, setGroups, createGroup, savedCompanies, setSavedCompanies } =
     useCompanyContext();
-  const dragItem = useRef(null);
-  const dragOverItem = useRef(null);
 
   const handleCreateGroup = () => {
     if (groupName.trim()) {
@@ -16,98 +15,7 @@ export default function Saved() {
     }
   };
 
-  const handleDragStart = (e, position, type, groupIndex = null) => {
-    dragItem.current = { position, type, groupIndex };
-  };
-
-  const handleDragEnter = (e, position, type, groupIndex = null) => {
-    dragOverItem.current = { position, type, groupIndex };
-  };
-
-  const handleDrop = (e) => {
-    if (!dragItem.current || !dragOverItem.current) return;
-
-    const {
-      type: draggedType,
-      position: draggedPosition,
-      groupIndex: draggedGroupIndex,
-    } = dragItem.current;
-    const {
-      type: targetType,
-      position: targetPosition,
-      groupIndex: targetGroupIndex,
-    } = dragOverItem.current;
-
-    let updatedGroups = [...groups];
-    let updatedSavedCompanies = [...savedCompanies];
-
-    const getDraggedItem = () => {
-      if (draggedType === "company") {
-        if (draggedGroupIndex !== null) {
-          const company = updatedGroups[draggedGroupIndex].companies.splice(
-            draggedPosition,
-            1
-          )[0];
-          return company;
-        } else {
-          return updatedSavedCompanies.splice(draggedPosition, 1)[0];
-        }
-      } else {
-        return updatedGroups.splice(draggedPosition, 1)[0];
-      }
-    };
-
-    const draggedItem = getDraggedItem();
-
-    if (targetType === "company") {
-      if (targetGroupIndex !== null) {
-        if (draggedType === "company") {
-          updatedGroups[targetGroupIndex].companies.splice(
-            targetPosition,
-            0,
-            draggedItem
-          );
-        } else {
-          updatedGroups[targetGroupIndex].companies.splice(
-            targetPosition,
-            0,
-            ...draggedItem.companies
-          );
-        }
-      } else {
-        if (draggedType === "company") {
-          updatedSavedCompanies.splice(targetPosition, 0, draggedItem);
-        } else {
-          updatedSavedCompanies.splice(
-            targetPosition,
-            0,
-            ...draggedItem.companies
-          );
-          updatedGroups.splice(draggedPosition, 0, {
-            ...draggedItem,
-            companies: [],
-          });
-        }
-      }
-    } else {
-      if (draggedType === "company") {
-        updatedGroups[targetPosition].companies.push(draggedItem);
-      } else {
-        updatedGroups.splice(targetPosition, 0, draggedItem);
-      }
-    }
-
-    setGroups(updatedGroups);
-    setSavedCompanies(updatedSavedCompanies);
-
-    dragItem.current = null;
-    dragOverItem.current = null;
-  };
-
-  const handleDragEnd = () => {
-    dragItem.current = null;
-    dragOverItem.current = null;
-  };
+  const addCompanyToGroup = () => {};
 
   return (
     <div className="saved-page">
@@ -135,60 +43,28 @@ export default function Saved() {
           <button onClick={handleCreateGroup}>Create group</button>
         </div>
 
-        <div>
-          <h2>Saved Companies</h2>
-          {savedCompanies.map((company, index) => (
-            <div
-              className="saved-company-container"
-              key={index}
-              draggable
-              onDragStart={(e) => handleDragStart(e, index, "company")}
-              onDragEnter={(e) => handleDragEnter(e, index, "company")}
-              onDragOver={(e) => e.preventDefault()}
-              onDrop={handleDrop}
-              onDragEnd={handleDragEnd}
-            >
-              <h3>{company.organisation_name}</h3>
-            </div>
-          ))}
+        <div className="saved-companies">
+          <Reorder.Group values={savedCompanies} onReorder={setSavedCompanies}>
+            {savedCompanies.map((company) => (
+              <Reorder.Item value={company} key={company.entry_id}>
+                <div className="saved-company-container">
+                  <h3>{company.organisation_name}</h3>
+                </div>
+              </Reorder.Item>
+            ))}
+          </Reorder.Group>
         </div>
 
         <div className="groups-container">
-          {groups.map((group, groupIndex) => (
-            <div
-              className="group-wrapper"
-              key={groupIndex}
-              draggable
-              onDragStart={(e) => handleDragStart(e, groupIndex, "group")}
-              onDragEnter={(e) => handleDragEnter(e, groupIndex, "group")}
-              onDragOver={(e) => e.preventDefault()}
-              onDrop={handleDrop}
-              onDragEnd={handleDragEnd}
-            >
-              <h3>{group.name}</h3>
-
-              <div className="group-companies">
-                {(group.companies || []).map((company, companyIndex) => (
-                  <div
-                    key={companyIndex}
-                    className="group-company"
-                    draggable
-                    onDragStart={(e) =>
-                      handleDragStart(e, companyIndex, "company", groupIndex)
-                    }
-                    onDragEnter={(e) =>
-                      handleDragEnter(e, companyIndex, "company", groupIndex)
-                    }
-                    onDragOver={(e) => e.preventDefault()}
-                    onDrop={handleDrop}
-                    onDragEnd={handleDragEnd}
-                  >
-                    {company.organisation_name}
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
+          <Reorder.Group values={groups} onReorder={setGroups}>
+            {groups.map((group, groupIndex) => (
+              <Reorder.Item value={group} key={group.id}>
+                <div className="group-wrapper" key={groupIndex}>
+                  <h3>{group.name}</h3>
+                </div>
+              </Reorder.Item>
+            ))}
+          </Reorder.Group>
         </div>
       </div>
     </div>

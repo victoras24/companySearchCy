@@ -588,6 +588,11 @@ html {
   cursor: pointer;
 }
 
+.saved-companies ul,
+.groups-container ul {
+  list-style: none;
+}
+
 .saved-company-container h3:hover {
   color: #00dc82;
 }
