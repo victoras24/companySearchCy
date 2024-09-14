@@ -571,8 +571,8 @@ html {
   padding: 10px 20px;
   margin-top: 20px;
   width: 100%;
-  min-width: 400px;
-  max-width: 500px;
+  min-width: 300px;
+  max-width: 300px;
   cursor: pointer;
 }
 
@@ -585,16 +585,16 @@ html {
 }
 
 .saved-company-container {
-  cursor: pointer;
+  cursor: grab;
+}
+
+.saved-company-container h3:hover {
+  color: #00dc82;
 }
 
 .saved-companies ul,
 .groups-container ul {
   list-style: none;
-}
-
-.saved-company-container h3:hover {
-  color: #00dc82;
 }
 
 /* Divider  */
@@ -656,5 +656,10 @@ h3:before {
 
   .feature {
     width: 30%;
+  }
+
+  .group-wrapper {
+    min-width: 400px;
+    max-width: 500px;
   }
 }

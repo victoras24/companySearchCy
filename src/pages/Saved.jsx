@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { useCompanyContext } from "../context/SavedCompanyContext";
-import { Reorder } from "framer-motion";
+import SavedCompanies from "../components/Saved/SavedCompanies";
+import CreatedGroups from "../components/Saved/CreatedGroups";
 
 export default function Saved() {
   const [isGroup, setIsGroup] = useState(false);
   const [groupName, setGroupName] = useState("");
-  const { groups, setGroups, createGroup, savedCompanies, setSavedCompanies } =
-    useCompanyContext();
+  const { createGroup } = useCompanyContext();
 
   const handleCreateGroup = () => {
     if (groupName.trim()) {
@@ -14,8 +14,6 @@ export default function Saved() {
       setGroupName("");
     }
   };
-
-  const addCompanyToGroup = () => {};
 
   return (
     <div className="saved-page">
@@ -42,30 +40,8 @@ export default function Saved() {
           />
           <button onClick={handleCreateGroup}>Create group</button>
         </div>
-
-        <div className="saved-companies">
-          <Reorder.Group values={savedCompanies} onReorder={setSavedCompanies}>
-            {savedCompanies.map((company) => (
-              <Reorder.Item value={company} key={company.entry_id}>
-                <div className="saved-company-container">
-                  <h3>{company.organisation_name}</h3>
-                </div>
-              </Reorder.Item>
-            ))}
-          </Reorder.Group>
-        </div>
-
-        <div className="groups-container">
-          <Reorder.Group values={groups} onReorder={setGroups}>
-            {groups.map((group, groupIndex) => (
-              <Reorder.Item value={group} key={group.id}>
-                <div className="group-wrapper" key={groupIndex}>
-                  <h3>{group.name}</h3>
-                </div>
-              </Reorder.Item>
-            ))}
-          </Reorder.Group>
-        </div>
+        <SavedCompanies />
+        <CreatedGroups />
       </div>
     </div>
   );

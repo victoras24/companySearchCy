@@ -16,13 +16,9 @@ export function SavedCompanyProvider({ children }) {
 
   const saveCompany = (company) => {
     setSavedCompanies((prevState) => {
-      const index = prevState.findIndex(
-        (c) => c.registration_no === company.registration_no
-      );
+      const index = prevState.findIndex((c) => c.entry_id === company.entry_id);
       if (index >= 0) {
-        return prevState.filter(
-          (c) => c.registration_no !== company.registration_no
-        );
+        return prevState.filter((c) => c.entry_id !== company.entry_id);
       } else {
         return [...prevState, { ...company, isSaved: true }];
       }
