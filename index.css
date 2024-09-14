@@ -574,6 +574,7 @@ html {
   min-width: 300px;
   max-width: 300px;
   cursor: pointer;
+  touch-action: none;
 }
 
 .group-wrapper h3 {
@@ -586,6 +587,7 @@ html {
 
 .saved-company-container {
   cursor: grab;
+  touch-action: none;
 }
 
 .saved-company-container h3:hover {
