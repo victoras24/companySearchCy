@@ -9,7 +9,7 @@ function Droppable({ id, children }) {
   };
 
   return (
-    <div className="group-wrapper" ref={setNodeRef} style={style}>
+    <div ref={setNodeRef} style={style}>
       {children}
     </div>
   );

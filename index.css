@@ -565,7 +565,8 @@ html {
   justify-content: center;
 }
 
-.group-wrapper {
+.group-wrapper,
+.saved-companies {
   border: 1px solid #242424;
   border-radius: 10px;
   padding: 10px 20px;
@@ -575,6 +576,21 @@ html {
   max-width: 300px;
   cursor: pointer;
   touch-action: none;
+}
+
+.group-wrapper ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background-color: transparent;
+}
+
+.group-wrapper li {
+  background-color: transparent;
+}
+
+.group-wrapper li:hover {
+  color: #00dc82;
 }
 
 .group-wrapper h3 {
@@ -588,15 +604,24 @@ html {
 .saved-company-container {
   cursor: grab;
   touch-action: none;
+  background-color: transparent;
 }
 
-.saved-company-container h3:hover {
+.draggable {
+  background-color: transparent;
+}
+
+.saved-company-container span:hover {
   color: #00dc82;
 }
 
-.saved-companies ul,
-.groups-container ul {
-  list-style: none;
+.saved-companies-empty {
+  color: #9e9e9e;
+}
+
+.company-drag-over {
+  background-color: #e6f7ff;
+  border: 2px dashed #1890ff;
 }
 
 /* Divider  */
