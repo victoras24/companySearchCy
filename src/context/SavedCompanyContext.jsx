@@ -18,7 +18,6 @@ export function SavedCompanyProvider({ children }) {
           const uniqueCompaniesInGroup = group.companies.filter(
             (company) => company.id !== companyId
           );
-
           console.log(companyId, draggedCompany.entry_id);
 
           return {
@@ -43,6 +42,7 @@ export function SavedCompanyProvider({ children }) {
       {
         id: `group-${uuidv4()}`,
         name: groupName,
+        isExtended: false,
         companies: [],
       },
     ]);

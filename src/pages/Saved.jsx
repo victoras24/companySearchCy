@@ -3,19 +3,15 @@ import { useCompanyContext } from "../context/SavedCompanyContext";
 import Droppable from "../utils/Droppable";
 import Draggable from "../utils/Draggable";
 import { DndContext, closestCenter } from "@dnd-kit/core";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleDown, faAngleUp } from "@fortawesome/free-solid-svg-icons";
 
 export default function Saved() {
   const [isGroup, setIsGroup] = useState(false);
   const [groupName, setGroupName] = useState("");
 
-  const {
-    createGroup,
-    savedCompanies,
-    groups,
-    addCompanyToGroup,
-    removeCompanyFromGroup,
-    getCompanyById,
-  } = useCompanyContext();
+  const { createGroup, savedCompanies, groups, setGroups, addCompanyToGroup } =
+    useCompanyContext();
 
   const handleCreateGroup = () => {
     if (groupName.trim()) {
@@ -25,6 +21,16 @@ export default function Saved() {
     }
   };
 
+  const handleExtendGroup = (groupId) => {
+    setGroups((prevState) =>
+      prevState.map((group) =>
+        group.id === groupId
+          ? { ...group, isExtended: !group.isExtended }
+          : group
+      )
+    );
+  };
+
   const handleDragEnd = (event) => {
     const { active, over } = event;
 
@@ -32,13 +38,6 @@ export default function Saved() {
       if (over.id.startsWith("group-")) {
         // Dragging to a group
         addCompanyToGroup(active.id, over.id);
-      } else if (over.id === "saved-companies") {
-        // Dragging back to saved companies
-        groups.forEach((group) => {
-          if (group.companies.includes(companyId)) {
-            removeCompanyFromGroup(companyId, group.id);
-          }
-        });
       }
     }
   };
@@ -94,16 +93,26 @@ export default function Saved() {
             {groups.map((group) => (
               <Droppable id={group.id} key={group.id}>
                 <div className="group-wrapper">
-                  <h3>{group.name}</h3>
-                  <ul>
-                    {group.companies.map((company) => {
-                      return (
-                        // <Draggable id={company.id} key={company.id}>
-                        <li key={company.id}>{company.groupedCompanyName}</li>
-                        // </Draggable>
-                      );
-                    })}
-                  </ul>
+                  <div className="group-wrapper-top-section">
+                    <h3>{group.name}</h3>
+                    <FontAwesomeIcon
+                      onClick={() => handleExtendGroup(group.id)}
+                      icon={group.isExtended ? faAngleUp : faAngleDown}
+                      className="group-arrow-down"
+                    />
+                  </div>
+
+                  {group.isExtended ? (
+                    <ul>
+                      {group.companies.map((company) => {
+                        return (
+                          // <Draggable id={company.id} key={company.id}>
+                          <li key={company.id}>{company.groupedCompanyName}</li>
+                          // </Draggable>
+                        );
+                      })}
+                    </ul>
+                  ) : null}
                 </div>
               </Droppable>
             ))}

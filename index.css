@@ -601,6 +601,23 @@ html {
   background-color: rgba(0, 220, 130, 0.1);
 }
 
+.group-wrapper-top-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: transparent;
+}
+
+.group-arrow-down {
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 1.1em;
+}
+
+.group-arrow-down :hover {
+  color: #00dc82;
+}
+
 .saved-company-container {
   cursor: grab;
   touch-action: none;
