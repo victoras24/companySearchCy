@@ -286,7 +286,7 @@ html {
   background-color: #242424;
   margin-top: 15px;
   width: 150px;
-  height: 40vh;
+  height: 36vh;
   position: absolute;
   border-radius: 10px;
   z-index: 3;
@@ -618,6 +618,17 @@ html {
   color: #00dc82;
 }
 
+.group-extend-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.group-extend-button:focus {
+  outline: none;
+}
+
 .saved-company-container {
   cursor: grab;
   touch-action: none;
@@ -628,8 +639,13 @@ html {
   background-color: transparent;
 }
 
+.saved-company-container :only-child {
+  background-color: transparent;
+}
+
 .saved-company-container span:hover {
   color: #00dc82;
+  background-color: transparent;
 }
 
 .saved-companies-empty {

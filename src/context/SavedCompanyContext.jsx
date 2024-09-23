@@ -12,6 +12,10 @@ export function SavedCompanyProvider({ children }) {
       (company) => company.entry_id === companyId
     );
 
+    if (!draggedCompany) {
+      return;
+    }
+
     setGroups((prevState) =>
       prevState.map((group) => {
         if (group.id === groupId) {
@@ -35,6 +39,8 @@ export function SavedCompanyProvider({ children }) {
       })
     );
   };
+
+  const trfCompanyThroughGroups = (companyId, groupId) => {};
 
   const createGroup = (groupName) => {
     setGroups((prevState) => [
