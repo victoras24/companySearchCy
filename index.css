@@ -679,7 +679,7 @@ html {
   background-color: transparent;
 }
 
-.saved-company-container :only-child {
+.saved-company-container span {
   background-color: transparent;
 }
 
