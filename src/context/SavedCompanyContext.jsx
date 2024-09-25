@@ -40,8 +40,6 @@ export function SavedCompanyProvider({ children }) {
     );
   };
 
-  const trfCompanyThroughGroups = (companyId, groupId) => {};
-
   const createGroup = (groupName) => {
     setGroups((prevState) => [
       ...prevState,
@@ -65,10 +63,6 @@ export function SavedCompanyProvider({ children }) {
     });
   };
 
-  const getCompanyById = (companyId) => {};
-
-  const removeCompanyFromGroup = (companyId, groupId) => {};
-
   return (
     <SavedCompanyContext.Provider
       value={{
@@ -79,8 +73,6 @@ export function SavedCompanyProvider({ children }) {
         createGroup,
         saveCompany,
         addCompanyToGroup,
-        removeCompanyFromGroup,
-        getCompanyById,
       }}
     >
       {children}

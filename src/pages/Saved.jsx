@@ -25,6 +25,7 @@ export default function Saved() {
   const [isGroup, setIsGroup] = useState(false);
   const [groupName, setGroupName] = useState("");
   const [activeGroup, setActiveGroup] = useState(null);
+  const [activeCompany, setActiveCompany] = useState(null);
 
   const {
     createGroup,

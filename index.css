@@ -189,6 +189,7 @@ html {
   align-items: center;
   width: 100%;
   background-color: transparent;
+  position: relative;
 }
 
 .result-container-data {
@@ -229,9 +230,48 @@ html {
 }
 
 .status-bookmark-container {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 10px;
+  background-color: transparent;
+}
+
+.plus-icon {
+  font-size: 1.1em;
+  background-color: transparent;
+}
+
+.result-container-group-list {
+  background-color: transparent;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 3;
+  background-color: #292929;
+  border-radius: 10px;
+  padding: 10px;
+  width: 150px;
+  margin: 0;
+}
+
+.result-container-group-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.result-container-group-list li {
+  padding: 8px 12px;
+  cursor: pointer;
+  background-color: #292929;
+}
+
+.result-container-group-list li:hover {
+  background-color: #242424;
+}
+
+.result-container-group-list span {
   background-color: transparent;
 }
 
