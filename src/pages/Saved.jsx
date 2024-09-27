@@ -24,8 +24,6 @@ import { faAngleDown, faAngleUp } from "@fortawesome/free-solid-svg-icons";
 export default function Saved() {
   const [isGroup, setIsGroup] = useState(false);
   const [groupName, setGroupName] = useState("");
-  const [activeGroup, setActiveGroup] = useState(null);
-  const [activeCompany, setActiveCompany] = useState(null);
 
   const {
     createGroup,
@@ -65,21 +63,8 @@ export default function Saved() {
     );
   };
 
-  const handleDragOver = (event) => {
-    const { over } = event;
-
-    if (over) {
-      setActiveGroup(over.id);
-    } else {
-      setActiveGroup(null);
-    }
-  };
-
   const handleDragEnd = (event) => {
     const { active, over } = event;
-
-    setActiveGroup(null);
-    setActiveCompany(null);
 
     if (!over) return;
 
@@ -91,6 +76,16 @@ export default function Saved() {
         const newArray = arrayMove(groups, oldIndex, newIndex);
         setGroups(newArray);
       }
+    } else if (
+      !active.id.startsWith("group-") &&
+      over.id.startsWith("group-")
+    ) {
+      addCompanyToGroup(
+        savedCompanies.find(
+          (savedCompany) => savedCompany.entry_id === active.id
+        ),
+        over.id
+      );
     } else {
       const oldIndex = savedCompanies.findIndex(
         (item) => item.id === active.id
@@ -101,9 +96,6 @@ export default function Saved() {
         const newArray = arrayMove(savedCompanies, oldIndex, newIndex);
         setSavedCompanies(newArray);
       }
-    }
-    if (!active.id.startsWith("group-") && over.id.startsWith("group-")) {
-      addCompanyToGroup(active.id, over.id);
     }
   };
 
@@ -133,7 +125,6 @@ export default function Saved() {
           <button onClick={handleCreateGroup}>Create group</button>
         </div>
         <DndContext
-          onDragOver={handleDragOver}
           onDragEnd={handleDragEnd}
           collisionDetection={closestCenter}
           sensors={sensors}
@@ -144,11 +135,9 @@ export default function Saved() {
               {savedCompanies.length > 0 ? (
                 savedCompanies.map((company) => (
                   <Draggable id={company.entry_id} key={company.entry_id}>
-                    <Sortable id={company.entry_id} key={company.entry_id}>
-                      <div className="saved-company-container">
-                        <span>{company.organisation_name}</span>
-                      </div>
-                    </Sortable>
+                    <div className="saved-company-container">
+                      <span>{company.organisation_name}</span>
+                    </div>
                   </Draggable>
                 ))
               ) : (
@@ -162,16 +151,8 @@ export default function Saved() {
             <div className="groups-container">
               {groups.map((group) => (
                 <Droppable id={group.id} key={group.id}>
-                  <Sortable id={group.id} key={group.id}>
-                    <div
-                      className="group-wrapper"
-                      style={{
-                        backgroundColor:
-                          activeGroup === group.id
-                            ? "rgba(0, 220, 130, 0.1)"
-                            : "transparent",
-                      }}
-                    >
+                  <Sortable id={group.id}>
+                    <div className="group-wrapper">
                       <div className="group-wrapper-top-section">
                         <h3>{group.name}</h3>
 
@@ -190,7 +171,7 @@ export default function Saved() {
                         <ul>
                           {group.companies.map((company) => (
                             <li key={company.id}>
-                              {company.groupedCompanyName}
+                              {company.organisation_name}
                             </li>
                           ))}
                         </ul>

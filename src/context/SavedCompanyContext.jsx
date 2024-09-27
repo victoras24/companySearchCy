@@ -7,40 +7,25 @@ export function SavedCompanyProvider({ children }) {
   const [groups, setGroups] = useState([]);
   const [savedCompanies, setSavedCompanies] = useState([]);
 
-  const addCompanyToGroup = (companyId, groupId) => {
-    const draggedCompany = savedCompanies.find(
-      (company) => company.entry_id === companyId
-    );
-
-    if (!draggedCompany) {
-      return;
-    }
-
+  const addCompanyToGroup = (company, groupId) =>
     setGroups((prevState) =>
-      prevState.map((group) => {
-        if (group.id === groupId) {
-          const uniqueCompaniesInGroup = group.companies.filter(
-            (company) => company.id !== companyId
-          );
-          console.log(companyId, draggedCompany.entry_id);
-
-          return {
-            ...group,
-            companies: [
-              ...uniqueCompaniesInGroup,
-              {
-                groupedCompanyName: draggedCompany.organisation_name,
-                id: companyId,
-              },
-            ],
-          };
-        }
-        return group;
+      prevState.map((previousGroup) => {
+        console.log(previousGroup.companies, company);
+        return previousGroup.id === groupId
+          ? {
+              ...previousGroup,
+              companies: [
+                ...previousGroup.companies.filter(
+                  (prevCompany) => prevCompany.entry_id !== company.entry_id
+                ),
+                company,
+              ],
+            }
+          : previousGroup;
       })
     );
-  };
 
-  const createGroup = (groupName) => {
+  const createGroup = (groupName) =>
     setGroups((prevState) => [
       ...prevState,
       {
@@ -50,18 +35,14 @@ export function SavedCompanyProvider({ children }) {
         companies: [],
       },
     ]);
-  };
 
-  const saveCompany = (company) => {
-    setSavedCompanies((prevState) => {
-      const index = prevState.findIndex((c) => c.entry_id === company.entry_id);
-      if (index >= 0) {
-        return prevState.filter((c) => c.entry_id !== company.entry_id);
-      } else {
-        return [...prevState, { ...company, isSaved: true }];
-      }
-    });
-  };
+  const saveCompany = (company) =>
+    setSavedCompanies((prevState) => [
+      company,
+      ...prevState.filter(
+        (savedCompany) => savedCompany.entry_id !== company.entry_id
+      ),
+    ]);
 
   return (
     <SavedCompanyContext.Provider

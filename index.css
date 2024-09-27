@@ -171,11 +171,11 @@ html {
   flex-direction: column;
   justify-content: flex-start;
   align-items: stretch;
+  overflow: visible;
   border: 1px solid #161616;
   border-radius: 10px;
   max-width: 60vh;
   width: 100%;
-  overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: #242424 #161616;
   margin: 0;
@@ -195,6 +195,7 @@ html {
 .result-container-data {
   margin: 0;
   cursor: pointer;
+  overflow: visible;
   border-bottom: 1px solid #161616;
   background-color: transparent;
   width: 100%;
@@ -245,6 +246,7 @@ html {
 .result-container-group-list {
   background-color: transparent;
   position: absolute;
+  overflow: visible;
   top: 100%;
   right: 0;
   z-index: 3;
@@ -618,6 +620,10 @@ html {
   touch-action: none;
 }
 
+.saved-companies h3 {
+  margin: 0 0 10px 0;
+}
+
 .group-wrapper ul {
   list-style: none;
   margin: 0;
@@ -627,6 +633,7 @@ html {
 
 .group-wrapper li {
   background-color: transparent;
+  padding: 4px 0;
 }
 
 .group-wrapper li:hover {
@@ -673,6 +680,7 @@ html {
   cursor: grab;
   touch-action: none;
   background-color: transparent;
+  padding: 4px 0;
 }
 
 .draggable {
