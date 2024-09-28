@@ -1,6 +1,5 @@
 * {
   box-sizing: border-box;
-  background-color: #0f0f0f;
   color: #fff;
   font-family: "Roboto Flex", sans-serif;
   font-size: 16px;
@@ -9,6 +8,8 @@
 body,
 html {
   height: 100%;
+  background-color: #0f0f0f;
+
   margin: 0;
   padding: 0;
 }
@@ -315,6 +316,7 @@ html {
 /* Navigation bar  */
 
 .navbar-button {
+  background-color: transparent;
   cursor: pointer;
   border: none;
   font-size: 18px;
@@ -568,6 +570,7 @@ html {
 }
 
 .create-group-container input {
+  background-color: #161616;
   border: none;
   border-radius: 5px;
   padding: 0.4em;
@@ -618,6 +621,7 @@ html {
   max-width: 300px;
   cursor: pointer;
   touch-action: none;
+  background-color: #0f0f0f;
 }
 
 .saved-companies h3 {
@@ -655,6 +659,17 @@ html {
   background-color: transparent;
 }
 
+.group-trash-can {
+}
+
+.group-trash-can :hover {
+  color: #ff4c4c;
+}
+
+.group-trash-can :active {
+  color: #ff4c4c;
+}
+
 .group-arrow-down {
   background-color: transparent;
   cursor: pointer;
@@ -665,7 +680,8 @@ html {
   color: #00dc82;
 }
 
-.group-extend-button {
+.group-extend-button,
+.group-delete-button {
   background: none;
   border: none;
   cursor: pointer;
@@ -681,6 +697,10 @@ html {
   touch-action: none;
   background-color: transparent;
   padding: 4px 0;
+}
+
+.saved-company-drag-overlay span {
+  background-color: transparent;
 }
 
 .draggable {

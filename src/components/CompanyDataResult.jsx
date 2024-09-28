@@ -51,6 +51,7 @@ export default function CompanyDataResult({ data }) {
 
   const handleAddCompanyToGroup = (groupId) => {
     addCompanyToGroup(data, groupId);
+    setOpenGroup({});
   };
 
   const isGroupOpen = openGroup[data.entry_id];

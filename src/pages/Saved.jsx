@@ -19,11 +19,16 @@ import {
 } from "@dnd-kit/sortable";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDown, faAngleUp } from "@fortawesome/free-solid-svg-icons";
+import {
+  faAngleDown,
+  faAngleUp,
+  faTrashCan,
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function Saved() {
   const [isGroup, setIsGroup] = useState(false);
   const [groupName, setGroupName] = useState("");
+  const [draggedCompany, setDraggedCompany] = useState(null);
 
   const {
     createGroup,
@@ -63,8 +68,24 @@ export default function Saved() {
     );
   };
 
+  const deleteGroup = (groupId) => {
+    setGroups((prevState) => prevState.filter((group) => group.id !== groupId));
+  };
+  const handleDragStart = (event) => {
+    const { active } = event;
+
+    if (!active.id.startsWith("group-")) {
+      const company = savedCompanies.find(
+        (company) => company.entry_id === active.id
+      );
+      setDraggedCompany(company);
+    }
+  };
+
   const handleDragEnd = (event) => {
     const { active, over } = event;
+
+    setDraggedCompany(null);
 
     if (!over) return;
 
@@ -125,28 +146,28 @@ export default function Saved() {
           <button onClick={handleCreateGroup}>Create group</button>
         </div>
         <DndContext
+          onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}
           collisionDetection={closestCenter}
           sensors={sensors}
         >
-          <SortableContext items={savedCompanies}>
-            <div className="saved-companies">
-              <h3>Saved companies</h3>
-              {savedCompanies.length > 0 ? (
-                savedCompanies.map((company) => (
-                  <Draggable id={company.entry_id} key={company.entry_id}>
-                    <div className="saved-company-container">
-                      <span>{company.organisation_name}</span>
-                    </div>
-                  </Draggable>
-                ))
-              ) : (
-                <span className="saved-companies-empty">
-                  No companies saved yet
-                </span>
-              )}
-            </div>
-          </SortableContext>
+          <div className="saved-companies">
+            <h3>Saved companies</h3>
+            {savedCompanies.length > 0 ? (
+              savedCompanies.map((company) => (
+                <Draggable id={company.entry_id} key={company.entry_id}>
+                  <div className="saved-company-container">
+                    <span>{company.organisation_name}</span>
+                  </div>
+                </Draggable>
+              ))
+            ) : (
+              <span className="saved-companies-empty">
+                No companies saved yet
+              </span>
+            )}
+          </div>
+
           <SortableContext items={groups}>
             <div className="groups-container">
               {groups.map((group) => (
@@ -155,16 +176,26 @@ export default function Saved() {
                     <div className="group-wrapper">
                       <div className="group-wrapper-top-section">
                         <h3>{group.name}</h3>
-
-                        <button
-                          onClick={() => handleExtendGroup(group.id)}
-                          className="group-extend-button"
-                        >
-                          <FontAwesomeIcon
-                            icon={group.isExtended ? faAngleUp : faAngleDown}
-                            className="group-arrow-down"
-                          />
-                        </button>
+                        <div>
+                          <button
+                            onClick={() => handleExtendGroup(group.id)}
+                            className="group-extend-button"
+                          >
+                            <FontAwesomeIcon
+                              icon={group.isExtended ? faAngleUp : faAngleDown}
+                              className="group-arrow-down"
+                            />
+                          </button>
+                          <button
+                            className="group-delete-button"
+                            onClick={() => deleteGroup(group.id)}
+                          >
+                            <FontAwesomeIcon
+                              icon={faTrashCan}
+                              className="group-trash-can"
+                            />
+                          </button>
+                        </div>
                       </div>
 
                       {group.isExtended && (

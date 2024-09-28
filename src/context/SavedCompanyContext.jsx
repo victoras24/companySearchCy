@@ -10,10 +10,10 @@ export function SavedCompanyProvider({ children }) {
   const addCompanyToGroup = (company, groupId) =>
     setGroups((prevState) =>
       prevState.map((previousGroup) => {
-        console.log(previousGroup.companies, company);
         return previousGroup.id === groupId
           ? {
               ...previousGroup,
+              isExtended: true,
               companies: [
                 ...previousGroup.companies.filter(
                   (prevCompany) => prevCompany.entry_id !== company.entry_id
