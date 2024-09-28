@@ -79,14 +79,19 @@ export default function Saved() {
     );
   };
 
-  const deleteGroupedCompany = (companyId) => {
+  const deleteGroupedCompany = (groupId, companyId) => {
     setGroups((prevState) =>
-      prevState.map((group) => ({
-        ...group,
-        companies: group.companies.filter(
-          (company) => company.entry_id !== companyId
-        ),
-      }))
+      prevState.map((group) => {
+        if (group.id === groupId) {
+          return {
+            ...group,
+            companies: group.companies.filter(
+              (company) => company.entry_id !== companyId
+            ),
+          };
+        }
+        return group;
+      })
     );
   };
 
@@ -232,7 +237,7 @@ export default function Saved() {
                                 icon={faSquareMinus}
                                 className="saved-company-delete"
                                 onClick={() =>
-                                  deleteGroupedCompany(comp.entry_id)
+                                  deleteGroupedCompany(group.id, comp.entry_id)
                                 }
                               />
                             </div>
