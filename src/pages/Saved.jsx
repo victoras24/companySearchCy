@@ -23,6 +23,7 @@ import {
   faAngleDown,
   faAngleUp,
   faTrashCan,
+  faSquareMinus,
 } from "@fortawesome/free-solid-svg-icons";
 
 export default function Saved() {
@@ -71,6 +72,24 @@ export default function Saved() {
   const deleteGroup = (groupId) => {
     setGroups((prevState) => prevState.filter((group) => group.id !== groupId));
   };
+
+  const deleteCompany = (companyId) => {
+    setSavedCompanies((prevState) =>
+      prevState.filter((company) => company.entry_id !== companyId)
+    );
+  };
+
+  const deleteGroupedCompany = (companyId) => {
+    setGroups((prevState) =>
+      prevState.map((group) => ({
+        ...group,
+        companies: group.companies.filter(
+          (company) => company.entry_id !== companyId
+        ),
+      }))
+    );
+  };
+
   const handleDragStart = (event) => {
     const { active } = event;
 
@@ -137,7 +156,7 @@ export default function Saved() {
           className="create-group-container"
           style={isGroup ? { display: "flex" } : { display: "none" }}
         >
-          <h3>Name group</h3>
+          <h2>Name group</h2>
           <input
             type="text"
             value={groupName}
@@ -152,12 +171,17 @@ export default function Saved() {
           sensors={sensors}
         >
           <div className="saved-companies">
-            <h3>Saved companies</h3>
+            <h2>Saved companies</h2>
             {savedCompanies.length > 0 ? (
               savedCompanies.map((company) => (
                 <Draggable id={company.entry_id} key={company.entry_id}>
                   <div className="saved-company-container">
                     <span>{company.organisation_name}</span>
+                    <FontAwesomeIcon
+                      className="saved-company-delete"
+                      icon={faSquareMinus}
+                      onClick={() => deleteCompany(company.entry_id)}
+                    />
                   </div>
                 </Draggable>
               ))
@@ -175,7 +199,7 @@ export default function Saved() {
                   <Sortable id={group.id}>
                     <div className="group-wrapper">
                       <div className="group-wrapper-top-section">
-                        <h3>{group.name}</h3>
+                        <h2>{group.name}</h2>
                         <div>
                           <button
                             onClick={() => handleExtendGroup(group.id)}
@@ -197,13 +221,21 @@ export default function Saved() {
                           </button>
                         </div>
                       </div>
-
                       {group.isExtended && (
                         <ul>
-                          {group.companies.map((company) => (
-                            <li key={company.id}>
-                              {company.organisation_name}
-                            </li>
+                          {group.companies.map((comp) => (
+                            <div className="grouped-companies">
+                              <li key={comp.entry_id}>
+                                {comp.organisation_name}
+                              </li>
+                              <FontAwesomeIcon
+                                icon={faSquareMinus}
+                                className="saved-company-delete"
+                                onClick={() =>
+                                  deleteGroupedCompany(comp.entry_id)
+                                }
+                              />
+                            </div>
                           ))}
                         </ul>
                       )}

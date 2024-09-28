@@ -617,8 +617,8 @@ html {
   padding: 10px 20px;
   margin-top: 20px;
   width: 100%;
-  min-width: 300px;
-  max-width: 300px;
+  min-width: 400px;
+  max-width: 500px;
   cursor: pointer;
   touch-action: none;
   background-color: #0f0f0f;
@@ -659,9 +659,6 @@ html {
   background-color: transparent;
 }
 
-.group-trash-can {
-}
-
 .group-trash-can :hover {
   color: #ff4c4c;
 }
@@ -685,16 +682,22 @@ html {
   background: none;
   border: none;
   cursor: pointer;
-  padding: 5px;
+  padding: 0 1px 0 10px;
 }
 
 .group-extend-button:focus {
   outline: none;
 }
 
+.grouped-companies {
+  display: flex;
+  justify-content: space-between;
+}
+
 .saved-company-container {
-  cursor: grab;
-  touch-action: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   background-color: transparent;
   padding: 4px 0;
 }
@@ -709,6 +712,19 @@ html {
 
 .saved-company-container span {
   background-color: transparent;
+  cursor: grab;
+}
+
+.saved-company-delete {
+  font-size: 1.1em;
+}
+
+.saved-company-delete :hover {
+  color: #ff4c4c;
+}
+
+.saved-company-delete :active {
+  color: #ff4c4c;
 }
 
 .saved-company-container span:hover {
