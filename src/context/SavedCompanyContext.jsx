@@ -36,14 +36,6 @@ export function SavedCompanyProvider({ children }) {
       },
     ]);
 
-  const saveCompany = (company) =>
-    setSavedCompanies((prevState) => [
-      company,
-      ...prevState.filter(
-        (savedCompany) => savedCompany.entry_id !== company.entry_id
-      ),
-    ]);
-
   return (
     <SavedCompanyContext.Provider
       value={{
@@ -52,7 +44,6 @@ export function SavedCompanyProvider({ children }) {
         savedCompanies,
         setSavedCompanies,
         createGroup,
-        saveCompany,
         addCompanyToGroup,
       }}
     >

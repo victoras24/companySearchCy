@@ -2,11 +2,7 @@ import { useEffect, useState } from "react";
 import { fetchCompanyData } from "../api/companiesApi";
 import { fetchAddressData } from "../api/addressApi";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faSearch,
-  faTimes,
-  faFilter,
-} from "@fortawesome/free-solid-svg-icons";
+import { faSearch, faTimes, faFilter } from "@fortawesome/free-solid-svg-icons";
 import CompanyDataResult from "../components/CompanyDataResult";
 
 export default function Search() {
@@ -49,7 +45,6 @@ export default function Search() {
       setLoading(false);
     }
   }, [companySearchInput, corsAnywhereUrl, companiesApiUrl, addressApiUrl]);
-
 
   const handleInputChange = (event) => {
     setCompanySearchInput(event.target.value);
@@ -96,9 +91,13 @@ export default function Search() {
         )}
 
         {companyData.length > 0 ? (
-          <div className="result-container">{companyData.map((company) => {
-            return <CompanyDataResult key={company.entry_id} data={company}/>
-          })}</div>
+          <div className="result-container">
+            {companyData.map((company) => {
+              return (
+                <CompanyDataResult key={company.entry_id} data={company} />
+              );
+            })}
+          </div>
         ) : (
           companySearchInput.trim() !== "" &&
           !loading && (
@@ -112,14 +111,14 @@ export default function Search() {
         )}
       </div>
 
-      <div className="search-footer">
+      {/* <div className="search-footer">
         <p>
           Data sourced from official Cyprus company registries. Updated daily.
         </p>
         <a href="/faq" className="faq-link">
           Frequently Asked Questions
         </a>
-      </div>
+      </div> */}
     </div>
   );
 }

@@ -157,6 +157,7 @@ html {
   text-align: center;
   font-size: 0.9rem;
   opacity: 0.75;
+  position: inherit;
 }
 
 .faq-link {
@@ -204,7 +205,7 @@ html {
 }
 
 .result-container-data:hover {
-  background-color: #161616;
+  background-color: rgba(0, 220, 130, 0.1);
 }
 
 .result-container-company-status.active {
@@ -289,11 +290,17 @@ html {
 
 /* Saved page */
 
-.saved-page {
+.saved-page,
+.organizer-page {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 2rem 1rem;
+}
+
+.saved-page ul,
+.organizer-page ul {
+  padding: 0;
 }
 
 .saved-title {
@@ -608,20 +615,40 @@ html {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  list-style: none;
 }
 
-.group-wrapper,
-.saved-companies {
+.group-wrapper {
   border: 1px solid #242424;
   border-radius: 10px;
   padding: 10px 20px;
   margin-top: 20px;
   width: 100%;
-  min-width: 400px;
-  max-width: 500px;
+  min-width: 300px;
+  max-width: 400px;
   cursor: pointer;
   touch-action: none;
   background-color: #0f0f0f;
+}
+
+.saved-company-container {
+  border: 1px solid #242424;
+  border-radius: 10px;
+  padding: 10px 20px;
+  margin-top: 20px;
+  width: 100%;
+  min-width: 300px;
+  max-width: 400px;
+  cursor: pointer;
+  touch-action: none;
+  background-color: #0f0f0f;
+}
+
+.saved-companies {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .saved-companies h3 {
@@ -699,7 +726,7 @@ html {
   justify-content: space-between;
   align-items: center;
   background-color: transparent;
-  padding: 4px 0;
+  padding: 10px;
 }
 
 .saved-company-drag-overlay span {

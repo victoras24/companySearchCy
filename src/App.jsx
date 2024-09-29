@@ -2,7 +2,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Search from "./pages/Search";
 import Layout from "./components/Layout";
 import Home from "./pages/Home";
-import Saved from "./pages/Saved";
+import Favorites from "./pages/Favorites";
+import Organizer from "./pages/Organizer";
 import { SavedCompanyProvider } from "./context/SavedCompanyContext";
 
 export default function App() {
@@ -13,7 +14,8 @@ export default function App() {
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
             <Route path="search" element={<Search />} />
-            <Route path="saved" element={<Saved />} />
+            <Route path="favorites" element={<Favorites />} />
+            <Route path="organizer" element={<Organizer />} />
           </Route>
         </Routes>
       </BrowserRouter>

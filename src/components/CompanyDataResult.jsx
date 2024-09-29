@@ -8,7 +8,7 @@ export default function CompanyDataResult({ data }) {
   const [openGroup, setOpenGroup] = useState({});
   const plusBtnRef = useRef();
   const groupListRef = useRef();
-  const { savedCompanies, saveCompany, groups, addCompanyToGroup } =
+  const { savedCompanies, setSavedCompanies, groups, addCompanyToGroup } =
     useCompanyContext();
 
   const addressInfo = data.address || [];
@@ -20,8 +20,24 @@ export default function CompanyDataResult({ data }) {
       .join(", ") || "Address not available";
 
   const isSaved = savedCompanies.some(
-    (company) => company.registration_no === data.registration_no
+    (company) => company.entry_id === data.entry_id
   );
+
+  const saveCompany = (company) => {
+    setSavedCompanies((prevState) => {
+      const isSaved = savedCompanies.some(
+        (company) => company.entry_id === data.entry_id
+      );
+
+      if (isSaved) {
+        return prevState.filter(
+          (savedCompany) => savedCompany.entry_id !== company.entry_id
+        );
+      } else {
+        return [company, ...prevState];
+      }
+    });
+  };
 
   useEffect(() => {
     function closeAddToGroup(e) {

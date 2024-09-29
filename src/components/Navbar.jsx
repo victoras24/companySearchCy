@@ -39,10 +39,12 @@ export default function Navbar() {
             <NavLink to="/search" className="navbar-item">
               Search
             </NavLink>
-            <NavLink to="/saved" className="navbar-item">
-              Saved
+            <NavLink to="/favorites" className="navbar-item">
+              Favorites
             </NavLink>
-            <NavLink className="navbar-item">History</NavLink>
+            <NavLink to="/organizer" className="navbar-item">
+              Organizer
+            </NavLink>
           </ul>
         </div>
       ) : (
