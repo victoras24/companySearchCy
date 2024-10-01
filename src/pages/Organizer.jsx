@@ -12,7 +12,9 @@ import {
 export default function Organizer() {
   const [isGroup, setIsGroup] = useState(false);
   const [groupName, setGroupName] = useState("");
-  const [draggedCompanyId, setDraggedCompanyId] = useState(null);
+  const [draggedCompany, setDraggedCompany] = useState(null);
+  const [targetGroupId, setTargetGroupId] = useState(null);
+  const [sourceGroupId, setSourceGroupId] = useState(null);
   const { createGroup, groups, setGroups } = useCompanyContext();
 
   const handleCreateGroup = () => {
@@ -53,51 +55,41 @@ export default function Organizer() {
     );
   };
 
-  const hanldeDragStart = (event, companyId) => {
-    setDraggedCompanyId(companyId);
-    console.log(companyId);
+  const hanldeDragStart = (event, draggedCompany, groupId) => {
+    setDraggedCompany(draggedCompany);
+    setSourceGroupId(groupId);
     event.dataTransfer.effectAllowed = "move";
   };
 
-  const handleDragOver = (event) => {
+  const handleDragOver = (event, groupId) => {
     event.dataTransfer.dropEffect = "move";
+    setTargetGroupId(groupId);
     event.preventDefault();
   };
 
-  const handleDrop = (event, targetGroupId) => {
+  const handleDrop = (event, draggedCompany) => {
     event.preventDefault();
 
-    if (draggedCompanyId) {
+    if (draggedCompany) {
       setGroups((prevState) => {
-        let draggedCompany;
-        const updatedGroups = prevState.map((group) => {
-          const companyIndex = group.companies.findIndex(
-            (company) => company.entry_id === draggedCompanyId
-          );
-          if (companyIndex !== -1) {
-            draggedCompany = group.companies[companyIndex];
+        return prevState.map((group) => {
+          if (group.id === sourceGroupId && group.id === targetGroupId) {
+            return group;
+          } else if (group.id === sourceGroupId) {
             return {
               ...group,
               companies: group.companies.filter(
-                (_, index) => index !== companyIndex
+                (company) => company.entry_id !== draggedCompany.entry_id
               ),
             };
-          }
-          return group;
-        });
-
-        return updatedGroups.map((group) => {
-          if (group.id === targetGroupId && draggedCompany) {
+          } else if (group.id === targetGroupId) {
             return {
               ...group,
               companies: [...group.companies, draggedCompany],
             };
-          }
-          return group;
+          } else return group;
         });
       });
-
-      setDraggedCompanyId(null);
     }
   };
 
@@ -132,8 +124,8 @@ export default function Organizer() {
             <Reorder.Item key={group.id} value={group}>
               <div
                 className="group-wrapper"
-                onDragOver={handleDragOver}
-                onDrop={(event) => handleDrop(event, group.id)}
+                onDragOver={(event) => handleDragOver(event, group.id)}
+                onDrop={(event) => handleDrop(event, draggedCompany)}
               >
                 <div className="group-wrapper-top-section">
                   <h2>{group.name}</h2>
@@ -161,12 +153,11 @@ export default function Organizer() {
                 {group.isExtended && (
                   <ul>
                     {group.companies.map((comp) => (
-                      <div className="grouped-companies">
+                      <div className="grouped-companies" key={comp.entry_id}>
                         <li
-                          key={comp.entry_id}
                           draggable
                           onDragStart={(event) =>
-                            hanldeDragStart(event, comp.entry_id)
+                            hanldeDragStart(event, comp, group.id)
                           }
                         >
                           {comp.organisation_name}

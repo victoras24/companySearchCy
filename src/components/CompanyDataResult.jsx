@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBookmark, faCirclePlus } from "@fortawesome/free-solid-svg-icons";
 import { faBookmark as faBookmarkRegular } from "@fortawesome/free-regular-svg-icons";
 import { useCompanyContext } from "../context/SavedCompanyContext";
+import { NavLink } from "react-router-dom";
 
 export default function CompanyDataResult({ data }) {
   const [openGroup, setOpenGroup] = useState({});
@@ -119,6 +120,9 @@ export default function CompanyDataResult({ data }) {
         ) : isGroupOpen && groups.length === 0 ? (
           <div className="result-container-group-list" ref={groupListRef}>
             <span>No groups have been created yet.</span>
+            <NavLink to={"/organizer"}>
+              <button>Create group</button>
+            </NavLink>
           </div>
         ) : null}
       </div>
