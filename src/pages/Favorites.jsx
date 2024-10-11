@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useCompanyContext } from "../context/SavedCompanyContext";
 import { Reorder } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSquareMinus } from "@fortawesome/free-solid-svg-icons";
+import { faSquareMinus, faCirclePlus } from "@fortawesome/free-solid-svg-icons";
 
 export default function Favorites() {
   const { savedCompanies, setSavedCompanies } = useCompanyContext();
@@ -28,11 +28,19 @@ export default function Favorites() {
               <Reorder.Item key={company.entry_id} value={company}>
                 <div className="saved-company-container">
                   <span>{company.organisation_name}</span>
-                  <FontAwesomeIcon
-                    className="saved-company-delete"
-                    icon={faSquareMinus}
-                    onClick={() => deleteCompany(company.entry_id)}
-                  />
+                  <div className="saved-company-icons">
+                    <FontAwesomeIcon
+                      className="saved-company-plus-icon"
+                      icon={faCirclePlus}
+                      // ref={plusBtnRef}
+                      // onClick={() => handleOpenGroup(data.entry_id)}
+                    />
+                    <FontAwesomeIcon
+                      className="saved-company-delete"
+                      icon={faSquareMinus}
+                      onClick={() => deleteCompany(company.entry_id)}
+                    />
+                  </div>
                 </div>
               </Reorder.Item>
             ))

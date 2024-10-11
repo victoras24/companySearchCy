@@ -582,16 +582,16 @@ html {
   margin-bottom: 20px;
 }
 
-.create-group-container h3 {
-  background-color: transparent;
+.create-group-container h2 {
   margin: 0 0 1em 0;
 }
 
-.create-group-container input {
+.create-group-input {
   background-color: #161616;
   border: none;
   border-radius: 5px;
   padding: 0.4em;
+  width: 100%;
 }
 
 .create-group-container button {
@@ -601,6 +601,7 @@ html {
   cursor: pointer;
   padding: 0.3em;
   background-color: #00dc82;
+  width: 100%;
 }
 
 .create-group-container {
@@ -648,11 +649,15 @@ html {
   padding: 10px 20px;
   margin-top: 20px;
   width: 100%;
-  min-width: 300px;
-  max-width: 400px;
+  width: 300px;
+  height: 70px;
   cursor: pointer;
   touch-action: none;
   background-color: #0f0f0f;
+}
+
+.saved-company-icons {
+  display: flex;
 }
 
 .saved-companies {
@@ -664,6 +669,10 @@ html {
 
 .saved-companies h3 {
   margin: 0 0 10px 0;
+}
+
+.saved-companies li {
+  width: 100%;
 }
 
 .group-wrapper ul {
@@ -753,8 +762,10 @@ html {
   cursor: grab;
 }
 
-.saved-company-delete {
+.saved-company-delete,
+.saved-company-plus-icon {
   font-size: 1.1em;
+  padding: 5px;
 }
 
 .saved-company-delete :hover {

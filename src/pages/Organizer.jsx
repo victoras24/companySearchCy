@@ -8,6 +8,7 @@ import {
   faAngleUp,
   faTrashCan,
 } from "@fortawesome/free-solid-svg-icons";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Organizer() {
   const [isGroup, setIsGroup] = useState(false);
@@ -21,7 +22,6 @@ export default function Organizer() {
     if (groupName.trim()) {
       createGroup(groupName);
       setGroupName("");
-      setIsGroup(false);
     }
   };
 
@@ -70,27 +70,41 @@ export default function Organizer() {
   const handleDrop = (event, draggedCompany) => {
     event.preventDefault();
 
-    if (draggedCompany) {
-      setGroups((prevState) => {
-        return prevState.map((group) => {
-          if (group.id === sourceGroupId && group.id === targetGroupId) {
-            return group;
-          } else if (group.id === sourceGroupId) {
+    setGroups((prevGroups) => {
+      return prevGroups.map((prevGroup) => {
+        if (prevGroup.id === targetGroupId) {
+          const companyExistsInTargetGroup = prevGroup.companies.some(
+            (company) => company.entry_id === draggedCompany.entry_id
+          );
+
+          if (!companyExistsInTargetGroup) {
             return {
-              ...group,
-              companies: group.companies.filter(
+              ...prevGroup,
+              companies: [...prevGroup.companies, draggedCompany], // Add the company if it doesn't exist
+            };
+          }
+        }
+
+        if (prevGroup.id === sourceGroupId) {
+          const companyExistsInTargetGroup = prevGroups
+            .find((group) => group.id === targetGroupId)
+            .companies.some(
+              (company) => company.entry_id === draggedCompany.entry_id
+            );
+
+          if (!companyExistsInTargetGroup) {
+            return {
+              ...prevGroup,
+              companies: prevGroup.companies.filter(
                 (company) => company.entry_id !== draggedCompany.entry_id
               ),
             };
-          } else if (group.id === targetGroupId) {
-            return {
-              ...group,
-              companies: [...group.companies, draggedCompany],
-            };
-          } else return group;
-        });
+          }
+        }
+
+        return prevGroup;
       });
-    }
+    });
   };
 
   return (
@@ -100,24 +114,33 @@ export default function Organizer() {
         Create and manage groups to efficiently organize your saved companies.
         Categorize your favorites for easy access and streamlined management.
       </p>
-      <button
+      <motion.button
         className="group-add-button"
         onClick={() => setIsGroup((prevState) => !prevState)}
+        whileTap={{ scale: 0.9 }}
       >
         {isGroup ? "x Close" : "+ Add"}
-      </button>
-      <div
-        className="create-group-container"
-        style={isGroup ? { display: "flex" } : { display: "none" }}
-      >
-        <h2>Name group</h2>
-        <input
-          type="text"
-          value={groupName}
-          onChange={(event) => setGroupName(event.target.value)}
-        />
-        <button onClick={handleCreateGroup}>Create group</button>
-      </div>
+      </motion.button>
+      <AnimatePresence>
+        {isGroup && (
+          <motion.div
+            className="create-group-container"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            transition={{ duration: 0.2 }}
+          >
+            <h2>Name group</h2>
+            <input
+              className="create-group-input"
+              type="text"
+              value={groupName}
+              onChange={(event) => setGroupName(event.target.value)}
+            />
+            <button onClick={handleCreateGroup}>Create group</button>
+          </motion.div>
+        )}
+      </AnimatePresence>
       <Reorder.Group axis="y" values={groups} onReorder={setGroups}>
         <div className="groups-container">
           {groups.map((group) => (
