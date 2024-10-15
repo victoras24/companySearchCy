@@ -3,12 +3,14 @@ import { fetchCompanyData } from "../api/companiesApi";
 import { fetchAddressData } from "../api/addressApi";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faTimes, faFilter } from "@fortawesome/free-solid-svg-icons";
+import { NavLink } from "react-router-dom";
 import CompanyDataResult from "../components/CompanyDataResult";
 
 export default function Search() {
   const [companyData, setCompanyData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [companySearchInput, setCompanySearchInput] = useState("");
+
   const corsAnywhereUrl = "http://localhost:8080/";
   const companiesApiUrl = `https://www.data.gov.cy/api/action/datastore/search.json?resource_id=b48bf3b6-51f2-4368-8eaa-63d61836aaa9&q=${companySearchInput}`;
   const addressApiUrl = `https://www.data.gov.cy/api/action/datastore/search.json?resource_id=31d675a2-4335-40ba-b63c-d830d6b5c55d`;
@@ -94,7 +96,13 @@ export default function Search() {
           <div className="result-container">
             {companyData.map((company) => {
               return (
-                <CompanyDataResult key={company.entry_id} data={company} />
+                <NavLink
+                  to={`/search/${company.entry_id}`}
+                  state={{ company }}
+                  style={{ textDecoration: "none" }}
+                >
+                  <CompanyDataResult key={company.entry_id} data={company} />
+                </NavLink>
               );
             })}
           </div>

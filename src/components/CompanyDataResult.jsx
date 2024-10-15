@@ -74,7 +74,7 @@ export default function CompanyDataResult({ data }) {
   const isGroupOpen = openGroup[data.entry_id];
 
   return (
-    <div key={data.registration_no} className="result-container-data">
+    <div key={data.entry_id} className="result-container-data">
       <div className="result-container-top-info">
         <h3 className="result-container-company">{data.organisation_name}</h3>
         <div className="status-bookmark-container">
