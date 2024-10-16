@@ -1,11 +1,11 @@
-export const fetchAddressData = async (
+export const fetchPersonData = async (
   corsUrl,
-  addressApiUrl,
-  companyAddressSeqNo
+  personApiUrl,
+  companyRegistrationNumber
 ) => {
   try {
     const res = await fetch(
-      `${corsUrl}${addressApiUrl}&filters[address_seq_no]=${companyAddressSeqNo}`
+      `${corsUrl}${personApiUrl}&filters[registration_no]=${companyRegistrationNumber}`
     );
     const data = await res.json();
     if (!data || typeof data !== "object") {
@@ -21,6 +21,4 @@ export const fetchAddressData = async (
     console.error("Error fetching address data:", err);
     return [];
   }
-
-  // for some companies the address is not found. For some reason the filter method of the dKan api is not working. Find solution.
 };
