@@ -6,21 +6,24 @@ import Home from "./pages/Home";
 import Favorites from "./pages/Favorites";
 import Organizer from "./pages/Organizer";
 import { SavedCompanyProvider } from "./context/SavedCompanyContext";
+import { CompanyDataProvider } from "./context/CompanyDataContext";
 
 export default function App() {
   return (
-    <SavedCompanyProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<Home />} />
-            <Route path="search" element={<Search />} />
-            <Route path="search/:companyId" element={<CompanyDetailPage />} />
-            <Route path="favorites" element={<Favorites />} />
-            <Route path="organizer" element={<Organizer />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </SavedCompanyProvider>
+    <CompanyDataProvider>
+      <SavedCompanyProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<Home />} />
+              <Route path="search" element={<Search />} />
+              <Route path="search/:companyId" element={<CompanyDetailPage />} />
+              <Route path="favorites" element={<Favorites />} />
+              <Route path="organizer" element={<Organizer />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </SavedCompanyProvider>
+    </CompanyDataProvider>
   );
 }

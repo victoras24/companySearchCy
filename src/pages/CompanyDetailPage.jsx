@@ -185,8 +185,8 @@ export default function CompanyDetailPage() {
       <h2>Persons</h2>
       {Array.isArray(person) && person.length > 0 ? (
         <ul>
-          {person.map((p, index) => (
-            <li key={index}>
+          {person.map((p) => (
+            <li key={p.entry_id}>
               <p>Name: {transliterate(p.person_or_organisation_name)}</p>
               <p>Position: {translate(p.official_position)}</p>
             </li>

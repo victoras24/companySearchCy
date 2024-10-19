@@ -23,4 +23,5 @@ export const fetchAddressData = async (
   }
 
   // for some companies the address is not found. For some reason the filter method of the dKan api is not working. Find solution.
+  // for example address_seq_no 49716
 };
