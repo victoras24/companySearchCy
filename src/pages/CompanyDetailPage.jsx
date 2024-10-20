@@ -3,6 +3,10 @@ import { useParams, useLocation } from "react-router-dom";
 import { fetchCompanyData } from "../api/companiesApi";
 import { fetchAddressData } from "../api/addressApi";
 import { fetchPersonData } from "../api/personsApi";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBookmark } from "@fortawesome/free-solid-svg-icons";
+import { faBookmark as faBookmarkRegular } from "@fortawesome/free-regular-svg-icons";
+import { useCompanyContext } from "../context/SavedCompanyContext";
 
 export default function CompanyDetailPage() {
   const { companyId } = useParams();
@@ -10,6 +14,8 @@ export default function CompanyDetailPage() {
   const [companyData, setCompanyData] = useState(state?.company || null);
   const [loading, setLoading] = useState(!state?.company);
   const [error, setError] = useState(false);
+
+  const { saveCompany, savedCompanies } = useCompanyContext();
 
   // Translation dictionary
   const translations = {
@@ -137,14 +143,12 @@ export default function CompanyDetailPage() {
         addressApiUrl,
         company.address_seq_no
       );
-      console.log("Address Array:", addressArray); // Debugging line
 
       const personArray = await fetchPersonData(
         corsAnywhereUrl,
         officialPersonsUrl,
         company.registration_no
       );
-      console.log("Person Array:", personArray); // Debugging line
 
       const address = addressArray[0] || {};
       const person = personArray || [];
@@ -161,40 +165,80 @@ export default function CompanyDetailPage() {
   if (error) return <p>Failed to load company data.</p>;
   if (!companyData) return <p>No data found for this company.</p>;
 
-  const { organisation_name, organisation_status, address, person } =
-    companyData;
-  // Ensure we access the first element in the address array.
+  const {
+    organisation_name,
+    organisation_status,
+    registration_date,
+    address,
+    person,
+    entry_id,
+  } = companyData;
   const addressDetails = Array.isArray(address) ? address[0] : address;
+  const formattedAddress = addressDetails
+    ? `${addressDetails.street || ""}, ${addressDetails.building || ""}, ${
+        addressDetails.territory || ""
+      }`.replace(/,\s*,|,\s*$/, "")
+    : "No address available";
+
+  const isSaved = savedCompanies.some((saved) => saved.entry_id === entry_id);
 
   return (
-    <div>
-      <h1>{transliterate(organisation_name)}</h1>
-      <p>Status: {translate(organisation_status)}</p>
-
-      <h2>Address</h2>
-      {addressDetails ? (
-        <>
-          <p>Street: {addressDetails.street}</p>
-          <p>Building: {addressDetails.building}</p>
-          <p>Territory: {addressDetails.territory}</p>
-        </>
-      ) : (
-        <p>No address available</p>
-      )}
-
-      <h2>Persons</h2>
-      {Array.isArray(person) && person.length > 0 ? (
-        <ul>
-          {person.map((p) => (
-            <li key={p.entry_id}>
-              <p>Name: {transliterate(p.person_or_organisation_name)}</p>
-              <p>Position: {translate(p.official_position)}</p>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>No person data available</p>
-      )}
+    <div className="company-detail-page">
+      <p className="company-detail-desc">
+        This page provides comprehensive information about the company,
+        including its incorporation date, registered address, and a list of key
+        individuals involved, such as executives and board members. Explore
+        essential data that offers insights into the company’s structure,
+        leadership, and location.
+      </p>
+      <div className="company-detail-overview">
+        <h2>Overview</h2>
+        <div className="company-detail-name-status">
+          <h1>{transliterate(organisation_name)}</h1>
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <p
+              className={`company-detail-status ${
+                organisation_status === "Εγγεγραμμένη" ? "active" : "inactive"
+              }`}
+            >
+              {organisation_status === "Εγγεγραμμένη" ? "Active" : "Inactive"}
+            </p>
+            <FontAwesomeIcon
+              className="company-detail-bookmark"
+              icon={isSaved ? faBookmark : faBookmarkRegular}
+              onClick={(e) => {
+                e.preventDefault();
+                saveCompany(companyData);
+              }}
+            />
+          </div>
+        </div>
+        <div className="company-detail-address">
+          <p className="company-detail-registration-date">
+            Incorporated on {registration_date}
+          </p>
+          {addressDetails ? (
+            <p>{formattedAddress}</p>
+          ) : (
+            <p>No address available</p>
+          )}
+        </div>
+        <div className="company-detail-keypeople">
+          <h2>Key People</h2>
+          {Array.isArray(person) && person.length > 0 ? (
+            <ul>
+              {person.map((p) => (
+                <li key={p.entry_id}>
+                  <p>Name: {transliterate(p.person_or_organisation_name)}</p>
+                  <p>Position: {translate(p.official_position)}</p>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>No person data available</p>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

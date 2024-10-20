@@ -7,6 +7,14 @@ export function SavedCompanyProvider({ children }) {
   const [groups, setGroups] = useState([]);
   const [savedCompanies, setSavedCompanies] = useState([]);
 
+  const saveCompany = (company) => {
+    setSavedCompanies((prevState) =>
+      prevState.some((saved) => saved.entry_id === company.entry_id)
+        ? prevState.filter((saved) => saved.entry_id !== company.entry_id)
+        : [company, ...prevState]
+    );
+  };
+
   const addCompanyToGroup = (company, groupId) =>
     setGroups((prevState) =>
       prevState.map((previousGroup) => {
@@ -45,6 +53,7 @@ export function SavedCompanyProvider({ children }) {
         setSavedCompanies,
         createGroup,
         addCompanyToGroup,
+        saveCompany,
       }}
     >
       {children}

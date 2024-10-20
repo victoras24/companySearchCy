@@ -79,7 +79,7 @@ export default function Favorites() {
           </ul>
         ) : (
           <div>
-            <span>No groups have been created yet.</span>
+            <p>No groups have been created yet.</p>
             <NavLink to={"/organizer"}>
               <button>Create group</button>
             </NavLink>

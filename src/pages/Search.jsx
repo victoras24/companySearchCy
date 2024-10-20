@@ -11,7 +11,7 @@ import { useCompanyDataContext } from "../context/CompanyDataContext";
 import { useCompanyContext } from "../context/SavedCompanyContext";
 
 export default function Search() {
-  const { savedCompanies, setSavedCompanies } = useCompanyContext();
+  const { savedCompanies, saveCompany } = useCompanyContext();
   const {
     companyData,
     companySearchInput,
@@ -19,14 +19,6 @@ export default function Search() {
     loading,
     setCompanySearchInput,
   } = useCompanyDataContext();
-
-  const saveCompany = (company) => {
-    setSavedCompanies((prevState) =>
-      prevState.some((saved) => saved.entry_id === company.entry_id)
-        ? prevState.filter((saved) => saved.entry_id !== company.entry_id)
-        : [company, ...prevState]
-    );
-  };
 
   return (
     <div className="search-page">
