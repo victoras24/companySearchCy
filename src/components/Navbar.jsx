@@ -45,6 +45,9 @@ export default function Navbar() {
             <NavLink to="/organizer" className="navbar-item">
               Organizer
             </NavLink>
+            <NavLink to="/account" className="navbar-item">
+              Account
+            </NavLink>
           </ul>
         </div>
       ) : (
