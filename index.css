@@ -868,17 +868,21 @@ html {
   align-items: center;
 }
 
+.account-page-container p {
+  margin-bottom: 3rem;
+}
+
 .account-page-intro {
   text-align: center;
 }
 
-.account-page-intro h1 {
+.account-page-container h1 {
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 0.5rem;
 }
 
-.account-page-intro p {
+.account-page-container p {
   font-size: 1rem;
   opacity: 0.75;
   margin-bottom: 3rem;
@@ -891,6 +895,10 @@ html {
   width: 80%;
 }
 
+.account-page-information span {
+  margin: 1rem 0;
+}
+
 .account-page-information input {
   width: 100%;
   background-color: transparent;
@@ -901,18 +909,18 @@ html {
   padding: 0 1rem;
 }
 
-.account-page-information p {
-  margin-bottom: 0.6rem;
-}
-
 .account-page-information button {
-  margin-top: 2rem;
+  margin: 2rem 0;
   height: 3rem;
   border: none;
   background-color: #00dc82;
   border-radius: 0.5rem;
   font-size: 1.1rem;
   letter-spacing: 0.05rem;
+}
+
+.account-page-information button:hover {
+  cursor: pointer;
 }
 
 .account-page-register:hover {
@@ -937,7 +945,8 @@ html {
   margin: 5px;
 }
 
-.account-page-google-login {
+.account-page-google-login,
+.account-page-google-register {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -949,6 +958,7 @@ html {
   height: 3rem;
   width: 316px;
   margin-bottom: 2rem;
+  cursor: pointer;
 }
 
 .account-page-google-login:hover {
