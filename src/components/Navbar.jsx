@@ -1,9 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
+import useSignUpWithEmailAndPassword from "../Hooks/useSignUpWithEmailAndPassword";
+import useLogout from "../Hooks/useLogout";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const btnRef = useRef();
+
+  const { currentUser } = useSignUpWithEmailAndPassword();
+  const { handleLogOut } = useLogout();
 
   useEffect(() => {
     function closeNavbar(e) {
@@ -32,7 +37,7 @@ export default function Navbar() {
       </button>
       {isOpen ? (
         <div className="navbar-background">
-          <ul className="navbar-content">
+          <div className="navbar-content">
             <NavLink to="" className="navbar-item">
               Home
             </NavLink>
@@ -45,10 +50,13 @@ export default function Navbar() {
             <NavLink to="/organizer" className="navbar-item">
               Organizer
             </NavLink>
-            <NavLink to="/account" className="navbar-item">
-              Account
-            </NavLink>
-          </ul>
+            <div className="navbar-account">
+              <NavLink to="/account" className="navbar-item">
+                {currentUser ? currentUser.displayName : "Account"}
+              </NavLink>
+              <button onClick={handleLogOut}>L</button>
+            </div>
+          </div>
         </div>
       ) : (
         ""

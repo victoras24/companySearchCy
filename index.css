@@ -367,6 +367,12 @@ html {
   text-decoration: none;
 }
 
+.navbar-account {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
 /* Home page */
 
 .home-container {
@@ -995,7 +1001,7 @@ html {
 }
 
 .toast-success {
-  background-color: #4caf50;
+  background-color: #4bb543;
 }
 
 .toast-info {
