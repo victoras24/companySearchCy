@@ -975,34 +975,40 @@ html {
   font-family: "Roboto", sans-serif;
 }
 
-/* Divider  */
+/* Toast  */
 
-/* h3 {
-    margin: 0;
-    display: grid;
-    width: 100%;
-    align-items: center;
-    text-align: center;
-    grid-template-columns: minmax(20px, 1fr) auto minmax(20px, 1fr);
-    grid-gap: 20px;
-    font-weight: 400;
-    font-size: 28px;
-    color: #818078;
+.toast {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+  border-radius: 5px;
+  font-size: 1rem;
+  position: fixed;
+  bottom: 2rem;
+  color: #fff;
+  opacity: 0.9;
+  z-index: 1000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: opacity 0.3s ease;
+  align-items: center;
+  text-align: center;
 }
 
-h3:before,
-h3:after {
-    content: '';
-    height: 1px;
+.toast-success {
+  background-color: #4caf50;
 }
 
-h3:after {
-    background: linear-gradient(to right, transparent, #818078);
+.toast-info {
+  background-color: #607d8b;
 }
 
-h3:before {
-    background: linear-gradient(to right, #818078, transparent);
-} */
+.toast-warning {
+  background-color: #ff9800;
+}
+
+.toast-error {
+  background-color: #f44336;
+}
 
 /* Media query for larger screens */
 

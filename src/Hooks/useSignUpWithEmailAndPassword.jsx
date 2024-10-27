@@ -7,14 +7,15 @@ export default function useSignUpWithEmailAndPassword() {
   const [signInWithEmailAndPassword, user, loading, error] =
     useSignInWithEmailAndPassword(auth);
 
-  const signup = async (inputs) => {
+  const signup = async (inputs, displayToast) => {
     if (
       !inputs.email ||
       !inputs.password ||
       !inputs.username ||
       !inputs.fullName
     )
-      console.log("please fill all the fields");
+      console.log("wait");
+    displayToast({ text: "Please fill all the fields", status: "info" });
     try {
       const newUser = await createUserWithEmailAndPassword(
         auth,

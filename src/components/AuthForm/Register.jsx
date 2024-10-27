@@ -2,6 +2,8 @@ import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import useSignUpWithEmailAndPassword from "../../Hooks/useSignUpWithEmailAndPassword";
+import useShowToast from "../../Hooks/useShowToast";
+import Toast from "../Toast";
 
 export default function Register(props) {
   const [inputs, setInputs] = useState({
@@ -11,6 +13,7 @@ export default function Register(props) {
     password: "",
   });
   const { loading, error, signup } = useSignUpWithEmailAndPassword();
+  const { showToast, toastContent, displayToast } = useShowToast();
 
   return (
     <div className="account-page-container">
@@ -61,7 +64,7 @@ export default function Register(props) {
           value={inputs.password}
           onChange={(e) => setInputs({ ...inputs, password: e.target.value })}
         />
-        <button onClick={() => signup(inputs)}>Register</button>
+        <button onClick={() => signup(inputs, displayToast)}>Register</button>
       </div>
       <span
         onClick={() => props.isRegister(false)}
@@ -69,6 +72,7 @@ export default function Register(props) {
       >
         Already have an account? Login
       </span>
+      {showToast && <Toast {...toastContent} />}
     </div>
   );
 }
