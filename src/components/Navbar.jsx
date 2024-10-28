@@ -1,14 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
-import useSignUpWithEmailAndPassword from "../Hooks/useSignUpWithEmailAndPassword";
 import useLogout from "../Hooks/useLogout";
+import { useAuth } from "../context/AuthStoreContext";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const btnRef = useRef();
 
-  const { currentUser } = useSignUpWithEmailAndPassword();
   const { handleLogOut } = useLogout();
+  const { user } = useAuth();
 
   useEffect(() => {
     function closeNavbar(e) {
@@ -52,9 +52,9 @@ export default function Navbar() {
             </NavLink>
             <div className="navbar-account">
               <NavLink to="/account" className="navbar-item">
-                {currentUser ? currentUser.displayName : "Account"}
+                {user ? user.username : "Account"}
               </NavLink>
-              <button onClick={handleLogOut}>L</button>
+              {user ? <button onClick={handleLogOut}>L</button> : null}
             </div>
           </div>
         </div>

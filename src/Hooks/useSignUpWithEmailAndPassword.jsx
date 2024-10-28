@@ -4,14 +4,22 @@ import {
 } from "react-firebase-hooks/auth";
 import { auth, firestore } from "../Firebase/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { setDoc, doc } from "firebase/firestore";
+import {
+  setDoc,
+  doc,
+  where,
+  query,
+  getDocs,
+  collection,
+} from "firebase/firestore";
 import { useAuth } from "../context/AuthStoreContext";
 
 export default function useSignUpWithEmailAndPassword() {
-  const [signInWithEmailAndPassword, user, loading, error] =
-    useSignInWithEmailAndPassword(auth);
+  const [user, loading, error] = useSignInWithEmailAndPassword(auth);
   const [currentUser] = useAuthState(auth);
-  const { userLogin, userLogout } = useAuth();
+  const { userLogin } = useAuth();
+
+  const usersRef = collection(firestore, "users");
 
   const signup = async (inputs, displayToast) => {
     if (
@@ -19,8 +27,17 @@ export default function useSignUpWithEmailAndPassword() {
       !inputs.password ||
       !inputs.username ||
       !inputs.fullName
-    )
-      displayToast({ text: "Please fill all the fields", status: "info" });
+    ) {
+      displayToast({ text: "Please fill all the fields", status: "error" });
+      return;
+    }
+    const q = query(usersRef, where("username", "==", inputs.username));
+    const querySnapshot = await getDocs(q);
+
+    if (!querySnapshot.empty) {
+      displayToast({ text: "Username already exists", status: "error" });
+      return;
+    }
     try {
       const newUser = await createUserWithEmailAndPassword(
         auth,

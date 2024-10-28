@@ -1,7 +1,17 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
+import useShowToast from "../../Hooks/useShowToast";
+import Toast from "../Toast";
+import useLogin from "../../Hooks/useLogin";
+import { useState } from "react";
 
 export default function Login(props) {
+  const [inputs, setInputs] = useState({
+    email: "",
+    password: "",
+  });
+  const { showToast, toastContent, displayToast } = useShowToast();
+  const { loading, error, login } = useLogin();
   return (
     <div className="account-page-container">
       <h1>Log in</h1>
@@ -24,10 +34,18 @@ export default function Login(props) {
       <div className="account-page-divider">OR</div>
       <div className="account-page-information">
         <span>Email</span>
-        <input type="text" />
+        <input
+          type="text"
+          value={inputs.email}
+          onChange={(e) => setInputs({ ...inputs, email: e.target.value })}
+        />
         <span>Password</span>
-        <input type="password" />
-        <button>Sign in</button>
+        <input
+          type="password"
+          value={inputs.password}
+          onChange={(e) => setInputs({ ...inputs, password: e.target.value })}
+        />
+        <button onClick={() => login(inputs, displayToast)}>Sign in</button>
         <span
           onClick={() => props.isRegister(true)}
           style={{ cursor: "pointer", textAlign: "center" }}
@@ -35,6 +53,7 @@ export default function Login(props) {
           Create an account now!
         </span>
       </div>
+      {showToast && <Toast {...toastContent} />}
     </div>
   );
 }
