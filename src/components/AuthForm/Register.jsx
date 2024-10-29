@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import useSignUpWithEmailAndPassword from "../../Hooks/useSignUpWithEmailAndPassword";
 import useShowToast from "../../Hooks/useShowToast";
 import Toast from "../Toast";
+import GoogleAuth from "./GoogleAuth";
 
 export default function Register(props) {
   const [inputs, setInputs] = useState({
@@ -22,18 +21,7 @@ export default function Register(props) {
         Create an account to unlock personalized features that help you stay
         organized and streamline your search experience.
       </p>
-      <div className="account-page-google-register">
-        <FontAwesomeIcon
-          icon={faGoogle}
-          style={{
-            display: "inline-block",
-            verticalAlign: "middle",
-            width: "2rem",
-            height: "2rem",
-          }}
-        />
-        <span className="account-page-google-text">Register with Google</span>
-      </div>
+      <GoogleAuth prefix={signup ? "Register" : "Login"} />
       <div className="account-page-divider">OR</div>
       <div className="account-page-information">
         <span>Full Name</span>

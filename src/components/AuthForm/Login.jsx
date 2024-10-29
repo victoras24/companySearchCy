@@ -4,6 +4,7 @@ import useShowToast from "../../Hooks/useShowToast";
 import Toast from "../Toast";
 import useLogin from "../../Hooks/useLogin";
 import { useState } from "react";
+import GoogleAuth from "./GoogleAuth";
 
 export default function Login(props) {
   const [inputs, setInputs] = useState({
@@ -19,18 +20,7 @@ export default function Login(props) {
         Login to save and organize the companies you search for, making it
         easier to track, manage, and revisit important information.
       </p>
-      <div className="account-page-google-login">
-        <FontAwesomeIcon
-          icon={faGoogle}
-          style={{
-            display: "inline-block",
-            verticalAlign: "middle",
-            width: "2rem",
-            height: "2rem",
-          }}
-        />
-        <span className="account-page-google-text">Login with Google</span>
-      </div>
+      <GoogleAuth prefix={login ? "Login" : "Register"} />
       <div className="account-page-divider">OR</div>
       <div className="account-page-information">
         <span>Email</span>

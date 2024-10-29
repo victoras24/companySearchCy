@@ -56,6 +56,7 @@ export default function useSignUpWithEmailAndPassword() {
           fullName: inputs.fullName,
           savedCompanies: [],
           groups: [],
+          favorites: [],
         };
         await setDoc(doc(firestore, "users", newUser.user.uid), userDoc);
         localStorage.setItem("user-info", JSON.stringify(userDoc));
