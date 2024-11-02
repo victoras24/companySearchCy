@@ -1070,4 +1070,7 @@ html {
   .account-page-divider {
     width: 50%;
   }
+  .saved-company-container {
+    width: 500px;
+  }
 }

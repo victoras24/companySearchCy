@@ -7,7 +7,7 @@ export default function useShowToast() {
   const displayToast = ({ text, status }) => {
     setToastContent({ text, status });
     setShowToast(true);
-    setTimeout(() => setShowToast(false), 3000);
+    setTimeout(() => setShowToast(false), 5000);
   };
 
   return { showToast, toastContent, displayToast };

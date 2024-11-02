@@ -1,5 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import useShowToast from "../../Hooks/useShowToast";
 import Toast from "../Toast";
 import useLogin from "../../Hooks/useLogin";

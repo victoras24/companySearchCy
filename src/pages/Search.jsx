@@ -8,10 +8,12 @@ import {
 import { faBookmark as faBookmarkRegular } from "@fortawesome/free-regular-svg-icons";
 import { NavLink } from "react-router-dom";
 import { useCompanyDataContext } from "../context/CompanyDataContext";
-import { useCompanyContext } from "../context/SavedCompanyContext";
+import useShowToast from "../Hooks/useShowToast";
+import Toast from "../components/Toast";
+import useSaveCompany from "../Hooks/useSaveCompany";
+import { useAuth } from "../context/AuthStoreContext";
 
 export default function Search() {
-  const { savedCompanies, saveCompany } = useCompanyContext();
   const {
     companyData,
     companySearchInput,
@@ -19,6 +21,12 @@ export default function Search() {
     loading,
     setCompanySearchInput,
   } = useCompanyDataContext();
+  const { user } = useAuth();
+  const { handleSaveCompany } = useSaveCompany();
+  const { showToast, toastContent, displayToast } = useShowToast();
+  const isCompanySaved = (companyId) => {
+    return user.savedCompanies.some((saved) => saved === companyId);
+  };
 
   return (
     <div className="search-page">
@@ -61,9 +69,7 @@ export default function Search() {
         ) : (
           <div className="result-container">
             {companyData.map((company) => {
-              const isSaved = savedCompanies.some(
-                (saved) => saved.entry_id === company.entry_id
-              );
+              const isFavorite = isCompanySaved(company.entry_id);
 
               const addressInfo = company.address || [];
               const fullAddress =
@@ -98,10 +104,10 @@ export default function Search() {
                             : "Inactive"}
                         </p>
                         <FontAwesomeIcon
-                          icon={isSaved ? faBookmark : faBookmarkRegular}
+                          icon={isFavorite ? faBookmark : faBookmarkRegular}
                           onClick={(e) => {
                             e.preventDefault();
-                            saveCompany(company);
+                            handleSaveCompany(company.entry_id, displayToast);
                           }}
                         />
                       </div>
@@ -114,6 +120,7 @@ export default function Search() {
           </div>
         )}
       </div>
+      {showToast && <Toast {...toastContent} />}
     </div>
   );
 }
