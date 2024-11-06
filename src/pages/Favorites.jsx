@@ -4,6 +4,7 @@ import { Reorder } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquareMinus, faCirclePlus } from "@fortawesome/free-solid-svg-icons";
 import { NavLink } from "react-router-dom";
+import { useAuth } from "../context/AuthStoreContext";
 
 export default function Favorites() {
   const [openGroup, setOpenGroup] = useState({});
@@ -11,15 +12,14 @@ export default function Favorites() {
     useCompanyContext();
   const plusBtnRefs = useRef({});
   const groupListRefs = useRef({});
+  const { user, updateUser } = useAuth();
 
-  const deleteCompany = useCallback(
-    (companyId) => {
-      setSavedCompanies((prevState) =>
-        prevState.filter((company) => company.entry_id !== companyId)
-      );
-    },
-    [setSavedCompanies]
-  );
+  const deleteCompany = async (companyWeWantToDelete) => {
+    const updatedSavedCompanies = user.savedCompanies.filter(
+      (companyId) => companyId !== companyWeWantToDelete
+    );
+    await updateUser({ ...user, savedCompanies: updatedSavedCompanies });
+  };
 
   useEffect(() => {
     function closeAddToGroup(e) {
@@ -108,11 +108,11 @@ export default function Favorites() {
         add, remove, or explore details about your top choices.
       </p>
 
-      <Reorder.Group values={savedCompanies} onReorder={setSavedCompanies}>
+      <Reorder.Group values={user.savedCompanies} onReorder={setSavedCompanies}>
         <div className="saved-companies">
           <h2>Saved Companies</h2>
-          {savedCompanies.length > 0 ? (
-            savedCompanies.map((company) => {
+          {user.savedCompanies.length > 0 ? (
+            user.savedCompanies.map((company) => {
               const isGroupOpen = openGroup[company.entry_id];
 
               return (
@@ -138,7 +138,7 @@ export default function Favorites() {
                       <FontAwesomeIcon
                         className="saved-company-delete"
                         icon={faSquareMinus}
-                        onClick={() => deleteCompany(company.entry_id)}
+                        onClick={() => deleteCompany(company)}
                       />
                     </div>
                   </div>

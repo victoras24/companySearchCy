@@ -22,6 +22,8 @@ export default function CompanyDetailPage() {
     Εγγεγραμμένη: "Registered",
     Γραμματέας: "Secretary",
     Διευθυντής: "Director",
+    Εξουσιοδοτημένο: "Authorized",
+    Πρόσωπο: "Person",
     Εταιρεία: "Company",
     Ιδιωτική: "Private",
 

@@ -8,21 +8,19 @@ const useSaveCompany = () => {
   const [isFavorite, setIsFavorite] = useState(false);
   const { user, updateUser } = useAuth();
 
-  const handleSaveCompany = async (companyEntryId, displayToast) => {
+  const handleSaveCompany = async (company, displayToast) => {
     try {
       const currentUserRef = doc(firestore, "users", user.uid);
 
       await updateDoc(currentUserRef, {
-        savedCompanies: isFavorite
-          ? arrayRemove(companyEntryId)
-          : arrayUnion(companyEntryId),
+        savedCompanies: isFavorite ? arrayRemove(company) : arrayUnion(company),
       });
 
       if (isFavorite) {
         updateUser({
           ...user,
           savedCompanies: user.savedCompanies.filter(
-            (clickedCompanyId) => clickedCompanyId !== companyEntryId
+            (clickedCompanyId) => clickedCompanyId !== company
           ),
         });
 
@@ -31,7 +29,7 @@ const useSaveCompany = () => {
           JSON.stringify({
             ...user,
             savedCompanies: user.savedCompanies.filter(
-              (clickedCompanyId) => clickedCompanyId !== companyEntryId
+              (clickedCompanyId) => clickedCompanyId !== company
             ),
           })
         );
@@ -40,14 +38,14 @@ const useSaveCompany = () => {
       } else {
         updateUser({
           ...user,
-          savedCompanies: [...user.savedCompanies, companyEntryId],
+          savedCompanies: [...user.savedCompanies, company],
         });
 
         localStorage.setItem(
           "user-info",
           JSON.stringify({
             ...user,
-            savedCompanies: [...user.savedCompanies, companyEntryId],
+            savedCompanies: [...user.savedCompanies, company],
           })
         );
 
@@ -62,7 +60,7 @@ const useSaveCompany = () => {
 
   //   useEffect(() => {
   //     if (user) {
-  //       const isFavorite = user.savedCompanies.includes(companyEntryId);
+  //       const isFavorite = user.savedCompanies.includes(company);
   //       setIsFavorite(isFavorite);
   //     }
   //   }, [user, user.savedCompanies]);

@@ -22,10 +22,10 @@ export default function Search() {
     setCompanySearchInput,
   } = useCompanyDataContext();
   const { user } = useAuth();
-  const { handleSaveCompany } = useSaveCompany();
+  const { handleSaveCompany, isUpdating } = useSaveCompany();
   const { showToast, toastContent, displayToast } = useShowToast();
   const isCompanySaved = (companyId) => {
-    return user.savedCompanies.some((saved) => saved === companyId);
+    return user?.savedCompanies.some((saved) => saved === companyId);
   };
 
   return (
@@ -69,7 +69,7 @@ export default function Search() {
         ) : (
           <div className="result-container">
             {companyData.map((company) => {
-              const isFavorite = isCompanySaved(company.entry_id);
+              const isFavorite = isCompanySaved(company);
 
               const addressInfo = company.address || [];
               const fullAddress =
@@ -107,7 +107,7 @@ export default function Search() {
                           icon={isFavorite ? faBookmark : faBookmarkRegular}
                           onClick={(e) => {
                             e.preventDefault();
-                            handleSaveCompany(company.entry_id, displayToast);
+                            handleSaveCompany(company, displayToast);
                           }}
                         />
                       </div>
