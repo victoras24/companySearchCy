@@ -25,7 +25,9 @@ export default function Search() {
   const { handleSaveCompany, isUpdating } = useSaveCompany();
   const { showToast, toastContent, displayToast } = useShowToast();
   const isCompanySaved = (companyId) => {
-    return user?.savedCompanies.some((saved) => saved === companyId);
+    return user.savedCompanies.some(
+      (savedCompany) => savedCompany.entry_id === companyId
+    );
   };
 
   return (
@@ -69,7 +71,7 @@ export default function Search() {
         ) : (
           <div className="result-container">
             {companyData.map((company) => {
-              const isFavorite = isCompanySaved(company);
+              const isFavorite = isCompanySaved(company.entry_id);
 
               const addressInfo = company.address || [];
               const fullAddress =
