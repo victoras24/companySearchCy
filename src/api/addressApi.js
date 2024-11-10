@@ -1,27 +1,20 @@
-export const fetchAddressData = async (
-  corsUrl,
-  addressApiUrl,
-  companyAddressSeqNo
-) => {
-  try {
-    const res = await fetch(
-      `${corsUrl}${addressApiUrl}&filters[address_seq_no]=${companyAddressSeqNo}`
-    );
-    const data = await res.json();
-    if (!data || typeof data !== "object") {
-      console.error("Unexpected response format from address API:", data);
-      return [];
-    }
+// export const fetchAddressData = async (addressApiUrl, companyAddressSeqNo) => {
+//   try {
+//     const response = await fetch(
+//       `${addressApiUrl}?filters[address_seq_no]=${companyAddressSeqNo}`
+//     );
 
-    // Check for different possible structures
-    const records = data.result?.records || data.records || [];
+//     if (!response.ok) {
+//       throw new Error(`HTTP error! status: ${response.status}`);
+//     }
 
-    return Array.isArray(records) ? records : [];
-  } catch (err) {
-    console.error("Error fetching address data:", err);
-    return [];
-  }
+//     const data = await response.json();
+//     console.log("Address data:", data);
 
-  // for some companies the address is not found. For some reason the filter method of the dKan api is not working. Find solution.
-  // for example address_seq_no 49716
-};
+//     // Since the API returns data.result.records
+//     return data.result?.records || [];
+//   } catch (error) {
+//     console.error("Error fetching address data:", error);
+//     return [];
+//   }
+// };

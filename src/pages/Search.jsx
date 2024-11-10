@@ -21,11 +21,12 @@ export default function Search() {
     loading,
     setCompanySearchInput,
   } = useCompanyDataContext();
+
   const { user } = useAuth();
   const { handleSaveCompany, isUpdating } = useSaveCompany();
   const { showToast, toastContent, displayToast } = useShowToast();
   const isCompanySaved = (companyId) => {
-    return user.savedCompanies.some(
+    return user?.savedCompanies.some(
       (savedCompany) => savedCompany.entry_id === companyId
     );
   };

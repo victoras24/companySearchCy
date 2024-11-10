@@ -5,20 +5,22 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquareMinus, faCirclePlus } from "@fortawesome/free-solid-svg-icons";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../context/AuthStoreContext";
+import { setDoc, doc } from "firebase/firestore";
+import { firestore } from "../Firebase/firebase";
 
 export default function Favorites() {
   const [openGroup, setOpenGroup] = useState({});
-  const { savedCompanies, setSavedCompanies, groups, addCompanyToGroup } =
-    useCompanyContext();
+  const { groups, addCompanyToGroup } = useCompanyContext();
   const plusBtnRefs = useRef({});
   const groupListRefs = useRef({});
-  const { user, updateUser } = useAuth();
+  const { user } = useAuth();
 
   const deleteCompany = async (companyWeWantToDelete) => {
-    const updatedSavedCompanies = user.savedCompanies.filter(
-      (companyId) => companyId !== companyWeWantToDelete
+    const updatedSavedCompanyArray = user.savedCompanies.filter(
+      (company) => company.entry_id !== companyWeWantToDelete.entry_id
     );
-    await updateUser({ ...user, savedCompanies: updatedSavedCompanies });
+    await setDoc(doc(firestore, "users"));
+    console.log(updatedSavedCompanyArray);
   };
 
   useEffect(() => {
@@ -108,50 +110,49 @@ export default function Favorites() {
         add, remove, or explore details about your top choices.
       </p>
 
-      <Reorder.Group values={user.savedCompanies} onReorder={setSavedCompanies}>
-        <div className="saved-companies">
-          <h2>Saved Companies</h2>
-          {user.savedCompanies.length > 0 ? (
-            user.savedCompanies.map((company) => {
-              const isGroupOpen = openGroup[company.entry_id];
+      {/* <Reorder.Group values={user.savedCompanies} onReorder={setSavedCompanies}> */}
+      <div className="saved-companies">
+        <h2>Saved Companies</h2>
+        {user.savedCompanies.length > 0 ? (
+          user.savedCompanies.map((company) => {
+            const isGroupOpen = openGroup[company.entry_id];
 
-              return (
-                <Reorder.Item key={company.entry_id} value={company}>
-                  <div
-                    className="saved-company-container"
-                    style={{ position: "relative" }}
-                  >
-                    <span>{company.organisation_name}</span>
-                    <div className="saved-company-icons">
-                      <FontAwesomeIcon
-                        className="saved-company-plus-icon"
-                        icon={faCirclePlus}
-                        ref={(el) =>
-                          (plusBtnRefs.current[company.entry_id] = el)
-                        }
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleOpenGroup(company.entry_id);
-                        }}
-                      />
-                      {renderGroupList(company, isGroupOpen)}
-                      <FontAwesomeIcon
-                        className="saved-company-delete"
-                        icon={faSquareMinus}
-                        onClick={() => deleteCompany(company)}
-                      />
-                    </div>
-                  </div>
-                </Reorder.Item>
-              );
-            })
-          ) : (
-            <span className="saved-companies-empty">
-              No companies in favorites yet.
-            </span>
-          )}
-        </div>
-      </Reorder.Group>
+            return (
+              // <Reorder.Item key={company.entry_id} value={company}>
+              <div
+                className="saved-company-container"
+                style={{ position: "relative" }}
+                key={company.entry_id}
+              >
+                <span>{company.organisation_name}</span>
+                <div className="saved-company-icons">
+                  <FontAwesomeIcon
+                    className="saved-company-plus-icon"
+                    icon={faCirclePlus}
+                    ref={(el) => (plusBtnRefs.current[company.entry_id] = el)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleOpenGroup(company.entry_id);
+                    }}
+                  />
+                  {renderGroupList(company, isGroupOpen)}
+                  <FontAwesomeIcon
+                    className="saved-company-delete"
+                    icon={faSquareMinus}
+                    onClick={() => deleteCompany(company)}
+                  />
+                </div>
+              </div>
+              // </Reorder.Item>
+            );
+          })
+        ) : (
+          <span className="saved-companies-empty">
+            No companies in favorites yet.
+          </span>
+        )}
+      </div>
+      {/* </Reorder.Group> */}
     </div>
   );
 }

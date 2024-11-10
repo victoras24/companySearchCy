@@ -1,24 +1,40 @@
-export const fetchPersonData = async (
-  corsUrl,
-  personApiUrl,
-  companyRegistrationNumber
-) => {
-  try {
-    const res = await fetch(
-      `${corsUrl}${personApiUrl}&filters[registration_no]=${companyRegistrationNumber}`
-    );
-    const data = await res.json();
-    if (!data || typeof data !== "object") {
-      console.error("Unexpected response format from address API:", data);
-      return [];
-    }
+// export const fetchPersonData = async (baseUrl, registrationNo) => {
+//   if (!registrationNo) {
+//     console.log("No registration number provided");
+//     return [];
+//   }
 
-    // Check for different possible structures
-    const records = data.result?.records || data.records || [];
+//   try {
+//     // Log the inputs for debugging
+//     console.log("fetchPersonData inputs:", { baseUrl, registrationNo });
 
-    return Array.isArray(records) ? records : [];
-  } catch (err) {
-    console.error("Error fetching address data:", err);
-    return [];
-  }
-};
+//     // Construct URL with registration_no parameter (not filters[])
+//     const url = `${baseUrl}&filters[registration_no]=${registrationNo}`;
+//     console.log("Fetching persons from URL:", url);
+
+//     const response = await fetch(url, {
+//       method: "GET",
+//       headers: {
+//         Accept: "application/json",
+//       },
+//     });
+
+//     if (!response.ok) {
+//       const errorText = await response.text();
+//       console.error("Response error details:", {
+//         status: response.status,
+//         statusText: response.statusText,
+//         body: errorText,
+//         url: url,
+//       });
+//       throw new Error(`HTTP error! status: ${response.status}`);
+//     }
+
+//     const data = await response.json();
+//     console.log("Person data received:", data);
+//     return data.people || [];
+//   } catch (error) {
+//     console.error("Error in fetchPersonData:", error);
+//     return [];
+//   }
+// };

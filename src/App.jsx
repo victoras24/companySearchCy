@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import Favorites from "./pages/Favorites";
 import Organizer from "./pages/Organizer";
 import Account from "./pages/Account";
+import AccountDetails from "./pages/AccountDetails";
 import { SavedCompanyProvider } from "./context/SavedCompanyContext";
 import { CompanyDataProvider } from "./context/CompanyDataContext";
 import { AuthProvider, useAuth } from "./context/AuthStoreContext";
@@ -32,12 +33,18 @@ function AppRoutes() {
           <Route index element={<Home />} />
           <Route path="search" element={<Search />} />
           <Route path="search/:companyId" element={<CompanyDetailPage />} />
-          <Route path="favorites" element={<Favorites />} />
+          <Route
+            path="favorites"
+            element={user ? <Favorites /> : <Account />}
+          />
           <Route
             path="organizer"
             element={user ? <Organizer /> : <Account />}
           />
-          <Route path="account" element={<Account />} />
+          <Route
+            path="account"
+            element={user ? <AccountDetails /> : <Account />}
+          />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -1,21 +1,24 @@
-export const fetchCompanyData = async (input, corsUrl, companyApiUrl) => {
+export const fetchCompanyData = async (input, companyApiUrl) => {
   try {
-    console.log("Fetching company data for:", input);
-    const res = await fetch(`${corsUrl}${companyApiUrl}`);
-    const data = await res.json();
-    console.log("Company API response:", data);
+    console.log("Search Input:", input);
+    console.log("API URL being called:", companyApiUrl);
 
-    if (!data || typeof data !== "object") {
-      console.error("Unexpected response format from company API:", data);
-      return [];
+    const response = await fetch(companyApiUrl);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    // Check for different possible structures
-    const records = data.result?.records || data.records || [];
+    const data = await response.json();
+    console.log("Parsed Response Data:", data);
 
-    return Array.isArray(records) ? records : [];
-  } catch (err) {
-    console.error("Error fetching company data:", err);
+    // The data comes in data.companies array
+    const companies = data.companies || [];
+    console.log("Final Companies:", companies);
+
+    return companies; // Return the companies array directly
+  } catch (error) {
+    console.error("Error in fetchCompanyData:", error);
     return [];
   }
 };

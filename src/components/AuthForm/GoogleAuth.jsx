@@ -6,12 +6,14 @@ import useShowToast from "../../Hooks/useShowToast";
 import { useAuth } from "../../context/AuthStoreContext";
 import { setDoc, doc, getDoc } from "firebase/firestore";
 import Toast from "../Toast";
+import { useNavigate } from "react-router-dom";
 
 const GoogleAuth = ({ prefix }) => {
   const [signInWithGoogle, error] = useSignInWithGoogle(auth);
 
   const { userLogin } = useAuth();
   const { displayToast, toastContent, showToast } = useShowToast();
+  const navigate = useNavigate();
 
   const handleGoogleAuth = async () => {
     try {
@@ -29,6 +31,11 @@ const GoogleAuth = ({ prefix }) => {
         const userDoc = userSnap.data();
         localStorage.setItem("user-info", JSON.stringify(userDoc));
         userLogin(userDoc);
+        navigate("/");
+        displayToast({
+          text: `Welcome ${userDoc.username}!`,
+          status: "success",
+        });
       }
       // register
       else {
