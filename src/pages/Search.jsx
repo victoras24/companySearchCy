@@ -26,9 +26,13 @@ export default function Search() {
   const { handleSaveCompany, isUpdating } = useSaveCompany();
   const { showToast, toastContent, displayToast } = useShowToast();
   const isCompanySaved = (companyId) => {
+<<<<<<< HEAD
     return user?.savedCompanies.some(
       (savedCompany) => savedCompany.entry_id === companyId
     );
+=======
+    return user?.savedCompanies.some((saved) => saved === companyId);
+>>>>>>> parent of 011134a (switched from checking if a company is saved from the local state to firestore database)
   };
 
   return (
@@ -72,7 +76,7 @@ export default function Search() {
         ) : (
           <div className="result-container">
             {companyData.map((company) => {
-              const isFavorite = isCompanySaved(company.entry_id);
+              const isFavorite = isCompanySaved(company);
 
               const addressInfo = company.address || [];
               const fullAddress =

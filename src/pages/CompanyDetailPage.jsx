@@ -6,11 +6,15 @@ import { fetchCompanyData } from "../api/companiesApi";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBookmark } from "@fortawesome/free-solid-svg-icons";
 import { faBookmark as faBookmarkRegular } from "@fortawesome/free-regular-svg-icons";
+<<<<<<< HEAD
 import Toast from "../components/Toast";
 import useShowToast from "../Hooks/useShowToast";
 import useSaveCompany from "../Hooks/useSaveCompany";
 import { useAuth } from "../context/AuthStoreContext";
 import { translations, transliterate } from "../utils/translations";
+=======
+import { useCompanyContext } from "../context/SavedCompanyContext";
+>>>>>>> parent of 011134a (switched from checking if a company is saved from the local state to firestore database)
 
 export default function CompanyDetailPage() {
   const { companyId } = useParams();
@@ -19,9 +23,7 @@ export default function CompanyDetailPage() {
   const [loading, setLoading] = useState(!state?.company);
   const [error, setError] = useState(false);
 
-  const { showToast, toastContent, displayToast } = useShowToast();
-  const { handleSaveCompany } = useSaveCompany();
-  const { user } = useAuth();
+  const { saveCompany, savedCompanies } = useCompanyContext();
 
   useEffect(() => {
     if (!companyData && companyId) {
@@ -86,6 +88,7 @@ export default function CompanyDetailPage() {
     entry_id,
   } = companyData;
 
+<<<<<<< HEAD
   const addressDetails = address || {};
   const formattedAddress =
     `${addressDetails.street || ""}, ${addressDetails.building || ""}, ${
@@ -95,6 +98,9 @@ export default function CompanyDetailPage() {
   const isSaved = user?.savedCompanies.some(
     (savedCompany) => savedCompany.entry_id === entry_id
   );
+=======
+  const isSaved = savedCompanies.some((saved) => saved.entry_id === entry_id);
+>>>>>>> parent of 011134a (switched from checking if a company is saved from the local state to firestore database)
 
   return (
     <div className="company-detail-page">
@@ -120,7 +126,7 @@ export default function CompanyDetailPage() {
               icon={isSaved ? faBookmark : faBookmarkRegular}
               onClick={(e) => {
                 e.preventDefault();
-                handleSaveCompany(companyData, displayToast);
+                saveCompany(companyData);
               }}
             />
           </div>
@@ -147,7 +153,6 @@ export default function CompanyDetailPage() {
           )}
         </div>
       </div>
-      {showToast && <Toast {...toastContent} />}
     </div>
   );
 }
