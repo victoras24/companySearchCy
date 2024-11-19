@@ -1,26 +1,50 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useCompanyContext } from "../context/SavedCompanyContext";
-import { Reorder } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquareMinus, faCirclePlus } from "@fortawesome/free-solid-svg-icons";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../context/AuthStoreContext";
-import { setDoc, doc } from "firebase/firestore";
+import { doc, updateDoc, arrayRemove } from "firebase/firestore";
 import { firestore } from "../Firebase/firebase";
 
 export default function Favorites() {
+  const { user, updateUser } = useAuth();
   const [openGroup, setOpenGroup] = useState({});
+  // const [savedCompanies, setSavedCompanies] = useState(
+  //   user.savedCompanies || []
+  // );
   const { groups, addCompanyToGroup } = useCompanyContext();
   const plusBtnRefs = useRef({});
   const groupListRefs = useRef({});
-  const { user } = useAuth();
 
   const deleteCompany = async (companyWeWantToDelete) => {
-    const updatedSavedCompanyArray = user.savedCompanies.filter(
-      (company) => company.entry_id !== companyWeWantToDelete.entry_id
-    );
-    await setDoc(doc(firestore, "users"));
-    console.log(updatedSavedCompanyArray);
+    try {
+      const userRef = doc(firestore, "users", user.uid);
+
+      await updateDoc(userRef, {
+        savedCompanies: arrayRemove(companyWeWantToDelete),
+      });
+
+      updateUser({
+        ...user,
+        savedCompanies: user.savedCompanies.filter(
+          (company) => company !== companyWeWantToDelete
+        ),
+      });
+
+      localStorage.setItem(
+        "user-info",
+        JSON.stringify({
+          ...user,
+          savedCompanies: user.savedCompanies.filter(
+            (company) => company !== company
+          ),
+        })
+      );
+      console.log(user.savedCompanies);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
