@@ -24,8 +24,11 @@ export default function Search() {
   const { user } = useAuth();
   const { handleSaveCompany, isUpdating } = useSaveCompany();
   const { showToast, toastContent, displayToast } = useShowToast();
+
   const isCompanySaved = (companyId) => {
-    return user?.savedCompanies.some((saved) => saved === companyId);
+    return user?.savedCompanies.some(
+      (saved) => saved.entry_id === companyId.entry_id
+    );
   };
 
   return (
@@ -69,8 +72,6 @@ export default function Search() {
         ) : (
           <div className="result-container">
             {companyData.map((company) => {
-              const isFavorite = isCompanySaved(company);
-
               const addressInfo = company.address || [];
               const fullAddress =
                 addressInfo
@@ -104,10 +105,15 @@ export default function Search() {
                             : "Inactive"}
                         </p>
                         <FontAwesomeIcon
-                          icon={isFavorite ? faBookmark : faBookmarkRegular}
+                          icon={
+                            isCompanySaved(company)
+                              ? faBookmark
+                              : faBookmarkRegular
+                          }
                           onClick={(e) => {
                             e.preventDefault();
                             handleSaveCompany(company, displayToast);
+                            console.log(company);
                           }}
                         />
                       </div>
