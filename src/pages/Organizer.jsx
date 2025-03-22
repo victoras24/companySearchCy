@@ -46,7 +46,7 @@ export default function Organizer() {
           return {
             ...group,
             companies: group.companies.filter(
-              (company) => company.entry_id !== companyId
+              (company) => company.id !== companyId
             ),
           };
         }
@@ -74,7 +74,7 @@ export default function Organizer() {
       return prevGroups.map((prevGroup) => {
         if (prevGroup.id === targetGroupId) {
           const companyExistsInTargetGroup = prevGroup.companies.some(
-            (company) => company.entry_id === draggedCompany.entry_id
+            (company) => company.id === draggedCompany.id
           );
 
           if (!companyExistsInTargetGroup) {
@@ -88,15 +88,13 @@ export default function Organizer() {
         if (prevGroup.id === sourceGroupId) {
           const companyExistsInTargetGroup = prevGroups
             .find((group) => group.id === targetGroupId)
-            .companies.some(
-              (company) => company.entry_id === draggedCompany.entry_id
-            );
+            .companies.some((company) => company.id === draggedCompany.id);
 
           if (!companyExistsInTargetGroup) {
             return {
               ...prevGroup,
               companies: prevGroup.companies.filter(
-                (company) => company.entry_id !== draggedCompany.entry_id
+                (company) => company.id !== draggedCompany.id
               ),
             };
           }
@@ -176,20 +174,20 @@ export default function Organizer() {
                 {group.isExtended && (
                   <ul>
                     {group.companies.map((comp) => (
-                      <div className="grouped-companies" key={comp.entry_id}>
+                      <div className="grouped-companies" key={comp.id}>
                         <li
                           draggable
                           onDragStart={(event) =>
                             hanldeDragStart(event, comp, group.id)
                           }
                         >
-                          {comp.organisation_name}
+                          {comp.name}
                         </li>
                         <FontAwesomeIcon
                           icon={faSquareMinus}
                           className="saved-company-delete"
                           onClick={() =>
-                            deleteGroupedCompany(group.id, comp.entry_id)
+                            deleteGroupedCompany(group.id, comp.id)
                           }
                         />
                       </div>

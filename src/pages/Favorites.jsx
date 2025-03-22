@@ -89,7 +89,7 @@ export default function Favorites() {
     return (
       <div
         className="result-container-group-list"
-        ref={(el) => (groupListRefs.current[company.entry_id] = el)}
+        ref={(el) => (groupListRefs.current[company.id] = el)}
       >
         {groups.length > 0 ? (
           <ul style={{ listStyle: "none", padding: 0 }}>
@@ -120,7 +120,7 @@ export default function Favorites() {
       addCompanyToGroup(company, groupId);
       setOpenGroup((prevState) => ({
         ...prevState,
-        [company.entry_id]: false,
+        [company.id]: false,
       }));
     },
     [addCompanyToGroup]
@@ -139,24 +139,24 @@ export default function Favorites() {
         <h2>Saved Companies</h2>
         {user.savedCompanies.length > 0 ? (
           user.savedCompanies.map((company) => {
-            const isGroupOpen = openGroup[company.entry_id];
+            const isGroupOpen = openGroup[company.id];
 
             return (
-              // <Reorder.Item key={company.entry_id} value={company}>
+              // <Reorder.Item key={company.id} value={company}>
               <div
                 className="saved-company-container"
                 style={{ position: "relative" }}
-                key={company.entry_id}
+                key={company.id}
               >
-                <span>{company.organisation_name}</span>
+                <span>{company.name}</span>
                 <div className="saved-company-icons">
                   <FontAwesomeIcon
                     className="saved-company-plus-icon"
                     icon={faCirclePlus}
-                    ref={(el) => (plusBtnRefs.current[company.entry_id] = el)}
+                    ref={(el) => (plusBtnRefs.current[company.id] = el)}
                     onClick={(e) => {
                       e.stopPropagation();
-                      handleOpenGroup(company.entry_id);
+                      handleOpenGroup(company.id);
                     }}
                   />
                   {renderGroupList(company, isGroupOpen)}

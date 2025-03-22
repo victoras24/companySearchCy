@@ -173,7 +173,7 @@ html {
   flex-direction: column;
   justify-content: flex-start;
   align-items: stretch;
-  overflow: visible;
+  overflow: auto;
   border: 1px solid #161616;
   border-radius: 10px;
   max-width: 60vh;

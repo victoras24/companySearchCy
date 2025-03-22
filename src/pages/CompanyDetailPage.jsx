@@ -134,10 +134,10 @@ export default function CompanyDetailPage() {
   const fetchCompanyDetail = async (id) => {
     try {
       setLoading(true);
-      const corsAnywhereUrl = "http://localhost:8080/";
+      // const corsAnywhereUrl = "http://localhost:8080/";
       const companyUrl = `https://www.data.gov.cy/api/action/datastore/search.json?resource_id=b48bf3b6-51f2-4368-8eaa-63d61836aaa9&q=${id}`;
-      const addressApiUrl = `https://www.data.gov.cy/api/action/datastore/search.json?resource_id=31d675a2-4335-40ba-b63c-d830d6b5c55d`;
-      const officialPersonsUrl = `https://data.gov.cy/api/action/datastore/search.json?resource_id=a1deb65d-102b-4e8e-9b9c-5b357d719477`;
+      // const addressApiUrl = `https://www.data.gov.cy/api/action/datastore/search.json?resource_id=31d675a2-4335-40ba-b63c-d830d6b5c55d`;
+      // const officialPersonsUrl = `https://data.gov.cy/api/action/datastore/search.json?resource_id=a1deb65d-102b-4e8e-9b9c-5b357d719477`;
 
       const [company] = await fetchCompanyData(id, corsAnywhereUrl, companyUrl);
       if (!company) {
@@ -171,14 +171,8 @@ export default function CompanyDetailPage() {
   if (error) return <p>Failed to load company data.</p>;
   if (!companyData) return <p>No data found for this company.</p>;
 
-  const {
-    organisation_name,
-    organisation_status,
-    registration_date,
-    address,
-    person,
-    entry_id,
-  } = companyData;
+  const { name, organisation_status, registration_date, address, person, id } =
+    companyData;
   const addressDetails = Array.isArray(address) ? address[0] : address;
   const formattedAddress = addressDetails
     ? `${addressDetails.street || ""}, ${addressDetails.building || ""}, ${
@@ -187,9 +181,7 @@ export default function CompanyDetailPage() {
     : "No address available";
 
   const isSaved = (company) => {
-    return user?.savedCompanies.some(
-      (saved) => saved.entry_id === company.entry_id
-    );
+    return user?.savedCompanies.some((saved) => saved.id === company.id);
   };
 
   return (
@@ -204,7 +196,7 @@ export default function CompanyDetailPage() {
       <div className="company-detail-overview">
         <h2>Overview</h2>
         <div className="company-detail-name-status">
-          <h1>{transliterate(organisation_name)}</h1>
+          <h1>{transliterate(name)}</h1>
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
             <p
               className={`company-detail-status ${
@@ -239,7 +231,7 @@ export default function CompanyDetailPage() {
             <ul>
               {person.map((p) => (
                 <li key={p.entry_id}>
-                  <p>Name: {transliterate(p.person_or_organisation_name)}</p>
+                  <p>Name: {transliterate(p.person_or_name)}</p>
                   <p>Position: {translate(p.official_position)}</p>
                 </li>
               ))}

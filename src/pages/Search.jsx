@@ -26,9 +26,7 @@ export default function Search() {
   const { showToast, toastContent, displayToast } = useShowToast();
 
   const isCompanySaved = (companyId) => {
-    return user?.savedCompanies.some(
-      (saved) => saved.entry_id === companyId.entry_id
-    );
+    return user?.savedCompanies.some((saved) => saved.id === companyId.id);
   };
 
   return (
@@ -82,25 +80,25 @@ export default function Search() {
 
               return (
                 <NavLink
-                  to={`/search/${company.entry_id}`}
-                  key={company.entry_id}
+                  to={`/search/${company.id}`}
+                  key={company.id}
                   state={{ company }}
                   style={{ textDecoration: "none" }}
                 >
                   <div className="result-container-data">
                     <div className="result-container-top-info">
                       <h3 className="result-container-company">
-                        {company.organisation_name}
+                        {company.name}
                       </h3>
                       <div className="status-bookmark-container">
                         <p
                           className={`result-container-company-status ${
-                            company.organisation_status === "Εγγεγραμμένη"
+                            company.organisationStatus === "Εγγεγραμμένη"
                               ? "active"
                               : "inactive"
                           }`}
                         >
-                          {company.organisation_status === "Εγγεγραμμένη"
+                          {company.organisationStatus === "Εγγεγραμμένη"
                             ? "Active"
                             : "Inactive"}
                         </p>
