@@ -7,11 +7,12 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faBookmark as faBookmarkRegular } from "@fortawesome/free-regular-svg-icons";
 import { NavLink } from "react-router-dom";
-import { useCompanyDataContext } from "../context/CompanyDataContext";
-import useShowToast from "../Hooks/useShowToast";
-import Toast from "../components/Toast";
-import useSaveCompany from "../Hooks/useSaveCompany";
-import { useAuth } from "../context/AuthStoreContext";
+import { useCompanyDataContext } from "../../context/CompanyDataContext";
+import useShowToast from "../../Hooks/useShowToast";
+import Toast from "../../components/Toast";
+import useSaveCompany from "../../Hooks/useSaveCompany";
+import { useAuth } from "../../context/AuthStoreContext";
+import { Input } from "../../components/Input/Input";
 
 export default function Search() {
   const {
@@ -38,7 +39,12 @@ export default function Search() {
 
       <div className="search-container">
         <div className="input-container">
-          <FontAwesomeIcon icon={faSearch} className="input-icon" />
+          <Input
+            primaryIcon={faSearch}
+            secondaryIcon={faFilter}
+            iconClass="search-input-icon"
+          />
+          {/* <FontAwesomeIcon icon={faSearch} className="input-icon" />
           <input
             type="text"
             onChange={handleInputChange}
@@ -54,7 +60,7 @@ export default function Search() {
             />
           )}
           {loading && <span className="loader"></span>}
-          <FontAwesomeIcon icon={faFilter} className="input-icon filter-icon" />
+          <FontAwesomeIcon icon={faFilter} className="input-icon filter-icon" /> */}
         </div>
 
         {companyData.length === 0 && companySearchInput.trim() === "" ? (
