@@ -1,0 +1,12 @@
+.search-input {
+  &__input {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    font-size: 1.2rem;
+
+    &__search-input-icon {
+      padding: 10px;
+    }
+  }
+}
