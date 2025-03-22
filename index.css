@@ -95,20 +95,6 @@ html {
   right: 10px;
 }
 
-.loader {
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  display: inline-block;
-  border-top: 3px solid #fff;
-  border-right: 3px solid transparent;
-  box-sizing: border-box;
-  animation: rotation 1s linear infinite;
-  position: absolute;
-  right: 56px;
-  top: 9px;
-}
-
 .search-page {
   display: flex;
   flex-direction: column;
@@ -1099,10 +1085,6 @@ html {
 
   .input-icon {
     font-size: 16px;
-  }
-
-  .clear-icon {
-    font-size: 20px;
   }
 
   .key-features {

@@ -12,7 +12,7 @@ import useShowToast from "../../Hooks/useShowToast";
 import Toast from "../../components/Toast";
 import useSaveCompany from "../../Hooks/useSaveCompany";
 import { useAuth } from "../../context/AuthStoreContext";
-import { Input } from "../../components/Input/Input";
+import { Input } from "../../components/Input";
 
 export default function Search() {
   const {
@@ -42,25 +42,15 @@ export default function Search() {
           <Input
             primaryIcon={faSearch}
             secondaryIcon={faFilter}
+            cleanInputIcon={faTimes}
             iconClass="search-input-icon"
-          />
-          {/* <FontAwesomeIcon icon={faSearch} className="input-icon" />
-          <input
-            type="text"
-            onChange={handleInputChange}
+            inputChange={handleInputChange}
+            loading={loading}
+            cleanInputEvent={() => setCompanySearchInput("")}
+            inputText={companySearchInput}
             value={companySearchInput}
-            className="search-container-input"
             placeholder="Enter company's name"
           />
-          {companySearchInput && (
-            <FontAwesomeIcon
-              icon={faTimes}
-              className="input-icon clear-icon"
-              onClick={() => setCompanySearchInput("")}
-            />
-          )}
-          {loading && <span className="loader"></span>}
-          <FontAwesomeIcon icon={faFilter} className="input-icon filter-icon" /> */}
         </div>
 
         {companyData.length === 0 && companySearchInput.trim() === "" ? (

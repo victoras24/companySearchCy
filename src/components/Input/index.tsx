@@ -6,12 +6,25 @@ interface InputProps extends React.HTMLProps<HTMLInputElement> {
   primaryIcon?: IconDefinition;
   secondaryIcon?: IconDefinition;
   iconClass: string;
+  inputChange: (event: React.ChangeEvent<HTMLElement>) => void;
+  loading: boolean;
+  cleanInputIcon: IconDefinition;
+  cleanInputEvent: (event: React.MouseEvent<SVGSVGElement, MouseEvent>) => void;
+  inputText: string;
+  placeholder: string;
 }
 
 export const Input: React.FC<InputProps> = ({
   iconClass,
   primaryIcon,
   secondaryIcon,
+  inputChange,
+  loading,
+  cleanInputIcon,
+  cleanInputEvent,
+  inputText,
+  value,
+  placeholder,
 }) => {
   return primaryIcon ? (
     <div className="search-input d-flex align-items-center p-2">
@@ -21,7 +34,20 @@ export const Input: React.FC<InputProps> = ({
           primaryIcon ? `search-input__${iconClass}--primary p-2` : iconClass
         }
       />
-      <input className="search-input__input w-100" />
+      <input
+        className="search-input__input w-100"
+        onChange={inputChange}
+        value={value}
+        placeholder={placeholder}
+      />
+      {inputText && (
+        <Icon
+          symbol={cleanInputIcon}
+          className="search-input__clear-icon"
+          onClick={cleanInputEvent}
+        />
+      )}
+      {loading && <span className="search-input__loader"></span>}
       {secondaryIcon && (
         <Icon
           symbol={secondaryIcon}

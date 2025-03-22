@@ -4,9 +4,24 @@
     border: none;
     outline: none;
     font-size: 1.2rem;
+  }
 
-    &__search-input-icon {
-      padding: 10px;
-    }
+  &__loader {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: inline-block;
+    border-top: 3px solid #fff;
+    border-right: 3px solid transparent;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+    position: absolute;
+    right: 56px;
+    top: 9px;
+    margin-right: 10px;
+  }
+
+  &__clear-icon {
+    font-size: 20px;
   }
 }
