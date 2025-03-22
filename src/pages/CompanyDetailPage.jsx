@@ -3,13 +3,13 @@ import { useParams, useLocation } from "react-router-dom";
 import { fetchCompanyData } from "../api/companiesApi";
 import { fetchAddressData } from "../api/addressApi";
 import { fetchPersonData } from "../api/personsApi";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBookmark } from "@fortawesome/free-solid-svg-icons";
 import { faBookmark as faBookmarkRegular } from "@fortawesome/free-regular-svg-icons";
 import useSaveCompany from "../Hooks/useSaveCompany";
 import { useAuth } from "../context/AuthStoreContext";
 import useShowToast from "../Hooks/useShowToast";
 import Toast from "../components/Toast";
+import { Icon } from "../components/Icon";
 
 export default function CompanyDetailPage() {
   const { companyId } = useParams();
@@ -205,9 +205,9 @@ export default function CompanyDetailPage() {
             >
               {organisation_status === "Εγγεγραμμένη" ? "Active" : "Inactive"}
             </p>
-            <FontAwesomeIcon
-              className="company-detail-bookmark"
-              icon={isSaved(companyData) ? faBookmark : faBookmarkRegular}
+            <Icon
+              style="text-lg"
+              symbol={isSaved(companyData) ? faBookmark : faBookmarkRegular}
               onClick={(e) => {
                 e.preventDefault();
                 handleSaveCompany(companyData, displayToast);

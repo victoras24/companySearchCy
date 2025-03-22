@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useCompanyContext } from "../context/SavedCompanyContext";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquareMinus, faCirclePlus } from "@fortawesome/free-solid-svg-icons";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../context/AuthStoreContext";
 import { doc, updateDoc, arrayRemove } from "firebase/firestore";
 import { firestore } from "../Firebase/firebase";
+import { Icon } from "../components/Icon";
 
 export default function Favorites() {
   const { user, updateUser } = useAuth();
@@ -150,19 +150,19 @@ export default function Favorites() {
               >
                 <span>{company.name}</span>
                 <div className="saved-company-icons">
-                  <FontAwesomeIcon
-                    className="saved-company-plus-icon"
-                    icon={faCirclePlus}
-                    ref={(el) => (plusBtnRefs.current[company.id] = el)}
+                  <Icon
+                    style="text-lg p-2"
+                    symbol={faCirclePlus}
                     onClick={(e) => {
                       e.stopPropagation();
                       handleOpenGroup(company.id);
                     }}
+                    reference={(el) => (plusBtnRefs.current[company.id] = el)}
                   />
                   {renderGroupList(company, isGroupOpen)}
-                  <FontAwesomeIcon
-                    className="saved-company-delete"
-                    icon={faSquareMinus}
+                  <Icon
+                    style="text-lg p-2"
+                    symbol={faSquareMinus}
                     onClick={() => deleteCompany(company)}
                   />
                 </div>

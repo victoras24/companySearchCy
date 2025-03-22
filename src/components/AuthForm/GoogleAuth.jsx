@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { useSignInWithGoogle } from "react-firebase-hooks/auth";
 import { auth, firestore } from "../../Firebase/firebase";
@@ -7,6 +6,7 @@ import { useAuth } from "../../context/AuthStoreContext";
 import { setDoc, doc, getDoc } from "firebase/firestore";
 import Toast from "../Toast";
 import { useNavigate } from "react-router-dom";
+import { Icon } from "../Icon";
 
 const GoogleAuth = ({ prefix }) => {
   const [signInWithGoogle, error] = useSignInWithGoogle(auth);
@@ -64,15 +64,7 @@ const GoogleAuth = ({ prefix }) => {
 
   return (
     <div className="account-page-google-register" onClick={handleGoogleAuth}>
-      <FontAwesomeIcon
-        icon={faGoogle}
-        style={{
-          display: "inline-block",
-          verticalAlign: "middle",
-          width: "2rem",
-          height: "2rem",
-        }}
-      />
+      <Icon symbol={faGoogle} style="d-block align-middle w-75 h-75" />
       <span className="account-page-google-text">{prefix} with Google</span>
       {showToast && <Toast {...toastContent} />}
     </div>

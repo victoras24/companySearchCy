@@ -759,12 +759,6 @@ html {
   cursor: grab;
 }
 
-.saved-company-delete,
-.saved-company-plus-icon {
-  font-size: 1.1em;
-  padding: 5px;
-}
-
 .saved-company-delete:hover {
   color: #ff4c4c;
 }
@@ -833,10 +827,6 @@ html {
   border-radius: 20px;
   padding: 5px 10px;
   text-align: center;
-}
-
-.company-detail-bookmark {
-  font-size: 1.3rem;
 }
 
 .company-detail-address p {

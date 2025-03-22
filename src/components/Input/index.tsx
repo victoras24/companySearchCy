@@ -30,7 +30,7 @@ export const Input: React.FC<InputProps> = ({
     <div className="search-input d-flex align-items-center p-2">
       <Icon
         symbol={primaryIcon}
-        className={
+        style={
           primaryIcon ? `search-input__${iconClass}--primary p-2` : iconClass
         }
       />
@@ -43,7 +43,7 @@ export const Input: React.FC<InputProps> = ({
       {inputText && (
         <Icon
           symbol={cleanInputIcon}
-          className="search-input__clear-icon"
+          style="search-input__clear-icon"
           onClick={cleanInputEvent}
         />
       )}
@@ -51,7 +51,7 @@ export const Input: React.FC<InputProps> = ({
       {secondaryIcon && (
         <Icon
           symbol={secondaryIcon}
-          className={
+          style={
             secondaryIcon
               ? `search-input__${iconClass}--secondary p-2`
               : iconClass

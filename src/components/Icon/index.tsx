@@ -5,15 +5,22 @@ import React from "react";
 interface IconComponent {
   symbol: IconDefinition;
   onClick?: (event: React.MouseEvent<SVGSVGElement, MouseEvent>) => void;
-  className?: string;
+  style?: string;
+  reference?: (instance: SVGSVGElement | null) => void;
 }
 
 export const Icon: React.FC<IconComponent> = ({
   symbol,
-  className,
+  style,
   onClick,
+  reference,
 }) => {
   return (
-    <FontAwesomeIcon icon={symbol} className={className} onClick={onClick} />
+    <FontAwesomeIcon
+      icon={symbol}
+      className={style}
+      onClick={onClick}
+      ref={reference}
+    />
   );
 };

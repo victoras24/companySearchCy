@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useCompanyContext } from "../context/SavedCompanyContext";
 import { Reorder } from "framer-motion";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Icon } from "../components/Icon";
 import {
   faSquareMinus,
   faAngleDown,
@@ -155,19 +155,16 @@ export default function Organizer() {
                       onClick={() => handleExtendGroup(group.id)}
                       className="group-extend-button"
                     >
-                      <FontAwesomeIcon
-                        icon={group.isExtended ? faAngleUp : faAngleDown}
-                        className="group-arrow-down"
+                      <Icon
+                        symbol={group.isExtended ? faAngleUp : faAngleDown}
+                        style="group-arrow-down"
                       />
                     </button>
                     <button
                       className="group-delete-button"
                       onClick={() => deleteGroup(group.id)}
                     >
-                      <FontAwesomeIcon
-                        icon={faTrashCan}
-                        className="group-trash-can"
-                      />
+                      <Icon symbol={faTrashCan} style="group-trash-can" />
                     </button>
                   </div>
                 </div>
@@ -183,9 +180,9 @@ export default function Organizer() {
                         >
                           {comp.name}
                         </li>
-                        <FontAwesomeIcon
-                          icon={faSquareMinus}
-                          className="saved-company-delete"
+                        <Icon
+                          symbol={faSquareMinus}
+                          style="saved-company-delete"
                           onClick={() =>
                             deleteGroupedCompany(group.id, comp.id)
                           }

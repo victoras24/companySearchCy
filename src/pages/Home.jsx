@@ -1,4 +1,4 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Icon } from "../components/Icon";
 import {
   faSearch,
   faDatabase,
@@ -20,26 +20,23 @@ export default function Home() {
       </p>
       <NavLink to="search">
         <button className="home-search-button">
-          <FontAwesomeIcon
-            icon={faSearch}
-            className="home-search-button-icon"
-          />
+          <Icon symbol={faSearch} style="home-search-button-icon" />
           Begin Search
         </button>
       </NavLink>
       <div className="key-features">
         <div className="feature">
-          <FontAwesomeIcon icon={faDatabase} />
+          <Icon symbol={faDatabase} />
           <h3>Comprehensive Database</h3>
           <p>Access detailed information on all registered Cyprus companies</p>
         </div>
         <div className="feature">
-          <FontAwesomeIcon icon={faBolt} />
+          <Icon symbol={faBolt} />
           <h3>Real-time Updates</h3>
           <p>Stay informed with the latest company data and changes</p>
         </div>
         <div className="feature">
-          <FontAwesomeIcon icon={faShieldAlt} />
+          <Icon symbol={faShieldAlt} />
           <h3>Verified Information</h3>
           <p>Trust in our accurate and officially sourced data</p>
         </div>
