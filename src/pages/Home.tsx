@@ -5,25 +5,29 @@ import {
   faBolt,
   faShieldAlt,
 } from "@fortawesome/free-solid-svg-icons";
-import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { Button } from "../components/Button";
+import React from "react";
 
-export default function Home() {
+export const Home: React.FC = () => {
+  const navigate = useNavigate();
   return (
     <div className="home-container">
       <h1 className="home-title">
         Save time <span className="home-title-highlight">searching</span> for
         Cyprus companies
       </h1>
-      <p className="home-paragraph">
+      <p className="home-paragraph p-3">
         Save hours of time for you and your team when searching for Cyprus
         company information so you can focus on what matters most.
       </p>
-      <NavLink to="search">
-        <button className="home-search-button">
-          <Icon symbol={faSearch} style="home-search-button-icon" />
-          Begin Search
-        </button>
-      </NavLink>
+      <Button
+        content="Begin Search"
+        icon={faSearch}
+        onClick={() => navigate("/search")}
+        color="primary"
+        size="md"
+      />
       <div className="key-features">
         <div className="feature">
           <Icon symbol={faDatabase} />
@@ -52,7 +56,7 @@ export default function Home() {
         <p>
           Discover our advanced features for in-depth analysis and reporting.
         </p>
-        <button className="cta-button">Explore Premium Features</button>
+        <Button content="Explore Premium Features" color="primary" size="md" />
       </div>
       <div className="recent-updates">
         <h2>Latest Updates</h2>
@@ -82,4 +86,4 @@ export default function Home() {
       </div>
     </div>
   );
-}
+};

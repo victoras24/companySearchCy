@@ -1,0 +1,29 @@
+.btn {
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9em;
+  cursor: pointer;
+  text-decoration: none;
+
+  &__icon {
+    margin-right: 7px;
+  }
+
+  &--primary {
+    background-color: #00dc82;
+  }
+
+  &--secondary {
+    background-color: transparent;
+  }
+
+  &--sm {
+    padding: 4px 5px;
+  }
+  &--md {
+    padding: 8px 10px;
+  }
+  &--lg {
+    padding: 16px 20px;
+  }
+}

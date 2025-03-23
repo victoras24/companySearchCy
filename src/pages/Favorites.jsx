@@ -1,21 +1,20 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useCompanyContext } from "../context/SavedCompanyContext";
 import { faSquareMinus, faCirclePlus } from "@fortawesome/free-solid-svg-icons";
-import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthStoreContext";
 import { doc, updateDoc, arrayRemove } from "firebase/firestore";
 import { firestore } from "../Firebase/firebase";
 import { Icon } from "../components/Icon";
+import { Button } from "../components/Button";
 
 export default function Favorites() {
   const { user, updateUser } = useAuth();
   const [openGroup, setOpenGroup] = useState({});
-  // const [savedCompanies, setSavedCompanies] = useState(
-  //   user.savedCompanies || []
-  // );
   const { groups, addCompanyToGroup } = useCompanyContext();
   const plusBtnRefs = useRef({});
   const groupListRefs = useRef({});
+  const navigate = useNavigate();
 
   const deleteCompany = async (companyWeWantToDelete) => {
     try {
@@ -106,9 +105,10 @@ export default function Favorites() {
         ) : (
           <div>
             <p>No groups have been created yet.</p>
-            <NavLink to={"/organizer"}>
-              <button>Create group</button>
-            </NavLink>
+            <Button
+              content="Create group"
+              onClick={() => navigate("/organizer")}
+            />
           </div>
         )}
       </div>
@@ -134,7 +134,6 @@ export default function Favorites() {
         add, remove, or explore details about your top choices.
       </p>
 
-      {/* <Reorder.Group values={user.savedCompanies} onReorder={setSavedCompanies}> */}
       <div className="saved-companies">
         <h2>Saved Companies</h2>
         {user.savedCompanies.length > 0 ? (
@@ -142,7 +141,6 @@ export default function Favorites() {
             const isGroupOpen = openGroup[company.id];
 
             return (
-              // <Reorder.Item key={company.id} value={company}>
               <div
                 className="saved-company-container"
                 style={{ position: "relative" }}
@@ -167,7 +165,6 @@ export default function Favorites() {
                   />
                 </div>
               </div>
-              // </Reorder.Item>
             );
           })
         ) : (
@@ -176,7 +173,6 @@ export default function Favorites() {
           </span>
         )}
       </div>
-      {/* </Reorder.Group> */}
     </div>
   );
 }
