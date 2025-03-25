@@ -9,6 +9,7 @@ import {
   faTrashCan,
 } from "@fortawesome/free-solid-svg-icons";
 import { motion, AnimatePresence } from "framer-motion";
+import { Button } from "../components/Button";
 
 export default function Organizer() {
   const [isGroup, setIsGroup] = useState(false);
@@ -135,7 +136,7 @@ export default function Organizer() {
               value={groupName}
               onChange={(event) => setGroupName(event.target.value)}
             />
-            <button onClick={handleCreateGroup}>Create group</button>
+            <Button onClick={handleCreateGroup} content="Create group" />
           </motion.div>
         )}
       </AnimatePresence>
@@ -151,21 +152,17 @@ export default function Organizer() {
                 <div className="group-wrapper-top-section">
                   <h2>{group.name}</h2>
                   <div>
-                    <button
+                    <Button
+                      icon={group.isExtended ? faAngleUp : faAngleDown}
                       onClick={() => handleExtendGroup(group.id)}
-                      className="group-extend-button"
-                    >
-                      <Icon
-                        symbol={group.isExtended ? faAngleUp : faAngleDown}
-                        style="group-arrow-down"
-                      />
-                    </button>
-                    <button
-                      className="group-delete-button"
+                      variant={"icon"}
+                    />
+                    <Button
+                      icon={faTrashCan}
+                      className="p-0"
                       onClick={() => deleteGroup(group.id)}
-                    >
-                      <Icon symbol={faTrashCan} style="group-trash-can" />
-                    </button>
+                      variant={"icon"}
+                    />
                   </div>
                 </div>
                 {group.isExtended && (

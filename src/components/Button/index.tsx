@@ -1,36 +1,57 @@
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import React from "react";
 import { Icon } from "../Icon/index";
+import { cva, VariantProps } from "class-variance-authority";
+import clsx from "clsx";
 
-type Color = "primary" | "secondary";
-
-type Size = "sm" | "md" | "lg";
-
-interface ButtonProps extends React.HTMLAttributes<HTMLInputElement> {
+interface ButtonProps
+  extends React.HTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonVariant> {
   icon?: IconDefinition;
   content: string;
-  onClick?: (event: React.MouseEvent<HTMLElement>) => void;
-  color: Color;
-  size: Size;
-  className?: string;
 }
 
 export const Button: React.FC<ButtonProps> = ({
-  content,
+  className,
   icon,
-  onClick,
-  color,
+  variant,
   size,
-  className = `btn btn--${color} btn--${size}`,
+  content,
+  ...props
 }) => {
   return icon ? (
-    <button onClick={onClick} className={className}>
+    <button
+      className={clsx(buttonVariant({ variant, size, className }))}
+      {...props}
+    >
       <Icon symbol={icon} style="btn__icon" />
       {content}
     </button>
   ) : (
-    <button onClick={onClick} className={className}>
+    <button
+      className={clsx(buttonVariant({ variant, size, className }))}
+      {...props}
+    >
       {content}
     </button>
   );
 };
+
+const buttonVariant = cva("rounded border-0", {
+  variants: {
+    variant: {
+      primary: "bg-primary ",
+      secondary: "bg-secondary",
+      icon: "bg-transparent",
+    },
+    size: {
+      sm: "py-1 px-2 fs-6",
+      md: "py-2 px-3 fs-5",
+      lg: "py-3 px-4 fs-5",
+    },
+    defaultVariants: {
+      variant: "primary",
+      size: "md",
+    },
+  },
+});

@@ -3,6 +3,7 @@ import Toast from "../Toast";
 import useLogin from "../../Hooks/useLogin";
 import { useState } from "react";
 import GoogleAuth from "./GoogleAuth";
+import { Button } from "../Button";
 
 export default function Login(props) {
   const [inputs, setInputs] = useState({
@@ -33,7 +34,7 @@ export default function Login(props) {
           value={inputs.password}
           onChange={(e) => setInputs({ ...inputs, password: e.target.value })}
         />
-        <button onClick={() => login(inputs, displayToast)}>Sign in</button>
+        <Button onClick={() => login(inputs, displayToast)} content="Sign in" />
         <span
           onClick={() => props.isRegister(true)}
           style={{ cursor: "pointer", textAlign: "center" }}

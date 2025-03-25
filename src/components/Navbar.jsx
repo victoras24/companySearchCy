@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
 import useLogout from "../Hooks/useLogout";
 import { useAuth } from "../context/AuthStoreContext";
-import { Button } from "./Button";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);

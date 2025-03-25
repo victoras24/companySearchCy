@@ -3,6 +3,7 @@ import useSignUpWithEmailAndPassword from "../../Hooks/useSignUpWithEmailAndPass
 import useShowToast from "../../Hooks/useShowToast";
 import Toast from "../Toast";
 import GoogleAuth from "./GoogleAuth";
+import { Button } from "../Button";
 
 export default function Register(props) {
   const [inputs, setInputs] = useState({
@@ -52,7 +53,10 @@ export default function Register(props) {
           value={inputs.password}
           onChange={(e) => setInputs({ ...inputs, password: e.target.value })}
         />
-        <button onClick={() => signup(inputs, displayToast)}>Register</button>
+        <Button
+          onClick={() => signup(inputs, displayToast)}
+          content="Register"
+        />
       </div>
       <span
         onClick={() => props.isRegister(false)}

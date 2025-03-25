@@ -25,8 +25,8 @@ export const Home: React.FC = () => {
         content="Begin Search"
         icon={faSearch}
         onClick={() => navigate("/search")}
-        color="primary"
-        size="md"
+        variant={"primary"}
+        size={"sm"}
       />
       <div className="key-features">
         <div className="feature">
@@ -56,7 +56,11 @@ export const Home: React.FC = () => {
         <p>
           Discover our advanced features for in-depth analysis and reporting.
         </p>
-        <Button content="Explore Premium Features" color="primary" size="md" />
+        <Button
+          content="Explore Premium Features"
+          variant={"primary"}
+          size={"sm"}
+        />
       </div>
       <div className="recent-updates">
         <h2>Latest Updates</h2>

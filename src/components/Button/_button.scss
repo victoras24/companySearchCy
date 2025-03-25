@@ -1,5 +1,4 @@
 .btn {
-  border: none;
   border-radius: 6px;
   font-size: 0.9em;
   cursor: pointer;
@@ -11,6 +10,7 @@
 
   &--primary {
     background-color: #00dc82;
+    border: none;
   }
 
   &--secondary {

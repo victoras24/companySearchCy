@@ -2,6 +2,10 @@
 @import "src/pages/Search/_search.scss";
 @import "/src/components/Button/_button.scss";
 
+$primary: #00dc82;
+
+@import "/node_modules/bootstrap/scss/bootstrap.scss";
+
 * {
   box-sizing: border-box;
   color: #fff;
@@ -720,18 +724,6 @@ html {
 
 .group-arrow-down:hover {
   color: #00dc82;
-}
-
-.group-extend-button,
-.group-delete-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0 1px 0 10px;
-}
-
-.group-extend-button:focus {
-  outline: none;
 }
 
 .grouped-companies {
