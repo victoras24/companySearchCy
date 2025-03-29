@@ -52,7 +52,6 @@ export default function Search() {
             placeholder="Enter company's name"
           />
         </div>
-
         {companyData.length === 0 && companySearchInput.trim() === "" ? (
           <div className="search-tips">
             <h2>Search Tips:</h2>
@@ -66,13 +65,12 @@ export default function Search() {
         ) : (
           <div className="result-container">
             {companyData.map((company) => {
-              const addressInfo = company.address || [];
               const fullAddress =
-                addressInfo
-                  .map((address) =>
-                    `${address.street || ""} ${address.territory || ""}`.trim()
-                  )
-                  .join(", ") || "Address not available";
+                company.street || company.territory || company.building
+                  ? [company.street, company.building, company.territory].join(
+                      ""
+                    )
+                  : "Address not available";
 
               return (
                 <NavLink
@@ -83,7 +81,7 @@ export default function Search() {
                 >
                   <div className="result-container-data">
                     <div className="result-container-top-info">
-                      <h3 className="result-container-company">
+                      <h3 className="result-container-company m-0">
                         {company.name}
                       </h3>
                       <div className="status-bookmark-container">
@@ -92,7 +90,7 @@ export default function Search() {
                             company.organisationStatus === "Εγγεγραμμένη"
                               ? "active"
                               : "inactive"
-                          }`}
+                          } m-0`}
                         >
                           {company.organisationStatus === "Εγγεγραμμένη"
                             ? "Active"
@@ -112,7 +110,6 @@ export default function Search() {
                         />
                       </div>
                     </div>
-                    <p className="result-container-address">{fullAddress}</p>
                   </div>
                 </NavLink>
               );
