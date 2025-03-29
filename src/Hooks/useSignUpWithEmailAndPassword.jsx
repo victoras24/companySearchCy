@@ -45,7 +45,6 @@ export default function useSignUpWithEmailAndPassword() {
         inputs.password
       );
       if (!newUser && error) {
-        console.log(error);
         return;
       }
       if (newUser) {
@@ -67,7 +66,6 @@ export default function useSignUpWithEmailAndPassword() {
         });
       }
     } catch (error) {
-      console.log(error);
       displayToast({ text: `${error}`, status: "error" });
     }
   };

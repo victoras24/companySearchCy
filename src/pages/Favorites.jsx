@@ -40,10 +40,7 @@ export default function Favorites() {
           ),
         })
       );
-      console.log(user.savedCompanies);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {

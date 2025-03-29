@@ -163,8 +163,6 @@ export default function CompanyDetailPage() {
     return user?.savedCompanies.some((saved) => saved.id === company.id);
   };
 
-  console.log(companyData);
-
   return (
     <div className="company-detail-page">
       <p className="company-detail-desc">

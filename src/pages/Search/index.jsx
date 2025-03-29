@@ -105,7 +105,6 @@ export default function Search() {
                           onClick={(e) => {
                             e.preventDefault();
                             handleSaveCompany(company, displayToast);
-                            console.log(company);
                           }}
                         />
                       </div>
