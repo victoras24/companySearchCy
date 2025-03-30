@@ -7,7 +7,7 @@ interface OrganisationDetails {
   registrationNo: any;
   name: string;
   status: string;
-  incorporationDate: any;
+  registrationDate: any;
   street: string;
   building: string;
   territory: string;

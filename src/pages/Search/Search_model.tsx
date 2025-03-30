@@ -46,7 +46,6 @@ class SearchModel {
   @action
   handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const input = (event.target as HTMLInputElement).value;
-    console.log(input);
     this.setOrganisationName(input);
   };
 

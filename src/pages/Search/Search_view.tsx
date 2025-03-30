@@ -67,7 +67,6 @@ const Search = observer(() => {
         ) : (
           <div className="result-container">
             {model.organisationData.map((company) => {
-              console.log(company.registrationNo);
               return (
                 <NavLink
                   to={`/search/${company.registrationNo}`}

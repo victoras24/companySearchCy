@@ -9,11 +9,11 @@ import Toast from "../../components/Toast";
 import { Icon } from "../../components/Icon";
 import { observer } from "mobx-react";
 import OrganisationDetailsModel from "./OrganisationDetails_model";
+import moment from "moment";
 
 const OrganisationDetails: React.FC = observer(() => {
   const { companyId } = useParams();
   const registrationNo = parseInt(companyId || "", 10);
-  console.log({ companyId });
   const { user } = useAuth();
   const { handleSaveCompany } = useSaveCompany();
   const { showToast, toastContent, displayToast } = useShowToast();
@@ -22,8 +22,6 @@ const OrganisationDetails: React.FC = observer(() => {
   useEffect(() => {
     model.onMount();
   }, []);
-
-  console.log(model.detailedData);
 
   const translations = {
     Εγγεγραμμένη: "Registered",
@@ -144,7 +142,6 @@ const OrganisationDetails: React.FC = observer(() => {
   };
 
   const officials = parseOfficials(model.detailedData?.officials);
-  console.log(officials);
 
   if (model.isLoading) return <p>Loading...</p>;
   if (!model) return <p>No data found for this company.</p>;
@@ -177,13 +174,13 @@ const OrganisationDetails: React.FC = observer(() => {
         <h2>Overview</h2>
         <div className="company-detail-name-status">
           <h1>{transliterate(model.detailedData?.name)}</h1>
-          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          <div className="d-flex justify-content-start align-items-center">
             <p
               className={`company-detail-status ${
                 model.detailedData?.status === "Εγγεγραμμένη"
                   ? "active"
                   : "inactive"
-              }`}
+              } m-0`}
             >
               {model.detailedData?.status === "Εγγεγραμμένη"
                 ? "Active"
@@ -203,7 +200,8 @@ const OrganisationDetails: React.FC = observer(() => {
         </div>
         <div className="company-detail-address">
           <p className="company-detail-registration-date">
-            Incorporated on {model.detailedData?.incorporationDate}
+            Incorporated on{" "}
+            {moment(model.detailedData?.registrationDate).format("L")}
           </p>
           {fullAddress ? <p>{fullAddress}</p> : <p>No address available</p>}
         </div>

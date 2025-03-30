@@ -7,18 +7,15 @@ import Organizer from "./pages/Organizer";
 import Account from "./pages/Account";
 import AccountDetails from "./pages/AccountDetails";
 import { SavedCompanyProvider } from "./context/SavedCompanyContext";
-import { CompanyDataProvider } from "./context/CompanyDataContext";
 import { AuthProvider, useAuth } from "./context/AuthStoreContext";
 import OrganisationDetails from "./pages/OrganisationDetails/OrganisationDetails_view";
 
 export default function App() {
   return (
     <AuthProvider>
-      <CompanyDataProvider>
-        <SavedCompanyProvider>
-          <AppRoutes />
-        </SavedCompanyProvider>
-      </CompanyDataProvider>
+      <SavedCompanyProvider>
+        <AppRoutes />
+      </SavedCompanyProvider>
     </AuthProvider>
   );
 }
