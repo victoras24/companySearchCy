@@ -1,5 +1,4 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
-import { fetchCompanyData } from "../api/companiesApi";
 
 const CompanyDataContext = createContext();
 
@@ -15,10 +14,7 @@ export function CompanyDataProvider({ children }) {
       setLoading(true);
       const debounce = setTimeout(async () => {
         try {
-          const companies = await fetchCompanyData(
-            companySearchInput,
-            companiesApiUrl
-          );
+          const companies = await fetchCompanyData(companiesApiUrl);
           setCompanyData(companies);
         } catch (error) {
           console.error("Failed to fetch data:", error);

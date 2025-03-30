@@ -1,25 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
-import { fetchCompanyData } from "../api/companiesApi";
 import { faBookmark } from "@fortawesome/free-solid-svg-icons";
 import { faBookmark as faBookmarkRegular } from "@fortawesome/free-regular-svg-icons";
-import useSaveCompany from "../Hooks/useSaveCompany";
-import { useAuth } from "../context/AuthStoreContext";
-import useShowToast from "../Hooks/useShowToast";
-import Toast from "../components/Toast";
-import { Icon } from "../components/Icon";
+import useSaveCompany from "../../Hooks/useSaveCompany";
+import { useAuth } from "../../context/AuthStoreContext";
+import useShowToast from "../../Hooks/useShowToast";
+import Toast from "../../components/Toast";
+import { Icon } from "../../components/Icon";
+import { observer } from "mobx-react";
+import OrganisationDetailsModel from "./OrganisationDetails_model";
 
-export default function CompanyDetailPage() {
+const OrganisationDetails: React.FC = observer(() => {
   const { companyId } = useParams();
-  const { state } = useLocation();
-  const [companyData, setCompanyData] = useState(state?.company || null);
-  const [loading, setLoading] = useState(!state?.company);
-  const [error, setError] = useState(false);
+  const registrationNo = parseInt(companyId || "", 10);
+  console.log({ companyId });
   const { user } = useAuth();
   const { handleSaveCompany } = useSaveCompany();
   const { showToast, toastContent, displayToast } = useShowToast();
+  const [model] = useState(() => new OrganisationDetailsModel(registrationNo));
 
-  // Translation dictionary
+  useEffect(() => {
+    model.onMount();
+  }, []);
+
+  console.log(model.detailedData);
+
   const translations = {
     Εγγεγραμμένη: "Registered",
     Γραμματέας: "Secretary",
@@ -39,12 +44,10 @@ export default function CompanyDetailPage() {
     Κύπρος: "Cyprus",
   };
 
-  // Translation function
   const translate = (text) => {
     return translations[text] || text;
   };
 
-  // Greek to English transliteration map
   const greekToEnglishMap = {
     Α: "A",
     Β: "V",
@@ -115,7 +118,6 @@ export default function CompanyDetailPage() {
     ΰ: "y",
   };
 
-  // Transliteration function
   const transliterate = (text) => {
     return text
       .split("")
@@ -123,40 +125,39 @@ export default function CompanyDetailPage() {
       .join("");
   };
 
-  useEffect(() => {
-    if (!companyData) {
-      fetchCompanyDetail(companyId);
-    }
-  }, [companyId, companyData]);
-
-  const fetchCompanyDetail = async (id) => {
-    try {
-      setLoading(true);
-      const companyUrl = `https://www.data.gov.cy/api/action/datastore/search.json?resource_id=b48bf3b6-51f2-4368-8eaa-63d61836aaa9&q=${id}`;
-
-      const [company] = await fetchCompanyData(id, corsAnywhereUrl, companyUrl);
-      if (!company) {
-        throw new Error("Company not found");
-      }
-
-      setCompanyData({ ...company });
-    } catch (err) {
-      console.error("Error fetching company data:", err);
-      setError(true);
-    } finally {
-      setLoading(false);
-    }
+  const parseOfficials = (officialsString) => {
+    if (!officialsString) return [];
+    return officialsString
+      .split(",")
+      .map((entry) => {
+        const parts = entry.split(" (");
+        if (parts.length === 2) {
+          const [name, position] = parts;
+          return {
+            person_or_name: name.trim(),
+            official_position: position.replace(")", "").trim(),
+          };
+        }
+        return null;
+      })
+      .filter(Boolean);
   };
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Failed to load company data.</p>;
-  if (!companyData) return <p>No data found for this company.</p>;
+  const officials = parseOfficials(model.detailedData?.officials);
+  console.log(officials);
+
+  if (model.isLoading) return <p>Loading...</p>;
+  if (!model) return <p>No data found for this company.</p>;
 
   const fullAddress =
-    companyData.street || companyData.territory || companyData.building
-      ? [companyData.street, companyData.building, companyData.territory].join(
-          ""
-        )
+    model.detailedData?.street ||
+    model.detailedData?.territory ||
+    model.detailedData?.building
+      ? [
+          model.detailedData?.street,
+          model.detailedData?.building,
+          model.detailedData?.territory,
+        ].join("")
       : "Address not available";
 
   const isSaved = (company) => {
@@ -175,41 +176,43 @@ export default function CompanyDetailPage() {
       <div className="company-detail-overview">
         <h2>Overview</h2>
         <div className="company-detail-name-status">
-          <h1>{transliterate(companyData.name)}</h1>
+          <h1>{transliterate(model.detailedData?.name)}</h1>
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
             <p
               className={`company-detail-status ${
-                companyData.organisationStatus === "Εγγεγραμμένη"
+                model.detailedData?.status === "Εγγεγραμμένη"
                   ? "active"
                   : "inactive"
               }`}
             >
-              {companyData.organisationStatus === "Εγγεγραμμένη"
+              {model.detailedData?.status === "Εγγεγραμμένη"
                 ? "Active"
                 : "Inactive"}
             </p>
             <Icon
               style="text-lg"
-              symbol={isSaved(companyData) ? faBookmark : faBookmarkRegular}
+              symbol={
+                isSaved(model.detailedData) ? faBookmark : faBookmarkRegular
+              }
               onClick={(e) => {
                 e.preventDefault();
-                handleSaveCompany(companyData, displayToast);
+                handleSaveCompany(model.detailedData, displayToast);
               }}
             />
           </div>
         </div>
         <div className="company-detail-address">
           <p className="company-detail-registration-date">
-            Incorporated on {companyData.registrationDate}
+            Incorporated on {model.detailedData?.incorporationDate}
           </p>
           {fullAddress ? <p>{fullAddress}</p> : <p>No address available</p>}
         </div>
-        {/* <div className="company-detail-keypeople">
+        <div className="company-detail-keypeople">
           <h2>Key People</h2>
-          {Array.isArray(person) && person.length > 0 ? (
+          {Array.isArray(officials) && officials.length > 0 ? (
             <ul>
-              {person.map((p) => (
-                <li key={p.entry_id}>
+              {officials.map((p, index) => (
+                <li key={index}>
                   <p>Name: {transliterate(p.person_or_name)}</p>
                   <p>Position: {translate(p.official_position)}</p>
                 </li>
@@ -218,9 +221,11 @@ export default function CompanyDetailPage() {
           ) : (
             <p>No person data available</p>
           )}
-        </div> */}
+        </div>
       </div>
       {showToast && <Toast {...toastContent} />}
     </div>
   );
-}
+});
+
+export default OrganisationDetails;

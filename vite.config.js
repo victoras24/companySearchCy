@@ -8,5 +8,14 @@ export default defineConfig({
       "/api": "http://localhost:5066",
     },
   },
-  plugins: [react()],
+  plugins: [
+    react({
+      babel: {
+        plugins: [
+          ["@babel/plugin-proposal-decorators", { legacy: true }],
+          ["@babel/plugin-proposal-class-properties", { loose: true }],
+        ],
+      },
+    }),
+  ],
 });

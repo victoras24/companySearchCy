@@ -13,6 +13,7 @@ import Toast from "../../components/Toast";
 import useSaveCompany from "../../Hooks/useSaveCompany";
 import { useAuth } from "../../context/AuthStoreContext";
 import { Input } from "../../components/Input";
+import React from "react";
 
 export default function Search() {
   const {
@@ -74,7 +75,7 @@ export default function Search() {
 
               return (
                 <NavLink
-                  to={`/search/${company.id}`}
+                  to={`/search/${company.registrationNo}`}
                   key={company.id}
                   state={{ company }}
                   style={{ textDecoration: "none" }}
