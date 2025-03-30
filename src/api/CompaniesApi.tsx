@@ -13,7 +13,7 @@ export class CompaniesApi {
     return req.data;
   };
 
-  getDetailedOrganisation = async (registrationNo: string) => {
+  getDetailedOrganisation = async (registrationNo: number) => {
     const req = await axios.get(
       `${this.controller}/${registrationNo}/detailed`
     );

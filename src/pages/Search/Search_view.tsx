@@ -30,6 +30,7 @@ const Search = observer(() => {
   const isCompanySaved = (companyId) => {
     return user?.savedCompanies.some((saved) => saved.id === companyId.id);
   };
+
   return (
     <div className="search-page">
       <h1 className="search-title">Cyprus Company Search</h1>
@@ -66,11 +67,12 @@ const Search = observer(() => {
         ) : (
           <div className="result-container">
             {model.organisationData.map((company) => {
+              console.log(company.registrationNo);
               return (
                 <NavLink
                   to={`/search/${company.registrationNo}`}
-                  key={company.id}
-                  state={{ company }}
+                  key={company.registrationNo}
+                  state={{ registrationNo: company.registrationNo }}
                   style={{ textDecoration: "none" }}
                 >
                   <div className="result-container-data">

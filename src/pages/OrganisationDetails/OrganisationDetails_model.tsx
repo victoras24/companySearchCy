@@ -18,9 +18,9 @@ class OrganisationDetailsModel {
   @observable isLoading: boolean = true;
   @observable detailedData?: OrganisationDetails;
   CompaniesApi: ICompaniesApi;
-  registrationNo: any;
+  registrationNo: number;
 
-  constructor(registrationNo: any) {
+  constructor(registrationNo: number) {
     makeObservable(this);
     this.CompaniesApi = CompaniesApi;
     this.registrationNo = registrationNo;
