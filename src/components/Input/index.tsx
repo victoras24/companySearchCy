@@ -6,7 +6,7 @@ interface InputProps extends React.HTMLProps<HTMLInputElement> {
   primaryIcon?: IconDefinition;
   secondaryIcon?: IconDefinition;
   iconClass: string;
-  inputChange: (event: React.ChangeEvent<HTMLElement>) => void;
+  inputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   loading: boolean;
   cleanInputIcon: IconDefinition;
   cleanInputEvent: (event: React.MouseEvent<SVGSVGElement, MouseEvent>) => void;

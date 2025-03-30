@@ -7,30 +7,29 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faBookmark as faBookmarkRegular } from "@fortawesome/free-regular-svg-icons";
 import { NavLink } from "react-router-dom";
-import { useCompanyDataContext } from "../../context/CompanyDataContext";
 import useShowToast from "../../Hooks/useShowToast";
 import Toast from "../../components/Toast";
 import useSaveCompany from "../../Hooks/useSaveCompany";
 import { useAuth } from "../../context/AuthStoreContext";
 import { Input } from "../../components/Input";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import SearchModel from "./Search_model";
+import { observer } from "mobx-react";
 
-export default function Search() {
-  const {
-    companyData,
-    companySearchInput,
-    handleInputChange,
-    loading,
-    setCompanySearchInput,
-  } = useCompanyDataContext();
+const Search = observer(() => {
   const { user } = useAuth();
   const { handleSaveCompany, isUpdating } = useSaveCompany();
   const { showToast, toastContent, displayToast } = useShowToast();
 
+  const [model] = useState(() => new SearchModel(""));
+
+  useEffect(() => {
+    model.onInput();
+  }, [model.organisationName]);
+
   const isCompanySaved = (companyId) => {
     return user?.savedCompanies.some((saved) => saved.id === companyId.id);
   };
-
   return (
     <div className="search-page">
       <h1 className="search-title">Cyprus Company Search</h1>
@@ -45,15 +44,16 @@ export default function Search() {
             secondaryIcon={faFilter}
             cleanInputIcon={faTimes}
             iconClass="search-input-icon"
-            inputChange={handleInputChange}
-            loading={loading}
-            cleanInputEvent={() => setCompanySearchInput("")}
-            inputText={companySearchInput}
-            value={companySearchInput}
+            inputChange={model.handleInputChange}
+            loading={model.isLoading}
+            cleanInputEvent={() => model.setOrganisationName("")}
+            inputText={model.organisationName}
+            value={model.organisationName}
             placeholder="Enter company's name"
           />
         </div>
-        {companyData.length === 0 && companySearchInput.trim() === "" ? (
+        {model.organisationData.length === 0 &&
+        model.organisationName.trim() === "" ? (
           <div className="search-tips">
             <h2>Search Tips:</h2>
             <ul>
@@ -65,14 +65,7 @@ export default function Search() {
           </div>
         ) : (
           <div className="result-container">
-            {companyData.map((company) => {
-              const fullAddress =
-                company.street || company.territory || company.building
-                  ? [company.street, company.building, company.territory].join(
-                      ""
-                    )
-                  : "Address not available";
-
+            {model.organisationData.map((company) => {
               return (
                 <NavLink
                   to={`/search/${company.registrationNo}`}
@@ -120,4 +113,6 @@ export default function Search() {
       {showToast && <Toast {...toastContent} />}
     </div>
   );
-}
+});
+
+export default Search;

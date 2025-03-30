@@ -27,8 +27,8 @@ class OrganisationDetailsModel {
   }
 
   @action
-  onMount = () => {
-    this.getDetailedOrganisation();
+  onMount = async () => {
+    await this.getDetailedOrganisation();
   };
 
   @action

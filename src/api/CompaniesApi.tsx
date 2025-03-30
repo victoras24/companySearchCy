@@ -8,23 +8,15 @@ export class CompaniesApi {
    */
   constructor() {}
 
-  getOrganisation = async (companyApiUrl: string) => {
-    try {
-      const res = await fetch(companyApiUrl);
-      const data = await res.json();
-
-      return Array.isArray(data) ? data : [];
-    } catch (err) {
-      console.error("Error fetching company data:", err);
-      return [];
-    }
+  getOrganisation = async (organisationName: string) => {
+    const req = await axios.get(`${this.controller}/${organisationName}`);
+    return req.data;
   };
 
   getDetailedOrganisation = async (registrationNo: string) => {
     const req = await axios.get(
       `${this.controller}/${registrationNo}/detailed`
     );
-    console.log(req);
     return req.data;
   };
 }
