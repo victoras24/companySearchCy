@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Z2G//ILoFcg=",
+  "dgSpecHash": "zyZaIlKiWC8=",
   "success": true,
-  "projectFilePath": "/Users/victoras24/Documents/elonMusk/CompanySearchBackend/CompanySearchBackend/CompanySearchBackend.csproj",
+  "projectFilePath": "/Users/victoras24/Documents/elonMusk/companySearchCy/CompanySearchBackend/CompanySearchBackend/CompanySearchBackend.csproj",
   "expectedPackageFiles": [
     "/Users/victoras24/.nuget/packages/azure.core/1.38.0/azure.core.1.38.0.nupkg.sha512",
     "/Users/victoras24/.nuget/packages/azure.identity/1.11.4/azure.identity.1.11.4.nupkg.sha512",

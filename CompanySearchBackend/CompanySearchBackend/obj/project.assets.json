@@ -9489,11 +9489,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/victoras24/Documents/elonMusk/CompanySearchBackend/CompanySearchBackend/CompanySearchBackend.csproj",
+      "projectUniqueName": "/Users/victoras24/Documents/elonMusk/companySearchCy/CompanySearchBackend/CompanySearchBackend/CompanySearchBackend.csproj",
       "projectName": "CompanySearchBackend",
-      "projectPath": "/Users/victoras24/Documents/elonMusk/CompanySearchBackend/CompanySearchBackend/CompanySearchBackend.csproj",
+      "projectPath": "/Users/victoras24/Documents/elonMusk/companySearchCy/CompanySearchBackend/CompanySearchBackend/CompanySearchBackend.csproj",
       "packagesPath": "/Users/victoras24/.nuget/packages/",
-      "outputPath": "/Users/victoras24/Documents/elonMusk/CompanySearchBackend/CompanySearchBackend/obj/",
+      "outputPath": "/Users/victoras24/Documents/elonMusk/companySearchCy/CompanySearchBackend/CompanySearchBackend/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/victoras24/.nuget/NuGet/NuGet.Config"
