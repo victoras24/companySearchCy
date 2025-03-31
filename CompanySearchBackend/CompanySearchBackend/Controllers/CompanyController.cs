@@ -21,7 +21,7 @@ namespace CompanySearchBackend.Controllers
 
             var companyName = await _companyRepository.GetCompanyAsync(name);
 
-            if (companyName == null)
+            if (companyName  == null)
             {
                 return NotFound();
             }
