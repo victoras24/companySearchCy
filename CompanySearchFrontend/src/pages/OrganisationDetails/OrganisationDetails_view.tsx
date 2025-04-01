@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { faBookmark } from "@fortawesome/free-solid-svg-icons";
 import { faBookmark as faBookmarkRegular } from "@fortawesome/free-regular-svg-icons";
 import useSaveCompany from "../../Hooks/useSaveCompany";
@@ -187,7 +187,7 @@ const OrganisationDetails: React.FC = observer(() => {
                 : "Inactive"}
             </p>
             <Icon
-              style="text-lg"
+              style="company-detail__icon text-lg"
               symbol={
                 isSaved(model.detailedData) ? faBookmark : faBookmarkRegular
               }
