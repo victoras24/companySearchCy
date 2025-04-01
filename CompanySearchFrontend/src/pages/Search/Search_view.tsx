@@ -15,6 +15,7 @@ import { Input } from "../../components/Input";
 import React, { useEffect, useState } from "react";
 import SearchModel from "./Search_model";
 import { observer } from "mobx-react";
+import { Filter } from "../../components/Filter";
 
 const Search = observer(() => {
   const { user } = useAuth();
@@ -53,6 +54,7 @@ const Search = observer(() => {
             placeholder="Enter company's name"
           />
         </div>
+        <Filter />
         {model.organisationData.length === 0 &&
         model.organisationName.trim() === "" ? (
           <div className="search-tips">
@@ -76,9 +78,9 @@ const Search = observer(() => {
                 >
                   <div className="result-container-data">
                     <div className="result-container-top-info">
-                      <h3 className="result-container-company m-0">
+                      <h4 className="result-container-company m-0">
                         {company.name}
-                      </h3>
+                      </h4>
                       <div className="status-bookmark-container">
                         <p
                           className={`result-container-company-status ${
@@ -97,6 +99,7 @@ const Search = observer(() => {
                               ? faBookmark
                               : faBookmarkRegular
                           }
+                          size="lg"
                           onClick={(e) => {
                             e.preventDefault();
                             handleSaveCompany(company, displayToast);

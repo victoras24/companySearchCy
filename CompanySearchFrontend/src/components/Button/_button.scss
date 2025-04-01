@@ -1,29 +1,21 @@
+@import "../../../custom-var.scss";
+
 .btn {
-  border-radius: 6px;
-  font-size: 0.9em;
-  cursor: pointer;
-  text-decoration: none;
-
-  &__icon {
-    margin-right: 7px;
+  &--active {
+    color: $text-active;
+    background-color: $bg-active;
+    border: $border-active;
   }
 
-  &--primary {
-    background-color: #00dc82;
-    border: none;
+  &--inactive {
+    color: $text-inactive;
+    background-color: $bg-inactive;
+    border: $border-inactive;
   }
 
-  &--secondary {
-    background-color: transparent;
-  }
-
-  &--sm {
-    padding: 4px 5px;
-  }
-  &--md {
-    padding: 8px 10px;
-  }
-  &--lg {
-    padding: 16px 20px;
+  &--default {
+    color: $text-default;
+    background-color: $bg-default;
+    border: $border-default;
   }
 }

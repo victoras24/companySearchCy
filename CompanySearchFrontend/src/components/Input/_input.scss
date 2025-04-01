@@ -24,4 +24,10 @@
   &__clear-icon {
     font-size: 20px;
   }
+
+  &__search-input-icon {
+    &--secondary {
+      cursor: pointer;
+    }
+  }
 }

@@ -188,6 +188,7 @@ const OrganisationDetails: React.FC = observer(() => {
             </p>
             <Icon
               style="company-detail__icon text-lg"
+              size="xl"
               symbol={
                 isSaved(model.detailedData) ? faBookmark : faBookmarkRegular
               }

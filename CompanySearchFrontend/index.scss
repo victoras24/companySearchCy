@@ -2,6 +2,9 @@
 @import "src/pages/Search/_search.scss";
 @import "/src/components/Button/_button.scss";
 @import "/src/pages/OrganisationDetails/organisationDetails";
+@import "/src/components/Filter/filter";
+@import "/node_modules/bootstrap/scss/functions";
+@import "/node_modules/bootstrap/scss/variables";
 
 $primary: #00dc82;
 
@@ -176,7 +179,7 @@ html {
   justify-content: flex-start;
   align-items: stretch;
   overflow: auto;
-  border: 1px solid #161616;
+  border: 1px solid #242424;
   border-radius: 10px;
   max-width: 60vh;
   width: 100%;

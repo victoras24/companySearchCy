@@ -37,17 +37,21 @@ export const Button: React.FC<ButtonProps> = ({
   );
 };
 
-const buttonVariant = cva("rounded border-0", {
+const buttonVariant = cva("rounded", {
   variants: {
     variant: {
-      primary: "bg-primary ",
+      primary: "bg-primary",
       secondary: "bg-secondary",
       icon: "bg-transparent",
+      active: "btn--active",
+      inactive: "btn--inactive",
+      default: "btn--default",
     },
     size: {
-      sm: "py-1 px-2 fs-6",
+      xs: "py-1 px-2 fs-6",
+      sm: "py-1 px-3 fs-6",
       md: "py-2 px-3 fs-5",
-      lg: "py-3 px-4 fs-5",
+      lg: "py-1 px-4 fs-5",
     },
     defaultVariants: {
       variant: "primary",

@@ -1,0 +1,21 @@
+$text-active: #00dc82;
+$bg-active: rgba(0, 220, 130, 0.2);
+$border-active: 1px solid rgba(0, 220, 130, 0.1);
+$text-inactive: #ff4c4c;
+$bg-inactive: rgba(255, 76, 76, 0.2);
+$border-inactive: 1px solid rgba(255, 76, 76, 0.1);
+$text-default: #6c757d; // A neutral gray
+$bg-default: rgba(108, 117, 125, 0.1); // Light gray background with opacity
+$border-default: 1px solid rgba(108, 117, 125, 0.1); // Light gray border with opacity
+
+:root {
+  --text-active: #{$text-active};
+  --border-active: #{$border-active};
+  --bg-active: #{$bg-active};
+  --text-inactive: #{$text-inactive};
+  --bg-inactive: #{$bg-inactive};
+  --border-inactive: #{$border-inactive};
+  --text-default: #{$text-default};
+  --bg-default: #{$bg-default};
+  --border-default: #{$border-default};
+}
