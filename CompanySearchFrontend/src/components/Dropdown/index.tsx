@@ -17,8 +17,12 @@ export const Dropdown: React.FC<DropdownProps> = ({
     <div className="dropdown">
       <label style={{ marginRight: "1rem" }}>{label}</label>
       <select className={style} name={id} id={id}>
-        {content.map((c: string) => {
-          return <option value={c.split(" ").join()}>{c}</option>;
+        {content.map((c: string, i: number) => {
+          return (
+            <option key={i} value={c.split(" ").join()}>
+              {c}
+            </option>
+          );
         })}
       </select>
     </div>

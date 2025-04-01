@@ -5,8 +5,9 @@ import CompaniesApi, {
 
 class SearchModel {
   @observable organisationData: any[] = [];
-  @observable isLoading: boolean = false;
+  @observable isLoading: boolean;
   @observable organisationName: string;
+  @observable isFilterOpen: boolean;
   CompaniesApi: ICompaniesApi;
   /**
    *
@@ -57,6 +58,16 @@ class SearchModel {
   @action
   setLoading = (isLoading: boolean) => {
     this.isLoading = isLoading;
+  };
+
+  @action
+  showFilter = (isFilterOpen: boolean) => {
+    this.isFilterOpen = !isFilterOpen;
+  };
+
+  @action
+  closeFilter = () => {
+    this.isFilterOpen = false;
   };
 }
 

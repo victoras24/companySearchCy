@@ -45,6 +45,7 @@ const Search = observer(() => {
             primaryIcon={faSearch}
             secondaryIcon={faFilter}
             cleanInputIcon={faTimes}
+            showFilter={() => model.showFilter(model.isFilterOpen)}
             iconClass="search-input-icon"
             inputChange={model.handleInputChange}
             loading={model.isLoading}
@@ -54,7 +55,10 @@ const Search = observer(() => {
             placeholder="Enter company's name"
           />
         </div>
-        <Filter />
+        <Filter
+          isFilterOpen={model.isFilterOpen}
+          closeFilter={() => model.closeFilter()}
+        />
         {model.organisationData.length === 0 &&
         model.organisationName.trim() === "" ? (
           <div className="search-tips">

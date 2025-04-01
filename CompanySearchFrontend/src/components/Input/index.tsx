@@ -10,6 +10,7 @@ interface InputProps extends React.HTMLProps<HTMLInputElement> {
   loading: boolean;
   cleanInputIcon: IconDefinition;
   cleanInputEvent: (event: React.MouseEvent<SVGSVGElement, MouseEvent>) => void;
+  showFilter: () => void;
   inputText: string;
   placeholder: string;
 }
@@ -22,6 +23,7 @@ export const Input: React.FC<InputProps> = ({
   loading,
   cleanInputIcon,
   cleanInputEvent,
+  showFilter,
   inputText,
   value,
   placeholder,
@@ -56,6 +58,7 @@ export const Input: React.FC<InputProps> = ({
               ? `search-input__${iconClass}--secondary p-2`
               : iconClass
           }
+          onClick={showFilter}
         />
       )}
     </div>
