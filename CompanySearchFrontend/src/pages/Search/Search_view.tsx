@@ -56,6 +56,10 @@ const Search = observer(() => {
           />
         </div>
         <Filter
+          officials={model.selectedOption == "Organisation" ? false : true}
+          selectedOption={(e) => model.handleSelectOption(e)}
+          selectedFilter={model.selectedFilter}
+          selectFilter={(e) => model.handleSelectFilter(e)}
           isFilterOpen={model.isFilterOpen}
           closeFilter={() => model.closeFilter()}
         />

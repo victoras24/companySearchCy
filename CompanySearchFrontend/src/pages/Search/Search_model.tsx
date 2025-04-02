@@ -1,4 +1,4 @@
-import { action, makeObservable, observable } from "mobx";
+import { action, makeObservable, observable, set } from "mobx";
 import CompaniesApi, {
   CompaniesApi as ICompaniesApi,
 } from "../../api/companiesApi";
@@ -8,6 +8,8 @@ class SearchModel {
   @observable isLoading: boolean;
   @observable organisationName: string;
   @observable isFilterOpen: boolean;
+  @observable selectedFilter: number = 3;
+  @observable selectedOption: string = "Organisation";
   CompaniesApi: ICompaniesApi;
   /**
    *
@@ -58,6 +60,26 @@ class SearchModel {
   @action
   setLoading = (isLoading: boolean) => {
     this.isLoading = isLoading;
+  };
+
+  @action
+  handleSelectFilter = (event) => {
+    this.setSelectedFilter(event.target.id);
+  };
+
+  @action
+  setSelectedFilter = (id: number) => {
+    this.selectedFilter = id;
+  };
+
+  @action
+  handleSelectOption = (event) => {
+    this.setSelectedOption(event.target.value);
+  };
+
+  @action
+  setSelectedOption = (option) => {
+    this.selectedOption = option;
   };
 
   @action

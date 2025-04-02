@@ -1,21 +1,37 @@
 @import "../../../custom-var.scss";
 
 .btn {
-  &--active {
+  &__active {
     color: $text-active;
     background-color: $bg-active;
     border: $border-active;
+
+    &--selected {
+      color: $text-active;
+      background-color: $bg-active;
+      border: $selected-border-active;
+    }
   }
 
-  &--inactive {
+  &__inactive {
     color: $text-inactive;
     background-color: $bg-inactive;
     border: $border-inactive;
+    &--selected {
+      color: $text-inactive;
+      background-color: $bg-inactive;
+      border: $selected-border-inactive;
+    }
   }
 
-  &--default {
+  &__default {
     color: $text-default;
     background-color: $bg-default;
     border: $border-default;
+    &--selected {
+      color: $text-default;
+      background-color: $bg-default;
+      border: $selected-border-default;
+    }
   }
 }
