@@ -9,10 +9,11 @@ interface FilterProps {
   selectFilter: (event) => void;
   closeFilter: () => void;
   selectedFilter: number;
-  selectedOption: (e: any) => void;
+  selectedOption: "Organisation" | "Official";
+  onOptionSelect: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   officials: boolean;
 }
-const dropdownContent = ["Organisation", "Officials"];
+const dropdownContent = ["Organisation", "Official"];
 export const Filter: React.FC<FilterProps> = ({
   isFilterOpen,
   closeFilter,
@@ -20,6 +21,7 @@ export const Filter: React.FC<FilterProps> = ({
   selectedFilter,
   selectedOption,
   officials,
+  onOptionSelect,
 }) => {
   return (
     isFilterOpen && (
@@ -31,6 +33,7 @@ export const Filter: React.FC<FilterProps> = ({
             style="bg-transparent rounded p-1"
             label="Filter by:"
             selectedOption={selectedOption}
+            onOptionSelect={onOptionSelect}
           />
           <Icon
             onClick={closeFilter}

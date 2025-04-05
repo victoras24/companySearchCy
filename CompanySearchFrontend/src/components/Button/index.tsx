@@ -40,7 +40,7 @@ export const Button: React.FC<ButtonProps> = ({
 const buttonVariant = cva("rounded", {
   variants: {
     variant: {
-      primary: "bg-primary",
+      primary: "btn-primary",
       secondary: "bg-secondary",
       icon: "bg-transparent",
       active: "btn__active",

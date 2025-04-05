@@ -5,7 +5,8 @@ interface DropdownProps {
   content: string[];
   style?: string;
   label: string;
-  selectedOption: (e: any) => void;
+  selectedOption: string;
+  onOptionSelect: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
 export const Dropdown: React.FC<DropdownProps> = ({
@@ -14,19 +15,21 @@ export const Dropdown: React.FC<DropdownProps> = ({
   style,
   label,
   selectedOption,
+  onOptionSelect,
 }) => {
   return (
     <div className="dropdown">
       <label style={{ marginRight: "1rem" }}>{label}</label>
       <select
-        onChange={(e) => selectedOption(e)}
+        onChange={(e) => onOptionSelect(e)}
+        value={selectedOption}
         className={style}
         name={id}
         id={id}
       >
         {content.map((c: string, i: number) => {
           return (
-            <option key={i} value={c.split(" ").join()}>
+            <option key={i} value={c}>
               {c}
             </option>
           );

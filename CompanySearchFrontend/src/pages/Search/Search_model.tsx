@@ -1,60 +1,78 @@
 import { action, makeObservable, observable, set } from "mobx";
-import CompaniesApi, {
-  CompaniesApi as ICompaniesApi,
-} from "../../api/companiesApi";
+import CompaniesApi from "../../api/companiesApi";
+import OfficialsApi from "../../api/OfficialsApi";
+
+type api = "Organisation" | "Official";
+
+interface apiconfig {
+  api: typeof CompaniesApi | typeof OfficialsApi;
+  method: string;
+  dataField: string;
+}
+
+const api_config: Record<api, apiconfig> = {
+  Organisation: {
+    api: CompaniesApi,
+    method: "getOrganisation",
+    dataField: "organisationData",
+  },
+  Official: {
+    api: OfficialsApi,
+    method: "getOfficial",
+    dataField: "officialData",
+  },
+};
 
 class SearchModel {
-  @observable organisationData: any[] = [];
+  @observable searchData: any[] = [];
+  @observable searchQuery: string = "";
   @observable isLoading: boolean;
-  @observable organisationName: string;
   @observable isFilterOpen: boolean;
   @observable selectedFilter: number = 3;
-  @observable selectedOption: string = "Organisation";
-  CompaniesApi: ICompaniesApi;
+  @observable selectedOption: keyof typeof api_config = "Organisation";
   /**
    *
    */
-  constructor(organisationName: string) {
+  constructor() {
     makeObservable(this);
-    this.CompaniesApi = CompaniesApi;
-    this.organisationName = organisationName;
   }
 
   @action
-  onInput = () => {
-    this.getOrganisation();
-  };
-
-  @action
-  getOrganisation = async () => {
-    if (!this.organisationName.trim()) {
-      this.setOrganisationData([]);
+  handleSearch = async () => {
+    if (!this.searchQuery.trim()) {
+      this.setSearchData([]);
       return;
     }
+
     try {
-      const res = await CompaniesApi.getOrganisation(this.organisationName);
-      this.setOrganisationData(res);
+      this.setLoading(true);
+      console.log(this.selectedOption);
+      const config = api_config[this.selectedOption];
+      console.log(config);
+      const res = await config.api[config.method](this.searchQuery);
+      console.log(res);
+      this.setSearchData(res);
     } catch (error) {
-      console.error("Error fetching organisation:", error);
+      console.error("Search error:", error);
     } finally {
       this.setLoading(false);
     }
   };
 
   @action
-  setOrganisationData = (organisationData) => {
-    this.organisationData = organisationData;
+  setSearchData = (searchData: any[]) => {
+    this.searchData = searchData;
   };
 
   @action
   handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const input = (event.target as HTMLInputElement).value;
-    this.setOrganisationName(input);
+    const inputValue = (event.target as HTMLInputElement).value;
+    this.setSearchQuery(inputValue);
   };
 
   @action
-  setOrganisationName = (organisationName: string) => {
-    this.organisationName = organisationName;
+  setSearchQuery = (input: string) => {
+    this.searchQuery = input;
   };
 
   @action
@@ -70,11 +88,6 @@ class SearchModel {
   @action
   setSelectedFilter = (id: number) => {
     this.selectedFilter = id;
-  };
-
-  @action
-  handleSelectOption = (event) => {
-    this.setSelectedOption(event.target.value);
   };
 
   @action

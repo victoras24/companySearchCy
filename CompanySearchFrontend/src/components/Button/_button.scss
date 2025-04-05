@@ -1,5 +1,14 @@
 @import "../../../custom-var.scss";
 
+.btn-primary {
+  background-color: $text-active;
+  border: none;
+}
+
+.btn__icon {
+  margin-right: 0.5rem;
+}
+
 .btn {
   &__active {
     color: $text-active;

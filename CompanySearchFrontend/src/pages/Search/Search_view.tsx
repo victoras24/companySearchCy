@@ -6,7 +6,7 @@ import {
   faBookmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { faBookmark as faBookmarkRegular } from "@fortawesome/free-regular-svg-icons";
-import { NavLink } from "react-router-dom";
+import { NavLink, useSearchParams } from "react-router-dom";
 import useShowToast from "../../Hooks/useShowToast";
 import Toast from "../../components/Toast";
 import useSaveCompany from "../../Hooks/useSaveCompany";
@@ -18,15 +18,33 @@ import { observer } from "mobx-react";
 import { Filter } from "../../components/Filter";
 
 const Search = observer(() => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const { user } = useAuth();
   const { handleSaveCompany, isUpdating } = useSaveCompany();
   const { showToast, toastContent, displayToast } = useShowToast();
 
-  const [model] = useState(() => new SearchModel(""));
+  const [model] = useState(() => new SearchModel());
 
   useEffect(() => {
-    model.onInput();
-  }, [model.organisationName]);
+    const debouseSearch = setTimeout(() => {
+      model.handleSearch();
+    }, 300);
+
+    return () => clearTimeout(debouseSearch);
+  }, [model.searchQuery, model.selectedOption]);
+
+  useEffect(() => {
+    const filter = searchParams.get("filter");
+    if (filter) {
+      model.setSelectedOption(filter);
+    }
+  }, [searchParams]);
+
+  const handleSelectOption = (event) => {
+    const option = event.target.value as "Organisation" | "Official";
+    model.setSelectedOption(option);
+    setSearchParams({ filter: option });
+  };
 
   const isCompanySaved = (companyId) => {
     return user?.savedCompanies.some((saved) => saved.id === companyId.id);
@@ -49,22 +67,22 @@ const Search = observer(() => {
             iconClass="search-input-icon"
             inputChange={model.handleInputChange}
             loading={model.isLoading}
-            cleanInputEvent={() => model.setOrganisationName("")}
-            inputText={model.organisationName}
-            value={model.organisationName}
-            placeholder="Enter company's name"
+            cleanInputEvent={() => model.setSearchQuery("")}
+            inputText={model.searchQuery}
+            value={model.searchQuery}
+            placeholder={`Enter ${model.selectedOption}'s name`}
           />
         </div>
         <Filter
           officials={model.selectedOption == "Organisation" ? false : true}
-          selectedOption={(e) => model.handleSelectOption(e)}
+          selectedOption={model.selectedOption}
+          onOptionSelect={handleSelectOption}
           selectedFilter={model.selectedFilter}
           selectFilter={(e) => model.handleSelectFilter(e)}
           isFilterOpen={model.isFilterOpen}
           closeFilter={() => model.closeFilter()}
         />
-        {model.organisationData.length === 0 &&
-        model.organisationName.trim() === "" ? (
+        {model.searchData.length === 0 && model.searchQuery.trim() === "" ? (
           <div className="search-tips">
             <h2>Search Tips:</h2>
             <ul>
@@ -76,44 +94,49 @@ const Search = observer(() => {
           </div>
         ) : (
           <div className="result-container">
-            {model.organisationData.map((company) => {
+            {model.searchData.map((data) => {
               return (
                 <NavLink
-                  to={`/search/${company.registrationNo}`}
-                  key={company.registrationNo}
-                  state={{ registrationNo: company.registrationNo }}
+                  to={`/search/${data.registrationNo}`}
+                  key={data.registrationNo}
+                  state={{ registrationNo: data.registrationNo }}
                   style={{ textDecoration: "none" }}
                 >
                   <div className="result-container-data">
                     <div className="result-container-top-info">
                       <h4 className="result-container-company m-0">
-                        {company.name}
+                        {model.selectedOption === "Organisation"
+                          ? data.name
+                          : data.personOrOrganisationName}
                       </h4>
-                      <div className="status-bookmark-container">
-                        <p
-                          className={`result-container-company-status ${
-                            company.organisationStatus === "Εγγεγραμμένη"
-                              ? "active"
-                              : "inactive"
-                          } m-0`}
-                        >
-                          {company.organisationStatus === "Εγγεγραμμένη"
-                            ? "Active"
-                            : "Inactive"}
-                        </p>
-                        <FontAwesomeIcon
-                          icon={
-                            isCompanySaved(company)
-                              ? faBookmark
-                              : faBookmarkRegular
-                          }
-                          size="lg"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            handleSaveCompany(company, displayToast);
-                          }}
-                        />
-                      </div>
+
+                      {model.selectedOption === "Organisation" && (
+                        <div className="status-bookmark-container">
+                          <p
+                            className={`result-container-company-status ${
+                              data.organisationStatus === "Εγγεγραμμένη"
+                                ? "active"
+                                : "inactive"
+                            } m-0`}
+                          >
+                            {data.organisationStatus === "Εγγεγραμμένη"
+                              ? "Active"
+                              : "Inactive"}
+                          </p>
+                          <FontAwesomeIcon
+                            icon={
+                              isCompanySaved(data)
+                                ? faBookmark
+                                : faBookmarkRegular
+                            }
+                            size="lg"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handleSaveCompany(data, displayToast);
+                            }}
+                          />
+                        </div>
+                      )}
                     </div>
                   </div>
                 </NavLink>
