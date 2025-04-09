@@ -82,7 +82,7 @@ const Search = observer(() => {
           isFilterOpen={model.isFilterOpen}
           closeFilter={() => model.closeFilter()}
         />
-        {model.searchData.length === 0 && model.searchQuery.trim() === "" ? (
+        {model.searchData.length === 0 ? (
           <div className="search-tips">
             <h2>Search Tips:</h2>
             <ul>

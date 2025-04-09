@@ -46,11 +46,8 @@ class SearchModel {
 
     try {
       this.setLoading(true);
-      console.log(this.selectedOption);
       const config = api_config[this.selectedOption];
-      console.log(config);
       const res = await config.api[config.method](this.searchQuery);
-      console.log(res);
       this.setSearchData(res);
     } catch (error) {
       console.error("Search error:", error);
@@ -65,7 +62,7 @@ class SearchModel {
   };
 
   @action
-  handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  handleInputChange = (event) => {
     const inputValue = (event.target as HTMLInputElement).value;
     this.setSearchQuery(inputValue);
   };
