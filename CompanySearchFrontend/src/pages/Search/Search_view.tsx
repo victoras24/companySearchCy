@@ -67,7 +67,7 @@ const Search = observer(() => {
             iconClass="search-input-icon"
             inputChange={model.handleInputChange}
             loading={model.isLoading}
-            cleanInputEvent={() => model.setSearchQuery("")}
+            cleanInputEvent={() => model.cleanInput()}
             inputText={model.searchQuery}
             value={model.searchQuery}
             placeholder={`Enter ${model.selectedOption}'s name`}
@@ -82,7 +82,7 @@ const Search = observer(() => {
           isFilterOpen={model.isFilterOpen}
           closeFilter={() => model.closeFilter()}
         />
-        {model.searchData.length === 0 ? (
+        {model.searchData.length === 0 && model.searchQuery.trim() === "" ? (
           <div className="search-tips">
             <h2>Search Tips:</h2>
             <ul>
@@ -107,7 +107,7 @@ const Search = observer(() => {
                       <h4 className="result-container-company m-0">
                         {model.selectedOption === "Organisation"
                           ? data.name
-                          : data.personOrOrganisationName}
+                          : data.officials}
                       </h4>
 
                       {model.selectedOption === "Organisation" && (

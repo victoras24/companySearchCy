@@ -101,6 +101,12 @@ class SearchModel {
   closeFilter = () => {
     this.isFilterOpen = false;
   };
+
+  @action
+  cleanInput = () => {
+    this.setSearchQuery("");
+    this.searchData = [];
+  };
 }
 
 export default SearchModel;
