@@ -1,24 +1,14 @@
-import { action, makeObservable, observable, set } from "mobx";
+import { action, makeObservable, observable } from "mobx";
 import CompaniesApi from "../../api/companiesApi";
 import OfficialsApi from "../../api/OfficialsApi";
 
-type api = "Organisation" | "Official";
-
-interface apiconfig {
-  api: typeof CompaniesApi | typeof OfficialsApi;
-  method: string;
-  dataField: string;
-}
-
-const api_config: Record<api, apiconfig> = {
+const api_config = {
   Organisation: {
-    api: CompaniesApi,
-    method: "getOrganisation",
+    method: CompaniesApi.getOrganisation,
     dataField: "organisationData",
   },
   Official: {
-    api: OfficialsApi,
-    method: "getOfficial",
+    method: OfficialsApi.getOfficial,
     dataField: "officialData",
   },
 };
@@ -47,7 +37,7 @@ class SearchModel {
     try {
       this.setLoading(true);
       const config = api_config[this.selectedOption];
-      const res = await config.api[config.method](this.searchQuery);
+      const res = await config.method(this.searchQuery, this.selectedFilter);
       this.setSearchData(res);
     } catch (error) {
       console.error("Search error:", error);

@@ -8,8 +8,14 @@ export class CompaniesApi {
    */
   constructor() {}
 
-  getOrganisation = async (organisationName: string) => {
-    const req = await axios.get(`${this.controller}/${organisationName}`);
+  getOrganisation = async (organisationName: string, filter: number) => {
+    const req = await axios.get(
+      `${
+        this.controller
+      }/${organisationName}${this.handleSelectedFilterForTheOrganisationApiCall(
+        filter
+      )}`
+    );
     return req.data;
   };
 
@@ -18,6 +24,16 @@ export class CompaniesApi {
       `${this.controller}/${registrationNo}/detailed`
     );
     return req.data;
+  };
+
+  handleSelectedFilterForTheOrganisationApiCall = (filter: number) => {
+    if (filter == 1) {
+      return "/active";
+    } else if (filter == 2) {
+      return "/inactive";
+    } else {
+      return "";
+    }
   };
 }
 
