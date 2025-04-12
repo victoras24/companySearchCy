@@ -23,106 +23,6 @@ const OrganisationDetails: React.FC = observer(() => {
     model.onMount();
   }, []);
 
-  const translations = {
-    Εγγεγραμμένη: "Registered",
-    Γραμματέας: "Secretary",
-    Διευθυντής: "Director",
-    Εξουσιοδοτημένο: "Authorized",
-    Πρόσωπο: "Person",
-    Εταιρεία: "Company",
-    Ιδιωτική: "Private",
-
-    Λευκωσία: "Nicosia",
-    Λεμεσός: "Limassol",
-    Λάρνακα: "Larnaca",
-    Πάφος: "Paphos",
-    Αμμόχωστος: "Famagusta",
-    Κερύνεια: "Kyrenia",
-
-    Κύπρος: "Cyprus",
-  };
-
-  const translate = (text) => {
-    return translations[text] || text;
-  };
-
-  const greekToEnglishMap = {
-    Α: "A",
-    Β: "V",
-    Γ: "G",
-    Δ: "D",
-    Ε: "E",
-    Ζ: "Z",
-    Η: "I",
-    Θ: "TH",
-    Ι: "I",
-    Κ: "K",
-    Λ: "L",
-    Μ: "M",
-    Ν: "N",
-    Ξ: "X",
-    Ο: "O",
-    Π: "P",
-    Ρ: "R",
-    Σ: "S",
-    Τ: "T",
-    Υ: "Y",
-    Φ: "F",
-    Χ: "CH",
-    Ψ: "PS",
-    Ω: "O",
-    α: "a",
-    β: "v",
-    γ: "g",
-    δ: "d",
-    ε: "e",
-    ζ: "z",
-    η: "i",
-    θ: "th",
-    ι: "i",
-    κ: "k",
-    λ: "l",
-    μ: "m",
-    ν: "n",
-    ξ: "x",
-    ο: "o",
-    π: "p",
-    ρ: "r",
-    σ: "s",
-    τ: "t",
-    υ: "y",
-    φ: "f",
-    χ: "ch",
-    ψ: "ps",
-    ω: "o",
-    ς: "s",
-    Ά: "A",
-    Έ: "E",
-    Ή: "I",
-    Ί: "I",
-    Ό: "O",
-    Ύ: "Y",
-    Ώ: "O",
-    ά: "a",
-    έ: "e",
-    ή: "i",
-    ί: "i",
-    ό: "o",
-    ύ: "y",
-    ώ: "o",
-    ϊ: "i",
-    ϋ: "y",
-    ΐ: "i",
-    ΰ: "y",
-  };
-
-  const transliterate = (text) => {
-    return text
-      .split("")
-      .map((char) => greekToEnglishMap[char] || char)
-      .join("");
-  };
-
   const parseOfficials = (officialsString) => {
     if (!officialsString) return [];
     return officialsString
@@ -173,7 +73,7 @@ const OrganisationDetails: React.FC = observer(() => {
       <div className="company-detail-overview">
         <h2>Overview</h2>
         <div className="company-detail-name-status">
-          <h1>{transliterate(model.detailedData?.name)}</h1>
+          <h1>{model.detailedData?.name}</h1>
           <div className="d-flex justify-content-start align-items-center">
             <p
               className={`company-detail-status ${
@@ -212,8 +112,8 @@ const OrganisationDetails: React.FC = observer(() => {
             <ul>
               {officials.map((p, index) => (
                 <li key={index}>
-                  <p>Name: {transliterate(p.person_or_name)}</p>
-                  <p>Position: {translate(p.official_position)}</p>
+                  <p>Name: {p.person_or_name}</p>
+                  <p>Position: {p.official_position}</p>
                 </li>
               ))}
             </ul>

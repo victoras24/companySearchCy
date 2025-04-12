@@ -42,7 +42,7 @@ export const Filter: React.FC<FilterProps> = ({
             style="filter__icon"
           />
         </div>
-        {!officials ? (
+        {!officials && (
           <div className="mt-3 d-flex justify-content-between gap-3">
             <Button
               onClick={selectFilter}
@@ -64,25 +64,6 @@ export const Filter: React.FC<FilterProps> = ({
               variant={selectedFilter == 3 ? "selectedDefault" : "default"}
               size={"sm"}
               id="3"
-            />
-          </div>
-        ) : (
-          <div className="mt-3 d-flex justify-content-between gap-3">
-            <Button
-              onClick={selectFilter}
-              content="Organisation"
-              variant={selectedFilter == 2 ? "selectedDefault" : "default"}
-              size={"sm"}
-              id="2"
-              className="w-100"
-            />
-            <Button
-              onClick={selectFilter}
-              content="Official"
-              variant={selectedFilter == 3 ? "selectedDefault" : "default"}
-              size={"sm"}
-              id="3"
-              className="w-100"
             />
           </div>
         )}
