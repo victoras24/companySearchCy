@@ -58,13 +58,6 @@ const useSaveCompany = () => {
     }
   };
 
-  //   useEffect(() => {
-  //     if (user) {
-  //       const isFavorite = user.savedCompanies.includes(company);
-  //       setIsFavorite(isFavorite);
-  //     }
-  //   }, [user, user.savedCompanies]);
-
   return { isUpdating, isFavorite, handleSaveCompany };
 };
 
