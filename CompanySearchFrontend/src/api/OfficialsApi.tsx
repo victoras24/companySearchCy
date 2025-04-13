@@ -10,6 +10,13 @@ export class OfficialsApi {
 
   getOfficial = async (officialName: string) => {
     const req = await axios.get(`${this.controller}/${officialName}`);
+    return req.data;
+  };
+
+  getDetailedOfficial = async (registrationNo: string) => {
+    const req = await axios.get(
+      `${this.controller}/${registrationNo}/detailed`
+    );
     console.log(req);
     return req.data;
   };

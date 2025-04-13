@@ -106,7 +106,7 @@ const Search = observer(() => {
                     <div className="result-container-top-info">
                       <h4 className="result-container-company m-0">
                         {model.selectedOption === "Organisation"
-                          ? data.name
+                          ? data.organisationName
                           : data.officials}
                       </h4>
 
