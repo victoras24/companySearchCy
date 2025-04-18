@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export class OfficialsApi {
-	controller: string = "http://localhost:5066/api/officials";
+	controller: string = `${import.meta.env.VITE_API_URL}/api/officials`;
 
 	/**
 	 *

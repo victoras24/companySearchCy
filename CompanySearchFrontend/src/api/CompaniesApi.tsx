@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export class CompaniesApi {
-	controller: string = `${import.meta.env.VITE_API_URL}`;
+	controller: string = `${import.meta.env.VITE_API_URL}/api/company`;
 
 	/**
 	 *
