@@ -11,39 +11,39 @@ import { AuthProvider, useAuth } from "./context/AuthStoreContext";
 import OrganisationDetails from "./pages/OrganisationDetails/OrganisationDetails_view";
 
 export default function App() {
-  return (
-    <AuthProvider>
-      <SavedCompanyProvider>
-        <AppRoutes />
-      </SavedCompanyProvider>
-    </AuthProvider>
-  );
+	return (
+		<AuthProvider>
+			<SavedCompanyProvider>
+				<AppRoutes />
+			</SavedCompanyProvider>
+		</AuthProvider>
+	);
 }
 
 function AppRoutes() {
-  const { user } = useAuth();
+	const { user } = useAuth();
 
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
-          <Route path="search" element={<Search />} />
-          <Route path="search/:companyId" element={<OrganisationDetails />} />
-          <Route
-            path="favorites"
-            element={user ? <Favorites /> : <Account />}
-          />
-          <Route
-            path="organizer"
-            element={user ? <Organizer /> : <Account />}
-          />
-          <Route
-            path="account"
-            element={user ? <AccountDetails /> : <Account />}
-          />
-        </Route>
-      </Routes>
-    </BrowserRouter>
-  );
+	return (
+		<BrowserRouter>
+			<Routes>
+				<Route path="/" element={<Layout />}>
+					<Route index element={<Home />} />
+					<Route path="search" element={<Search />} />
+					<Route path="search/:companyId" element={<OrganisationDetails />} />
+					<Route
+						path="favorites"
+						element={user ? <Favorites /> : <Account />}
+					/>
+					<Route
+						path="organizer"
+						element={user ? <Organizer /> : <Account />}
+					/>
+					<Route
+						path="account"
+						element={user ? <AccountDetails /> : <Account />}
+					/>
+				</Route>
+			</Routes>
+		</BrowserRouter>
+	);
 }
