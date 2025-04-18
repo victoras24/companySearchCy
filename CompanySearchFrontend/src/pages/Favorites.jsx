@@ -9,167 +9,167 @@ import { Icon } from "../components/Icon";
 import { Button } from "../components/Button";
 
 export default function Favorites() {
-  const { user, updateUser } = useAuth();
-  const [openGroup, setOpenGroup] = useState({});
-  const { groups, addCompanyToGroup } = useCompanyContext();
-  const plusBtnRefs = useRef({});
-  const groupListRefs = useRef({});
-  const navigate = useNavigate();
+	const { user, updateUser } = useAuth();
+	const [openGroup, setOpenGroup] = useState({});
+	const { groups, addCompanyToGroup } = useCompanyContext();
+	const plusBtnRefs = useRef({});
+	const groupListRefs = useRef({});
+	const navigate = useNavigate();
 
-  const deleteCompany = async (companyWeWantToDelete) => {
-    try {
-      const userRef = doc(firestore, "users", user.uid);
+	const deleteCompany = async (companyWeWantToDelete) => {
+		try {
+			const userRef = doc(firestore, "users", user.uid);
 
-      await updateDoc(userRef, {
-        savedCompanies: arrayRemove(companyWeWantToDelete),
-      });
+			await updateDoc(userRef, {
+				savedCompanies: arrayRemove(companyWeWantToDelete),
+			});
 
-      updateUser({
-        ...user,
-        savedCompanies: user.savedCompanies.filter(
-          (company) => company !== companyWeWantToDelete
-        ),
-      });
+			updateUser({
+				...user,
+				savedCompanies: user.savedCompanies.filter(
+					(company) => company !== companyWeWantToDelete
+				),
+			});
 
-      localStorage.setItem(
-        "user-info",
-        JSON.stringify({
-          ...user,
-          savedCompanies: user.savedCompanies.filter(
-            (company) => company !== company
-          ),
-        })
-      );
-    } catch (error) {}
-  };
+			localStorage.setItem(
+				"user-info",
+				JSON.stringify({
+					...user,
+					savedCompanies: user.savedCompanies.filter(
+						(company) => company !== company
+					),
+				})
+			);
+		} catch (error) {}
+	};
 
-  useEffect(() => {
-    function closeAddToGroup(e) {
-      Object.keys(openGroup).forEach((id) => {
-        if (
-          openGroup[id] &&
-          plusBtnRefs.current[id] &&
-          !plusBtnRefs.current[id].contains(e.target) &&
-          groupListRefs.current[id] &&
-          !groupListRefs.current[id].contains(e.target)
-        ) {
-          setOpenGroup((prevState) => {
-            return {
-              ...prevState,
-              [id]: false,
-            };
-          });
-        }
-      });
-    }
+	useEffect(() => {
+		function closeAddToGroup(e) {
+			Object.keys(openGroup).forEach((id) => {
+				if (
+					openGroup[id] &&
+					plusBtnRefs.current[id] &&
+					!plusBtnRefs.current[id].contains(e.target) &&
+					groupListRefs.current[id] &&
+					!groupListRefs.current[id].contains(e.target)
+				) {
+					setOpenGroup((prevState) => {
+						return {
+							...prevState,
+							[id]: false,
+						};
+					});
+				}
+			});
+		}
 
-    document.body.addEventListener("click", closeAddToGroup);
-    return () => {
-      document.body.removeEventListener("click", closeAddToGroup);
-    };
-  }, [openGroup]);
+		document.body.addEventListener("click", closeAddToGroup);
+		return () => {
+			document.body.removeEventListener("click", closeAddToGroup);
+		};
+	}, [openGroup]);
 
-  const handleOpenGroup = useCallback((id) => {
-    setOpenGroup((prevState) => {
-      const newState = {
-        ...prevState,
-        [id]: !prevState[id],
-      };
-      return newState;
-    });
-  }, []);
+	const handleOpenGroup = useCallback((id) => {
+		setOpenGroup((prevState) => {
+			const newState = {
+				...prevState,
+				[id]: !prevState[id],
+			};
+			return newState;
+		});
+	}, []);
 
-  const renderGroupList = (company, isGroupOpen) => {
-    if (!isGroupOpen) return null;
+	const renderGroupList = (company, isGroupOpen) => {
+		if (!isGroupOpen) return null;
 
-    return (
-      <div
-        className="result-container-group-list"
-        ref={(el) => (groupListRefs.current[company.id] = el)}
-      >
-        {groups.length > 0 ? (
-          <ul style={{ listStyle: "none", padding: 0 }}>
-            {groups.map((group) => (
-              <li
-                key={group.id}
-                onClick={() => handleAddCompanyToGroup(company, group.id)}
-                style={{ cursor: "pointer", padding: "5px" }}
-              >
-                {group.name}
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <div>
-            <p>No groups have been created yet.</p>
-            <Button
-              content="Create group"
-              onClick={() => navigate("/organizer")}
-            />
-          </div>
-        )}
-      </div>
-    );
-  };
+		return (
+			<div
+				className="result-container-group-list"
+				ref={(el) => (groupListRefs.current[company.id] = el)}
+			>
+				{groups.length > 0 ? (
+					<ul style={{ listStyle: "none", padding: 0 }}>
+						{groups.map((group) => (
+							<li
+								key={group.id}
+								onClick={() => handleAddCompanyToGroup(company, group.id)}
+								style={{ cursor: "pointer", padding: "5px" }}
+							>
+								{group.name}
+							</li>
+						))}
+					</ul>
+				) : (
+					<div>
+						<p>No groups have been created yet.</p>
+						<Button
+							content="Create group"
+							onClick={() => navigate("/organizer")}
+						/>
+					</div>
+				)}
+			</div>
+		);
+	};
 
-  const handleAddCompanyToGroup = useCallback(
-    (company, groupId) => {
-      addCompanyToGroup(company, groupId);
-      setOpenGroup((prevState) => ({
-        ...prevState,
-        [company.id]: false,
-      }));
-    },
-    [addCompanyToGroup]
-  );
+	const handleAddCompanyToGroup = useCallback(
+		(company, groupId) => {
+			addCompanyToGroup(company, groupId);
+			setOpenGroup((prevState) => ({
+				...prevState,
+				[company.id]: false,
+			}));
+		},
+		[addCompanyToGroup]
+	);
 
-  return (
-    <div className="saved-page">
-      <h1 className="saved-title">Favorites</h1>
-      <p className="saved-description">
-        View and manage all your marked favorite companies in one place. Easily
-        add, remove, or explore details about your top choices.
-      </p>
+	return (
+		<div className="saved-page">
+			<h1 className="saved-title">Favorites</h1>
+			<p className="saved-description">
+				View and manage all your marked favorite companies in one place. Easily
+				add, remove, or explore details about your top choices.
+			</p>
 
-      <div className="saved-companies">
-        <h2>Saved Companies</h2>
-        {user.savedCompanies.length > 0 ? (
-          user.savedCompanies.map((company) => {
-            const isGroupOpen = openGroup[company.id];
-
-            return (
-              <div
-                className="saved-company-container"
-                style={{ position: "relative" }}
-                key={company.id}
-              >
-                <span>{company.name}</span>
-                <div className="saved-company-icons">
-                  <Icon
-                    style="text-lg p-2"
-                    symbol={faCirclePlus}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleOpenGroup(company.id);
-                    }}
-                    reference={(el) => (plusBtnRefs.current[company.id] = el)}
-                  />
-                  {renderGroupList(company, isGroupOpen)}
-                  <Icon
-                    style="text-lg p-2"
-                    symbol={faSquareMinus}
-                    onClick={() => deleteCompany(company)}
-                  />
-                </div>
-              </div>
-            );
-          })
-        ) : (
-          <span className="saved-companies-empty">
-            No companies in favorites yet.
-          </span>
-        )}
-      </div>
-    </div>
-  );
+			<div className="saved-companies">
+				<h2>Saved Companies</h2>
+				{user.savedCompanies.length > 0 ? (
+					user.savedCompanies.map((company) => {
+						const isGroupOpen = openGroup[company.id];
+						console.log(company);
+						return (
+							<div
+								className="saved-company-container"
+								style={{ position: "relative" }}
+								key={company.id}
+							>
+								<span>{company.organisationName}</span>
+								<div className="saved-company-icons">
+									<Icon
+										style="text-lg p-2"
+										symbol={faCirclePlus}
+										onClick={(e) => {
+											e.stopPropagation();
+											handleOpenGroup(company.id);
+										}}
+										reference={(el) => (plusBtnRefs.current[company.id] = el)}
+									/>
+									{renderGroupList(company, isGroupOpen)}
+									<Icon
+										style="text-lg p-2"
+										symbol={faSquareMinus}
+										onClick={() => deleteCompany(company)}
+									/>
+								</div>
+							</div>
+						);
+					})
+				) : (
+					<span className="saved-companies-empty">
+						No companies in favorites yet.
+					</span>
+				)}
+			</div>
+		</div>
+	);
 }

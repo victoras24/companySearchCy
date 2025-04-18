@@ -4,15 +4,15 @@ import { getAuth } from "firebase/auth";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_API_KEY,
-  authDomain: import.meta.env.VITE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_APP_ID,
+	apiKey: "AIzaSyDSTol_xVo-KknOgLFAUFbBIiqpuAbrlFE",
+	authDomain: "company-search-39b6f.firebaseapp.com",
+	databaseURL:
+		"https://company-search-39b6f-default-rtdb.europe-west1.firebasedatabase.app",
+	projectId: "company-search-39b6f",
+	storageBucket: "company-search-39b6f.firebasestorage.app",
+	messagingSenderId: "1072114431278",
+	appId: "1:1072114431278:web:347a85ce542294c89b36bf",
 };
-
-console.log(import.meta.env.VITE_API_KEY);
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);

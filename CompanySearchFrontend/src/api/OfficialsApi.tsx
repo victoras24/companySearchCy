@@ -1,25 +1,24 @@
 import axios from "axios";
 
 export class OfficialsApi {
-  controller: string = "http://localhost:5066/api/officials";
+	controller: string = "http://localhost:5066/api/officials";
 
-  /**
-   *
-   */
-  constructor() {}
+	/**
+	 *
+	 */
+	constructor() {}
 
-  getOfficial = async (officialName: string) => {
-    const req = await axios.get(`${this.controller}/${officialName}`);
-    return req.data;
-  };
+	getOfficial = async (officialName: string) => {
+		const req = await axios.get(`${this.controller}/${officialName}`);
+		return req.data;
+	};
 
-  getDetailedOfficial = async (registrationNo: string) => {
-    const req = await axios.get(
-      `${this.controller}/${registrationNo}/detailed`
-    );
-    console.log(req);
-    return req.data;
-  };
+	getDetailedOfficial = async (registrationNo: string) => {
+		const req = await axios.get(
+			`${this.controller}/${registrationNo}/detailed`
+		);
+		return req.data;
+	};
 }
 
 const instance = new OfficialsApi();

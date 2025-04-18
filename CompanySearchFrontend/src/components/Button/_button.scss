@@ -1,46 +1,46 @@
 @import "../../../custom-var.scss";
 
 .btn-primary {
-  background-color: $text-active;
-  border: none;
+	background-color: $text-active;
+	border: none;
 }
 
 .btn__icon {
-  margin-right: 0.5rem;
+	margin-right: 0.5rem;
 }
 
 .btn {
-  &__active {
-    color: $text-active;
-    background-color: $bg-active;
-    border: $border-active;
+	&__active {
+		color: $text-active;
+		background-color: $bg-active;
+		border: $border-active;
 
-    &--selected {
-      color: $text-active;
-      background-color: $bg-active;
-      border: $selected-border-active;
-    }
-  }
+		&--selected {
+			color: $text-active;
+			background-color: $bg-active;
+			border: $selected-border-active;
+		}
+	}
 
-  &__inactive {
-    color: $text-inactive;
-    background-color: $bg-inactive;
-    border: $border-inactive;
-    &--selected {
-      color: $text-inactive;
-      background-color: $bg-inactive;
-      border: $selected-border-inactive;
-    }
-  }
+	&__inactive {
+		color: $text-inactive;
+		background-color: $bg-inactive;
+		border: $border-inactive;
+		&--selected {
+			color: $text-inactive;
+			background-color: $bg-inactive;
+			border: $selected-border-inactive;
+		}
+	}
 
-  &__default {
-    color: $text-default;
-    background-color: $bg-default;
-    border: $border-default;
-    &--selected {
-      color: $text-default;
-      background-color: $bg-default;
-      border: $selected-border-default;
-    }
-  }
+	&__default {
+		color: $text-default;
+		background-color: $bg-default;
+		border: $border-default;
+		&--selected {
+			color: $text-default;
+			background-color: $bg-default;
+			border: $selected-border-default;
+		}
+	}
 }
