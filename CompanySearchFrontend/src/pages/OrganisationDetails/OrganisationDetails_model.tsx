@@ -24,7 +24,7 @@ interface OrganisationDetails {
 
 class OrganisationDetailsModel {
 	@observable isLoading: boolean = true;
-	@observable detailedData?: OrganisationDetails;
+	detailedData?: OrganisationDetails;
 	@observable detailedOfficialsData?: any;
 	CompaniesApi: ICompaniesApi;
 	OfficialsApi: IOfficialsApi;

@@ -8,7 +8,7 @@ interface ButtonProps
 	extends React.HTMLAttributes<HTMLButtonElement>,
 		VariantProps<typeof buttonVariant> {
 	icon?: IconDefinition;
-	content: string;
+	content?: string;
 }
 
 export const Button: React.FC<ButtonProps> = ({

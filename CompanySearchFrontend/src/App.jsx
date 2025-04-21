@@ -3,7 +3,7 @@ import Search from "./pages/Search/Search_view";
 import Layout from "./components/Layout";
 import { Home } from "./pages/Home";
 import Favorites from "./pages/Favorites";
-import Organizer from "./pages/Organizer";
+import Organizer from "./pages/Organizer/Organizer_view";
 import Account from "./pages/Account";
 import AccountDetails from "./pages/AccountDetails";
 import { SavedCompanyProvider } from "./context/SavedCompanyContext";

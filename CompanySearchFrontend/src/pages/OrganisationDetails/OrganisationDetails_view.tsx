@@ -21,7 +21,7 @@ const OrganisationDetails: React.FC = observer(() => {
 
 	useEffect(() => {
 		model.onMount();
-	}, []);
+	}, [model]);
 
 	if (model.isLoading) return <p>Loading...</p>;
 	if (!model) return <p>No data found for this company.</p>;
@@ -42,8 +42,6 @@ const OrganisationDetails: React.FC = observer(() => {
 	};
 
 	const officials = model.detailedOfficialsData;
-
-	console.log(officials);
 
 	return (
 		<div className="company-detail-page">
@@ -86,7 +84,7 @@ const OrganisationDetails: React.FC = observer(() => {
 				<div className="company-detail-address">
 					<p className="company-detail-registration-date">
 						Incorporated on{" "}
-						{moment(model.detailedData?.registrationDate).format("L")}
+						{moment(model.detailedData?.registrationDate).format("MM-DD-YYYY")}
 					</p>
 					{fullAddress ? <p>{fullAddress}</p> : <p>No address available</p>}
 				</div>
@@ -97,10 +95,7 @@ const OrganisationDetails: React.FC = observer(() => {
 							{officials.map((p, index) => (
 								<li key={index}>
 									<p>Name: {p.personOrOrganisationName}</p>
-									<p>Position: {p.officialPosition}</p>
-									<NavLink to={`/search/${p.registrationNo}`}>
-										View more
-									</NavLink>
+									<p className="m-0">Position: {p.officialPosition}</p>
 								</li>
 							))}
 						</ul>
