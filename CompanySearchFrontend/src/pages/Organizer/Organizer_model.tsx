@@ -14,6 +14,9 @@ export class OrganizerModel {
 
 	@action
 	createGroup = () => {
+		if (this.groupName == "") {
+			return;
+		}
 		this.groups.push({
 			id: uuidv4(),
 			name: this.groupName,
@@ -24,5 +27,13 @@ export class OrganizerModel {
 	@action
 	handleInputChange = (e) => {
 		this.groupName = e.target.value;
+	};
+
+	@action
+	deleteGroup = (groupId) => {
+		const updatedGroupList = this.groups.filter(
+			(group) => group.id !== groupId
+		);
+		this.groups = updatedGroupList;
 	};
 }

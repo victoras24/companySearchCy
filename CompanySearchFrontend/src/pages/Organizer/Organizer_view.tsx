@@ -45,15 +45,20 @@ const Organizer: React.FC = observer(() => {
 			<div>
 				<div className="groups-container">
 					{model.groups.map((group) => (
-						<div key={group.id} className="group-wrapper">
+						<div key={group.id} id={group.id} className="group-wrapper">
 							<div className="group-wrapper-top-section">
 								<h2>{group.name}</h2>
-								<div>
+								<div id={group.id}>
 									<Button
 										icon={group.isExtended ? faAngleUp : faAngleDown}
 										variant={"icon"}
 									/>
-									<Button icon={faTrashCan} className="p-0" variant={"icon"} />
+									<Button
+										icon={faTrashCan}
+										className="p-0"
+										variant={"icon"}
+										onClick={() => model.deleteGroup(group.id)}
+									/>
 								</div>
 							</div>
 							{group.isExtended && (
