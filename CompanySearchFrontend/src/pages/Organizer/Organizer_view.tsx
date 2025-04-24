@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Icon } from "../../components/Icon";
 import {
 	faSquareMinus,
@@ -11,9 +11,18 @@ import { Button } from "../../components/Button";
 import { OrganizerModel } from "./Organizer_model";
 import React from "react";
 import { observer } from "mobx-react";
+import { firestore } from "../../Firebase/firebase";
+import { doc } from "firebase/firestore";
+import { useAuth } from "../../context/AuthStoreContext";
 
 const Organizer: React.FC = observer(() => {
-	const [model, setModel] = useState(() => new OrganizerModel());
+	const [model] = useState(() => new OrganizerModel());
+	const { user } = useAuth();
+	const groupRef = doc(firestore, "users", user.uid);
+
+	useEffect(() => {
+		model.onMount();
+	}, []);
 
 	return (
 		<div className="organizer-page">
@@ -38,46 +47,53 @@ const Organizer: React.FC = observer(() => {
 							value={model.groupName}
 							onChange={model.handleInputChange}
 						/>
-						<Button onClick={model.createGroup} content="Create group" />
+						<Button
+							onClick={() => model.createGroup(groupRef)}
+							content="Create group"
+						/>
 					</motion.div>
 				}
 			</AnimatePresence>
-			<div>
-				<div className="groups-container">
-					{model.groups.map((group) => (
-						<div key={group.id} id={group.id} className="group-wrapper">
-							<div className="group-wrapper-top-section">
-								<h2>{group.name}</h2>
-								<div id={group.id}>
-									<Button
-										icon={group.isExtended ? faAngleUp : faAngleDown}
-										variant={"icon"}
-									/>
-									<Button
-										icon={faTrashCan}
-										className="p-0"
-										variant={"icon"}
-										onClick={() => model.deleteGroup(group.id)}
-									/>
+			{model.isLoading ? (
+				<p>Loading...</p>
+			) : (
+				<div>
+					<div className="groups-container">
+						{model.groups?.map((group) => (
+							<div key={group.id} id={group.id} className="group-wrapper">
+								<div className="group-wrapper-top-section">
+									<h2>{group.name}</h2>
+									<div id={group.id}>
+										<Button
+											icon={group.isExtended ? faAngleUp : faAngleDown}
+											variant={"icon"}
+										/>
+										<Button
+											icon={faTrashCan}
+											className="p-0"
+											variant={"icon"}
+											onClick={() => model.deleteGroup(groupRef, group)}
+										/>
+									</div>
 								</div>
+								{group.isExtended && (
+									<ul>
+										{group.companies.map((comp) => (
+											<div className="grouped-companies" key={comp.id}>
+												<li draggable>{comp.organisationName}</li>
+												<Icon
+													symbol={faSquareMinus}
+													style="saved-company-delete"
+												/>
+											</div>
+										))}
+									</ul>
+								)}
 							</div>
-							{group.isExtended && (
-								<ul>
-									{group.companies.map((comp) => (
-										<div className="grouped-companies" key={comp.id}>
-											<li draggable>{comp.organisationName}</li>
-											<Icon
-												symbol={faSquareMinus}
-												style="saved-company-delete"
-											/>
-										</div>
-									))}
-								</ul>
-							)}
-						</div>
-					))}
+						))}
+					</div>
 				</div>
-			</div>
+			)}
 		</div>
 	);
 });

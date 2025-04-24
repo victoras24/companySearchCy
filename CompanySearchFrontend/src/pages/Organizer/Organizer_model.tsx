@@ -1,9 +1,18 @@
 import { action, makeObservable, observable } from "mobx";
 import { v4 as uuidv4 } from "uuid";
+import {
+	arrayRemove,
+	arrayUnion,
+	collection,
+	getDocs,
+	updateDoc,
+} from "firebase/firestore";
+import { firestore } from "../../Firebase/firebase";
 
 export class OrganizerModel {
 	@observable groupName: string = "";
-	@observable groups: any[] = [];
+	@observable groups: any[];
+	@observable isLoading: boolean;
 
 	/**
 	 *
@@ -13,14 +22,35 @@ export class OrganizerModel {
 	}
 
 	@action
-	createGroup = () => {
+	onMount = async () => {
+		this.isLoading = true;
+		await this.getGroups();
+	};
+
+	@action
+	getGroups = async () => {
+		try {
+			const groupSnapshot = await getDocs(collection(firestore, "users"));
+			groupSnapshot.forEach((group) => {
+				this.setGroups(group.data().groups);
+			});
+		} catch (error) {
+			console.log(error);
+		} finally {
+			this.isLoading = false;
+		}
+	};
+
+	@action
+	createGroup = async (ref) => {
 		if (this.groupName == "") {
 			return;
 		}
-		this.groups.push({
-			id: uuidv4(),
-			name: this.groupName,
+
+		await updateDoc(ref, {
+			groups: arrayUnion({ id: uuidv4(), name: this.groupName }),
 		});
+
 		this.groupName = "";
 	};
 
@@ -30,10 +60,16 @@ export class OrganizerModel {
 	};
 
 	@action
-	deleteGroup = (groupId) => {
-		const updatedGroupList = this.groups.filter(
-			(group) => group.id !== groupId
-		);
-		this.groups = updatedGroupList;
+	deleteGroup = async (ref, group) => {
+		await updateDoc(ref, {
+			groups: arrayRemove(group),
+		});
+
+		await this.getGroups();
+	};
+
+	@action
+	setGroups = (groups) => {
+		this.groups = groups;
 	};
 }

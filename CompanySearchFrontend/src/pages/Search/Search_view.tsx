@@ -20,7 +20,7 @@ import { Filter } from "../../components/Filter";
 const Search = observer(() => {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const { user } = useAuth();
-	const { handleSaveCompany, isUpdating } = useSaveCompany();
+	const { handleSaveCompany, isLoading } = useSaveCompany();
 	const { showToast, toastContent, displayToast } = useShowToast();
 
 	const [model] = useState(() => new SearchModel());
