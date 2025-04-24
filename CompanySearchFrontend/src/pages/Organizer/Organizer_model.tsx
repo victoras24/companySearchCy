@@ -23,7 +23,7 @@ export class OrganizerModel {
 
 	@action
 	onMount = async () => {
-		this.isLoading = true;
+		this.setIsLoading(true);
 		await this.getGroups();
 	};
 
@@ -37,7 +37,7 @@ export class OrganizerModel {
 		} catch (error) {
 			console.log(error);
 		} finally {
-			this.isLoading = false;
+			this.setIsLoading(false);
 		}
 	};
 
@@ -50,6 +50,8 @@ export class OrganizerModel {
 		await updateDoc(ref, {
 			groups: arrayUnion({ id: uuidv4(), name: this.groupName }),
 		});
+
+		await this.getGroups();
 
 		this.groupName = "";
 	};
@@ -71,5 +73,10 @@ export class OrganizerModel {
 	@action
 	setGroups = (groups) => {
 		this.groups = groups;
+	};
+
+	@action
+	setIsLoading = (isLoading: boolean) => {
+		this.isLoading = isLoading;
 	};
 }
