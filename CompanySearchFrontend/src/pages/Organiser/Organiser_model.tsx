@@ -9,11 +9,11 @@ import {
 } from "firebase/firestore";
 import { firestore } from "../../Firebase/firebase";
 
-export class organiserModel {
+export class OrganiserModel {
 	@observable groupName: string = "";
 	@observable groups: any[];
 	@observable isLoading: boolean;
-	@observable isGroupExtended: boolean = false;
+	@observable expandedGroups: { [key: string]: boolean } = {};
 
 	/**
 	 *
@@ -49,7 +49,11 @@ export class organiserModel {
 		}
 
 		await updateDoc(ref, {
-			groups: arrayUnion({ id: uuidv4(), name: this.groupName, companies: [] }),
+			groups: arrayUnion({
+				id: uuidv4(),
+				name: this.groupName,
+				companies: [],
+			}),
 		});
 
 		await this.getGroups();
@@ -72,13 +76,13 @@ export class organiserModel {
 	};
 
 	@action
-	setGroups = (groups) => {
-		this.groups = groups;
+	extendGroup = async (groupId: string) => {
+		this.expandedGroups[groupId] = !this.expandedGroups[groupId];
 	};
 
 	@action
-	setGroupExtended = (extend: boolean) => {
-		this.isGroupExtended = extend;
+	setGroups = (groups) => {
+		this.groups = groups;
 	};
 
 	@action

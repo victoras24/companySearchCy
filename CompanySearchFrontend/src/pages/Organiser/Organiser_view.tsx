@@ -8,17 +8,17 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "../../components/Button";
-import { organiserModel } from "./Organiser_model";
+import { OrganiserModel } from "./Organiser_model";
 import React from "react";
 import { observer } from "mobx-react";
 import { firestore } from "../../Firebase/firebase";
 import { doc } from "firebase/firestore";
 import { useAuth } from "../../context/AuthStoreContext";
 
-const organiser: React.FC = observer(() => {
-	const [model] = useState(() => new organiserModel());
+const Organiser: React.FC = observer(() => {
+	const [model] = useState(() => new OrganiserModel());
 	const { user } = useAuth();
-	const groupRef = doc(firestore, "users", user.uid);
+	const docRef = doc(firestore, "users", user.uid);
 
 	useEffect(() => {
 		model.onMount();
@@ -48,7 +48,7 @@ const organiser: React.FC = observer(() => {
 							onChange={model.handleInputChange}
 						/>
 						<Button
-							onClick={() => model.createGroup(groupRef)}
+							onClick={() => model.createGroup(docRef)}
 							content="Create group"
 						/>
 					</motion.div>
@@ -65,36 +65,36 @@ const organiser: React.FC = observer(() => {
 									<h2>{group.name}</h2>
 									<div id={group.id}>
 										<Button
-											icon={model.isGroupExtended ? faAngleUp : faAngleDown}
-											onClick={() =>
-												model.setGroupExtended(!model.isGroupExtended)
+											icon={
+												model.expandedGroups[group.id] ? faAngleUp : faAngleDown
 											}
+											onClick={() => model.extendGroup(group.id)}
 											variant={"icon"}
 										/>
 										<Button
 											icon={faTrashCan}
 											className="p-0"
 											variant={"icon"}
-											onClick={() => model.deleteGroup(groupRef, group)}
+											onClick={() => model.deleteGroup(docRef, group)}
 										/>
 									</div>
 								</div>
-								{model.isGroupExtended && (
-									<ul>
+								{model.expandedGroups[group.id] && (
+									<>
 										{model.groups.map((group) => (
 											<div className="grouped-companies" key={group.id}>
-												<ul>
-													{group.companies.map((company, index) => (
+												{group.companies.map((company, index) => (
+													<>
 														<li key={index}>{company}</li>
-													))}
-												</ul>
-												<Icon
-													symbol={faSquareMinus}
-													style="saved-company-delete"
-												/>
+														<Icon
+															symbol={faSquareMinus}
+															style="saved-company-delete"
+														/>
+													</>
+												))}
 											</div>
 										))}
-									</ul>
+									</>
 								)}
 							</div>
 						))}
@@ -105,4 +105,4 @@ const organiser: React.FC = observer(() => {
 	);
 });
 
-export default organiser;
+export default Organiser;
