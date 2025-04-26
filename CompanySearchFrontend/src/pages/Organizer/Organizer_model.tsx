@@ -13,6 +13,7 @@ export class OrganizerModel {
 	@observable groupName: string = "";
 	@observable groups: any[];
 	@observable isLoading: boolean;
+	@observable isGroupExtended: boolean = false;
 
 	/**
 	 *
@@ -48,7 +49,7 @@ export class OrganizerModel {
 		}
 
 		await updateDoc(ref, {
-			groups: arrayUnion({ id: uuidv4(), name: this.groupName }),
+			groups: arrayUnion({ id: uuidv4(), name: this.groupName, companies: [] }),
 		});
 
 		await this.getGroups();
@@ -73,6 +74,11 @@ export class OrganizerModel {
 	@action
 	setGroups = (groups) => {
 		this.groups = groups;
+	};
+
+	@action
+	setGroupExtended = (extend: boolean) => {
+		this.isGroupExtended = extend;
 	};
 
 	@action

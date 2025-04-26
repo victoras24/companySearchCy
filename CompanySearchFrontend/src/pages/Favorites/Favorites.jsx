@@ -1,20 +1,26 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { useCompanyContext } from "../context/SavedCompanyContext";
+import { useCompanyContext } from "../../context/SavedCompanyContext";
 import { faSquareMinus, faCirclePlus } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthStoreContext";
-import { doc, updateDoc, arrayRemove } from "firebase/firestore";
-import { firestore } from "../Firebase/firebase";
-import { Icon } from "../components/Icon";
-import { Button } from "../components/Button";
+import { useAuth } from "../../context/AuthStoreContext";
+import { doc, updateDoc, arrayRemove, collection } from "firebase/firestore";
+import { firestore } from "../../Firebase/firebase";
+import { Icon } from "../../components/Icon";
+import { Button } from "../../components/Button";
+import { FavoritesModel } from "./Favorites_model";
 
 export default function Favorites() {
+	const [model] = useState(() => new FavoritesModel());
 	const { user, updateUser } = useAuth();
 	const [openGroup, setOpenGroup] = useState({});
-	const { groups, addCompanyToGroup } = useCompanyContext();
 	const plusBtnRefs = useRef({});
 	const groupListRefs = useRef({});
 	const navigate = useNavigate();
+	const groupRef = collection(firestore, "users", user.uid, "groups");
+
+	useEffect(() => {
+		model.onMount();
+	}, []);
 
 	const deleteCompany = async (companyWeWantToDelete) => {
 		try {
@@ -87,12 +93,19 @@ export default function Favorites() {
 				className="result-container-group-list"
 				ref={(el) => (groupListRefs.current[company.id] = el)}
 			>
-				{groups.length > 0 ? (
+				{model.groups.length > 0 ? (
 					<ul style={{ listStyle: "none", padding: 0 }}>
-						{groups.map((group) => (
+						{model.groups.map((group) => (
 							<li
 								key={group.id}
-								onClick={() => handleAddCompanyToGroup(company, group.id)}
+								onClick={() =>
+									model.addCompanyInGroup(
+										groupRef,
+										company.organisationName,
+										group.id,
+										user.uid
+									)
+								}
 								style={{ cursor: "pointer", padding: "5px" }}
 							>
 								{group.name}
@@ -112,17 +125,6 @@ export default function Favorites() {
 		);
 	};
 
-	const handleAddCompanyToGroup = useCallback(
-		(company, groupId) => {
-			addCompanyToGroup(company, groupId);
-			setOpenGroup((prevState) => ({
-				...prevState,
-				[company.id]: false,
-			}));
-		},
-		[addCompanyToGroup]
-	);
-
 	return (
 		<div className="saved-page">
 			<h1 className="saved-title">Favorites</h1>
@@ -136,7 +138,6 @@ export default function Favorites() {
 				{user.savedCompanies.length > 0 ? (
 					user.savedCompanies.map((company) => {
 						const isGroupOpen = openGroup[company.id];
-						console.log(company);
 						return (
 							<div
 								className="saved-company-container"

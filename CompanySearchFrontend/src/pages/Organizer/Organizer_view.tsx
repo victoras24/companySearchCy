@@ -65,7 +65,10 @@ const Organizer: React.FC = observer(() => {
 									<h2>{group.name}</h2>
 									<div id={group.id}>
 										<Button
-											icon={group.isExtended ? faAngleUp : faAngleDown}
+											icon={model.isGroupExtended ? faAngleUp : faAngleDown}
+											onClick={() =>
+												model.setGroupExtended(!model.isGroupExtended)
+											}
 											variant={"icon"}
 										/>
 										<Button
@@ -76,11 +79,15 @@ const Organizer: React.FC = observer(() => {
 										/>
 									</div>
 								</div>
-								{group.isExtended && (
+								{model.isGroupExtended && (
 									<ul>
-										{group.companies.map((comp) => (
-											<div className="grouped-companies" key={comp.id}>
-												<li draggable>{comp.organisationName}</li>
+										{model.groups.map((group) => (
+											<div className="grouped-companies" key={group.id}>
+												<ul>
+													{group.companies.map((company, index) => (
+														<li key={index}>{company}</li>
+													))}
+												</ul>
 												<Icon
 													symbol={faSquareMinus}
 													style="saved-company-delete"
