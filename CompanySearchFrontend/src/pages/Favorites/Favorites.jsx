@@ -117,7 +117,7 @@ export default function Favorites() {
 						<p>No groups have been created yet.</p>
 						<Button
 							content="Create group"
-							onClick={() => navigate("/organizer")}
+							onClick={() => navigate("/organiser")}
 						/>
 					</div>
 				)}

@@ -3,7 +3,7 @@ import Search from "./pages/Search/Search_view";
 import Layout from "./components/Layout";
 import { Home } from "./pages/Home";
 import Favorites from "./pages/Favorites/Favorites";
-import Organizer from "./pages/Organizer/Organizer_view";
+import organiser from "./pages/organiser/organiser_view";
 import Account from "./pages/Account";
 import AccountDetails from "./pages/AccountDetails";
 import { SavedCompanyProvider } from "./context/SavedCompanyContext";
@@ -35,8 +35,8 @@ function AppRoutes() {
 						element={user ? <Favorites /> : <Account />}
 					/>
 					<Route
-						path="organizer"
-						element={user ? <Organizer /> : <Account />}
+						path="organiser"
+						element={user ? <organiser /> : <Account />}
 					/>
 					<Route
 						path="account"

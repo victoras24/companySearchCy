@@ -8,15 +8,15 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "../../components/Button";
-import { OrganizerModel } from "./Organizer_model";
+import { organiserModel } from "./Organiser_model";
 import React from "react";
 import { observer } from "mobx-react";
 import { firestore } from "../../Firebase/firebase";
 import { doc } from "firebase/firestore";
 import { useAuth } from "../../context/AuthStoreContext";
 
-const Organizer: React.FC = observer(() => {
-	const [model] = useState(() => new OrganizerModel());
+const organiser: React.FC = observer(() => {
+	const [model] = useState(() => new organiserModel());
 	const { user } = useAuth();
 	const groupRef = doc(firestore, "users", user.uid);
 
@@ -25,8 +25,8 @@ const Organizer: React.FC = observer(() => {
 	}, []);
 
 	return (
-		<div className="organizer-page">
-			<h1 className="saved-title">Company organizer</h1>
+		<div className="organiser-page">
+			<h1 className="saved-title">Company organiser</h1>
 			<p className="saved-description">
 				Create and manage groups to efficiently organize your saved companies.
 				Categorize your favorites for easy access and streamlined management.
@@ -105,4 +105,4 @@ const Organizer: React.FC = observer(() => {
 	);
 });
 
-export default Organizer;
+export default organiser;

@@ -9,7 +9,7 @@ import {
 } from "firebase/firestore";
 import { firestore } from "../../Firebase/firebase";
 
-export class OrganizerModel {
+export class organiserModel {
 	@observable groupName: string = "";
 	@observable groups: any[];
 	@observable isLoading: boolean;
