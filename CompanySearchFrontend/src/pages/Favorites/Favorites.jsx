@@ -99,12 +99,7 @@ export default function Favorites() {
 							<li
 								key={group.id}
 								onClick={() =>
-									model.addCompanyInGroup(
-										groupRef,
-										company.organisationName,
-										group.id,
-										user.uid
-									)
+									model.addCompanyInGroup(company, group.id, user.uid)
 								}
 								style={{ cursor: "pointer", padding: "5px" }}
 							>

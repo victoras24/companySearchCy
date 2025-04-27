@@ -4,6 +4,8 @@ import {
 	arrayRemove,
 	arrayUnion,
 	collection,
+	doc,
+	getDoc,
 	getDocs,
 	updateDoc,
 } from "firebase/firestore";
@@ -71,6 +73,25 @@ export class OrganiserModel {
 		await updateDoc(ref, {
 			groups: arrayRemove(group),
 		});
+
+		await this.getGroups();
+	};
+
+	@action
+	deleteCompanyAssignedInGroup = async (userId, companyId) => {
+		const userRef = doc(firestore, "users", userId);
+		const querySnapshot = await getDoc(userRef);
+		const data = querySnapshot.data();
+		const groups = data?.groups;
+
+		const updatedGroup = groups.map((group) => {
+			return {
+				...group,
+				companies: group.companies.filter((c) => c.id !== companyId),
+			};
+		});
+		console.log(updatedGroup);
+		await updateDoc(userRef, { groups: updatedGroup });
 
 		await this.getGroups();
 	};

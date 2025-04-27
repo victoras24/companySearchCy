@@ -1,13 +1,9 @@
 import {
-	addDoc,
-	arrayUnion,
 	collection,
 	doc,
 	getDoc,
 	getDocs,
-	query,
 	updateDoc,
-	where,
 } from "firebase/firestore";
 import { action, makeObservable, observable } from "mobx";
 import { firestore } from "../../Firebase/firebase";
@@ -44,7 +40,7 @@ export class FavoritesModel {
 	};
 
 	@action
-	addCompanyInGroup = async (ref, company, groupId, userId) => {
+	addCompanyInGroup = async (company, groupId, userId) => {
 		const userRef = doc(firestore, "users", userId);
 		const querySnapshot = await getDoc(userRef);
 		const data = querySnapshot.data();
@@ -54,11 +50,16 @@ export class FavoritesModel {
 			if (group.id === groupId) {
 				return {
 					...group,
-					companies: [...(group.companies || []), company],
+					companies: [
+						...group.companies,
+						{ name: company.organisationName, id: company.id },
+					],
 				};
 			}
 			return group;
 		});
+
+		console.log(updatedGroups);
 
 		await updateDoc(userRef, { groups: updatedGroups });
 	};

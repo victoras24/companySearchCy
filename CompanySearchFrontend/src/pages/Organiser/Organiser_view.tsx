@@ -70,6 +70,7 @@ const Organiser: React.FC = observer(() => {
 											}
 											onClick={() => model.extendGroup(group.id)}
 											variant={"icon"}
+											className="m-1"
 										/>
 										<Button
 											icon={faTrashCan}
@@ -84,13 +85,22 @@ const Organiser: React.FC = observer(() => {
 										{model.groups.map((group) => (
 											<div className="grouped-companies" key={group.id}>
 												{group.companies.map((company, index) => (
-													<>
-														<li key={index}>{company}</li>
+													<div
+														key={index}
+														className="d-flex align-items-center justify-content-between"
+													>
+														<li>{company.name}</li>
 														<Icon
 															symbol={faSquareMinus}
 															style="saved-company-delete"
+															onClick={() =>
+																model.deleteCompanyAssignedInGroup(
+																	user.uid,
+																	company.id
+																)
+															}
 														/>
-													</>
+													</div>
 												))}
 											</div>
 										))}
