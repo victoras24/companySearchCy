@@ -6,9 +6,11 @@ import { Icon } from "../../components/Icon";
 import { Button } from "../../components/Button";
 import { FavoritesModel } from "./Favorites_model";
 import { observer } from "mobx-react";
+import { OrganiserModel } from "../Organiser/Organiser_model";
 
 const Favorites = observer(() => {
 	const [model] = useState(() => new FavoritesModel());
+	const [groupModel] = useState(() => new OrganiserModel());
 	const { user } = useAuth();
 	const [openGroup, setOpenGroup] = useState({});
 	const plusBtnRefs = useRef({});
@@ -17,6 +19,7 @@ const Favorites = observer(() => {
 
 	useEffect(() => {
 		model.onMount();
+		groupModel.onMount();
 	}, []);
 
 	const handleOpenGroup = (id) => {
@@ -37,15 +40,17 @@ const Favorites = observer(() => {
 				className="result-container-group-list"
 				ref={(el) => (groupListRefs.current[company.id] = el)}
 			>
-				{model.favorites.length > 0 ? (
+				{groupModel.groups.length > 0 ? (
 					<ul style={{ listStyle: "none", padding: 0 }}>
-						{model.favorites.map((group) => (
+						{groupModel.groups.map((group) => (
 							<li
 								key={group.id}
-								onClick={() => model.addCompanyInGroup(company, user.uid)}
+								onClick={() =>
+									model.addCompanyInGroup(company, user.uid, group.id)
+								}
 								style={{ cursor: "pointer", padding: "5px" }}
 							>
-								{group.organisationName}
+								{group.name}
 							</li>
 						))}
 					</ul>
@@ -61,7 +66,7 @@ const Favorites = observer(() => {
 			</div>
 		);
 	};
-
+	if (model.isLoading) return <p>Loading....</p>;
 	return (
 		<div className="saved-page">
 			<h1 className="saved-title">Favorites</h1>

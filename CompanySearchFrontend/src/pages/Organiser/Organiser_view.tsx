@@ -82,28 +82,27 @@ const Organiser: React.FC = observer(() => {
 								</div>
 								{model.expandedGroups[group.id] && (
 									<>
-										{model.groups.map((group) => (
-											<div className="grouped-companies" key={group.id}>
-												{group.companies.map((company, index) => (
-													<div
-														key={index}
-														className="d-flex align-items-center justify-content-between"
-													>
-														<li>{company.name}</li>
-														<Icon
-															symbol={faSquareMinus}
-															style="saved-company-delete"
-															onClick={() =>
-																model.deleteCompanyAssignedInGroup(
-																	user.uid,
-																	company.id
-																)
-															}
-														/>
-													</div>
-												))}
-											</div>
-										))}
+										<div className="grouped-companies" key={group.id}>
+											{group.companies.map((company, index) => (
+												<div
+													key={index}
+													className="d-flex align-items-center justify-content-between"
+												>
+													<li>{company.name}</li>
+													<Icon
+														symbol={faSquareMinus}
+														style="saved-company-delete"
+														onClick={() =>
+															model.deleteCompanyAssignedInGroup(
+																user.uid,
+																company.id,
+																group.id
+															)
+														}
+													/>
+												</div>
+											))}
+										</div>
 									</>
 								)}
 							</div>

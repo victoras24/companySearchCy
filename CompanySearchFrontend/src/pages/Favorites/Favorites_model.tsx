@@ -29,10 +29,8 @@ export class FavoritesModel {
 	@action
 	getFavorites = async () => {
 		try {
-			this.setIsLoading(true);
 			const groupSnapshot = await getDocs(collection(firestore, "users"));
 			groupSnapshot.forEach((company) => {
-				console.log(company.data());
 				this.setFavorite(company.data().savedCompanies);
 			});
 		} catch (error) {
@@ -54,17 +52,19 @@ export class FavoritesModel {
 	};
 
 	@action
-	addCompanyInGroup = async (company, userId) => {
+	addCompanyInGroup = async (company, userId, groupId) => {
 		const userRef = doc(firestore, "users", userId);
 		const querySnapshot = await getDoc(userRef);
 		const data = querySnapshot.data();
 		const groups = data?.groups || [];
 
 		const updatedGroups = groups.map((group) => {
+			if (group.id != groupId) return group;
 			const companyExistsInGroup = group.companies.some(
 				(c) => c.id === company.id
 			);
-			if (companyExistsInGroup) return;
+			if (companyExistsInGroup) return group;
+
 			return {
 				...group,
 				companies: [

@@ -13,7 +13,7 @@ import { firestore } from "../../Firebase/firebase";
 
 export class OrganiserModel {
 	@observable groupName: string = "";
-	@observable groups: any[];
+	@observable groups: any[] = [];
 	@observable isLoading: boolean;
 	@observable expandedGroups: { [key: string]: boolean } = {};
 
@@ -78,13 +78,14 @@ export class OrganiserModel {
 	};
 
 	@action
-	deleteCompanyAssignedInGroup = async (userId, companyId) => {
+	deleteCompanyAssignedInGroup = async (userId, companyId, groupId) => {
 		const userRef = doc(firestore, "users", userId);
 		const querySnapshot = await getDoc(userRef);
 		const data = querySnapshot.data();
 		const groups = data?.groups;
 
 		const updatedGroup = groups.map((group) => {
+			if (group.id !== groupId) return group;
 			return {
 				...group,
 				companies: group.companies.filter((c) => c.id !== companyId),
