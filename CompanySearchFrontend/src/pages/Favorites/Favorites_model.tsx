@@ -1,4 +1,5 @@
 import {
+	arrayRemove,
 	collection,
 	doc,
 	getDoc,
@@ -10,7 +11,7 @@ import { firestore } from "../../Firebase/firebase";
 
 export class FavoritesModel {
 	@observable isLoading: boolean;
-	@observable groups;
+	@observable favorites: any[] = [];
 
 	/**
 	 *
@@ -22,21 +23,34 @@ export class FavoritesModel {
 	@action
 	onMount = async () => {
 		this.setIsLoading(true);
-		await this.getGroups();
+		await this.getFavorites();
 	};
 
 	@action
-	getGroups = async () => {
+	getFavorites = async () => {
 		try {
+			this.setIsLoading(true);
 			const groupSnapshot = await getDocs(collection(firestore, "users"));
-			groupSnapshot.forEach((group) => {
-				this.setGroups(group.data().groups);
+			groupSnapshot.forEach((company) => {
+				console.log(company.data());
+				this.setFavorite(company.data().savedCompanies);
 			});
 		} catch (error) {
 			console.log(error);
 		} finally {
 			this.setIsLoading(false);
 		}
+	};
+
+	@action
+	deleteCompanyFromFavorites = async (user, company) => {
+		const userRef = doc(firestore, "users", user.uid);
+
+		await updateDoc(userRef, {
+			savedCompanies: arrayRemove(company),
+		});
+
+		await this.getFavorites();
 	};
 
 	@action
@@ -64,8 +78,8 @@ export class FavoritesModel {
 	};
 
 	@action
-	setGroups = (groups) => {
-		this.groups = groups;
+	setFavorite = (favorites) => {
+		this.favorites = favorites;
 	};
 
 	setIsLoading = (isLoading) => {

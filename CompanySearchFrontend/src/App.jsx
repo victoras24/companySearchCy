@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Search from "./pages/Search/Search_view";
 import Layout from "./components/Layout";
 import { Home } from "./pages/Home";
-import Favorites from "./pages/Favorites/Favorites";
+import Favorites from "./pages/Favorites/Favorites_view";
 import Organiser from "./pages/Organiser/Organiser_view";
 import Account from "./pages/Account";
 import AccountDetails from "./pages/AccountDetails";

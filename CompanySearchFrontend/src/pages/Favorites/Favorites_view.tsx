@@ -1,81 +1,25 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
-import { useCompanyContext } from "../../context/SavedCompanyContext";
+import React, { useState, useEffect, useRef } from "react";
 import { faSquareMinus, faCirclePlus } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthStoreContext";
-import { doc, updateDoc, arrayRemove, collection } from "firebase/firestore";
-import { firestore } from "../../Firebase/firebase";
 import { Icon } from "../../components/Icon";
 import { Button } from "../../components/Button";
 import { FavoritesModel } from "./Favorites_model";
+import { observer } from "mobx-react";
 
-export default function Favorites() {
+const Favorites = observer(() => {
 	const [model] = useState(() => new FavoritesModel());
-	const { user, updateUser } = useAuth();
+	const { user } = useAuth();
 	const [openGroup, setOpenGroup] = useState({});
 	const plusBtnRefs = useRef({});
 	const groupListRefs = useRef({});
 	const navigate = useNavigate();
-	const groupRef = collection(firestore, "users", user.uid, "groups");
 
 	useEffect(() => {
 		model.onMount();
 	}, []);
 
-	const deleteCompany = async (companyWeWantToDelete) => {
-		try {
-			const userRef = doc(firestore, "users", user.uid);
-
-			await updateDoc(userRef, {
-				savedCompanies: arrayRemove(companyWeWantToDelete),
-			});
-
-			updateUser({
-				...user,
-				savedCompanies: user.savedCompanies.filter(
-					(company) => company !== companyWeWantToDelete
-				),
-			});
-
-			localStorage.setItem(
-				"user-info",
-				JSON.stringify({
-					...user,
-					savedCompanies: user.savedCompanies.filter(
-						(company) => company !== company
-					),
-				})
-			);
-		} catch (error) {}
-	};
-
-	useEffect(() => {
-		function closeAddToGroup(e) {
-			Object.keys(openGroup).forEach((id) => {
-				if (
-					openGroup[id] &&
-					plusBtnRefs.current[id] &&
-					!plusBtnRefs.current[id].contains(e.target) &&
-					groupListRefs.current[id] &&
-					!groupListRefs.current[id].contains(e.target)
-				) {
-					setOpenGroup((prevState) => {
-						return {
-							...prevState,
-							[id]: false,
-						};
-					});
-				}
-			});
-		}
-
-		document.body.addEventListener("click", closeAddToGroup);
-		return () => {
-			document.body.removeEventListener("click", closeAddToGroup);
-		};
-	}, [openGroup]);
-
-	const handleOpenGroup = useCallback((id) => {
+	const handleOpenGroup = (id) => {
 		setOpenGroup((prevState) => {
 			const newState = {
 				...prevState,
@@ -83,7 +27,7 @@ export default function Favorites() {
 			};
 			return newState;
 		});
-	}, []);
+	};
 
 	const renderGroupList = (company, isGroupOpen) => {
 		if (!isGroupOpen) return null;
@@ -93,15 +37,15 @@ export default function Favorites() {
 				className="result-container-group-list"
 				ref={(el) => (groupListRefs.current[company.id] = el)}
 			>
-				{model.groups.length > 0 ? (
+				{model.favorites.length > 0 ? (
 					<ul style={{ listStyle: "none", padding: 0 }}>
-						{model.groups.map((group) => (
+						{model.favorites.map((group) => (
 							<li
 								key={group.id}
 								onClick={() => model.addCompanyInGroup(company, user.uid)}
 								style={{ cursor: "pointer", padding: "5px" }}
 							>
-								{group.name}
+								{group.organisationName}
 							</li>
 						))}
 					</ul>
@@ -128,8 +72,8 @@ export default function Favorites() {
 
 			<div className="saved-companies">
 				<h2>Saved Companies</h2>
-				{user.savedCompanies.length > 0 ? (
-					user.savedCompanies.map((company) => {
+				{model.favorites.length > 0 ? (
+					model.favorites.map((company) => {
 						const isGroupOpen = openGroup[company.id];
 						return (
 							<div
@@ -152,7 +96,9 @@ export default function Favorites() {
 									<Icon
 										style="text-lg p-2"
 										symbol={faSquareMinus}
-										onClick={() => deleteCompany(company)}
+										onClick={() =>
+											model.deleteCompanyFromFavorites(user, company)
+										}
 									/>
 								</div>
 							</div>
@@ -166,4 +112,6 @@ export default function Favorites() {
 			</div>
 		</div>
 	);
-}
+});
+
+export default Favorites;
