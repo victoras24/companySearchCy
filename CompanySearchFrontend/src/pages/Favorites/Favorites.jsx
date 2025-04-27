@@ -98,9 +98,7 @@ export default function Favorites() {
 						{model.groups.map((group) => (
 							<li
 								key={group.id}
-								onClick={() =>
-									model.addCompanyInGroup(company, group.id, user.uid)
-								}
+								onClick={() => model.addCompanyInGroup(company, user.uid)}
 								style={{ cursor: "pointer", padding: "5px" }}
 							>
 								{group.name}

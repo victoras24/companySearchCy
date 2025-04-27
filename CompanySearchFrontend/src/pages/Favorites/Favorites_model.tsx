@@ -40,26 +40,25 @@ export class FavoritesModel {
 	};
 
 	@action
-	addCompanyInGroup = async (company, groupId, userId) => {
+	addCompanyInGroup = async (company, userId) => {
 		const userRef = doc(firestore, "users", userId);
 		const querySnapshot = await getDoc(userRef);
 		const data = querySnapshot.data();
 		const groups = data?.groups || [];
 
 		const updatedGroups = groups.map((group) => {
-			if (group.id === groupId) {
-				return {
-					...group,
-					companies: [
-						...group.companies,
-						{ name: company.organisationName, id: company.id },
-					],
-				};
-			}
-			return group;
+			const companyExistsInGroup = group.companies.some(
+				(c) => c.id === company.id
+			);
+			if (companyExistsInGroup) return;
+			return {
+				...group,
+				companies: [
+					...group.companies,
+					{ name: company.organisationName, id: company.id },
+				],
+			};
 		});
-
-		console.log(updatedGroups);
 
 		await updateDoc(userRef, { groups: updatedGroups });
 	};

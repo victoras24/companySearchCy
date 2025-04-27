@@ -90,7 +90,6 @@ export class OrganiserModel {
 				companies: group.companies.filter((c) => c.id !== companyId),
 			};
 		});
-		console.log(updatedGroup);
 		await updateDoc(userRef, { groups: updatedGroup });
 
 		await this.getGroups();
