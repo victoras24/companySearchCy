@@ -7,6 +7,7 @@ import { Button } from "../../components/Button";
 import { FavoritesModel } from "./Favorites_model";
 import { observer } from "mobx-react";
 import { OrganiserModel } from "../Organiser/Organiser_model";
+import DragDrop from "../../components/DragDrop/DragDrop";
 
 const Favorites = observer(() => {
 	const [model] = useState(() => new FavoritesModel());
@@ -81,32 +82,39 @@ const Favorites = observer(() => {
 					model.favorites.map((company) => {
 						const isGroupOpen = openGroup[company.id];
 						return (
-							<div
-								className="saved-company-container"
-								style={{ position: "relative" }}
+							<DragDrop
+								items={model.favorites}
+								setItems={model.setFavorite}
 								key={company.id}
+								id={company.id}
 							>
-								<span>{company.organisationName}</span>
-								<div className="saved-company-icons">
-									<Icon
-										style="text-lg p-2"
-										symbol={faCirclePlus}
-										onClick={(e) => {
-											e.stopPropagation();
-											handleOpenGroup(company.id);
-										}}
-										reference={(el) => (plusBtnRefs.current[company.id] = el)}
-									/>
-									{renderGroupList(company, isGroupOpen)}
-									<Icon
-										style="text-lg p-2"
-										symbol={faSquareMinus}
-										onClick={() =>
-											model.deleteCompanyFromFavorites(user, company)
-										}
-									/>
+								<div
+									className="saved-company-container"
+									style={{ position: "relative" }}
+									id={company.id}
+								>
+									<span>{company.organisationName}</span>
+									<div className="saved-company-icons">
+										<Icon
+											style="text-lg p-2"
+											symbol={faCirclePlus}
+											onClick={(e) => {
+												e.stopPropagation();
+												handleOpenGroup(company.id);
+											}}
+											reference={(el) => (plusBtnRefs.current[company.id] = el)}
+										/>
+										{renderGroupList(company, isGroupOpen)}
+										<Icon
+											style="text-lg p-2"
+											symbol={faSquareMinus}
+											onClick={() =>
+												model.deleteCompanyFromFavorites(user, company)
+											}
+										/>
+									</div>
 								</div>
-							</div>
+							</DragDrop>
 						);
 					})
 				) : (

@@ -14,6 +14,7 @@ import { observer } from "mobx-react";
 import { firestore } from "../../Firebase/firebase";
 import { doc } from "firebase/firestore";
 import { useAuth } from "../../context/AuthStoreContext";
+import DragDrop from "../../components/DragDrop/DragDrop";
 
 const Organiser: React.FC = observer(() => {
 	const [model] = useState(() => new OrganiserModel());
@@ -60,52 +61,61 @@ const Organiser: React.FC = observer(() => {
 				<div>
 					<div className="groups-container">
 						{model.groups?.map((group) => (
-							<div key={group.id} id={group.id} className="group-wrapper">
-								<div className="group-wrapper-top-section">
-									<h2>{group.name}</h2>
-									<div id={group.id}>
-										<Button
-											icon={
-												model.expandedGroups[group.id] ? faAngleUp : faAngleDown
-											}
-											onClick={() => model.extendGroup(group.id)}
-											variant={"icon"}
-											className="m-1"
-										/>
-										<Button
-											icon={faTrashCan}
-											className="p-0"
-											variant={"icon"}
-											onClick={() => model.deleteGroup(docRef, group)}
-										/>
-									</div>
-								</div>
-								{model.expandedGroups[group.id] && (
-									<>
-										<div className="grouped-companies" key={group.id}>
-											{group.companies.map((company, index) => (
-												<div
-													key={index}
-													className="d-flex align-items-center justify-content-between"
-												>
-													<li>{company.name}</li>
-													<Icon
-														symbol={faSquareMinus}
-														style="saved-company-delete"
-														onClick={() =>
-															model.deleteCompanyAssignedInGroup(
-																user.uid,
-																company.id,
-																group.id
-															)
-														}
-													/>
-												</div>
-											))}
+							<DragDrop
+								items={model.groups}
+								setItems={model.setGroups}
+								key={group.id}
+								id={group.id}
+							>
+								<div id={group.id} className="group-wrapper">
+									<div id={group.id} className="group-wrapper-top-section">
+										<h2>{group.name}</h2>
+										<div>
+											<Button
+												icon={
+													model.expandedGroups[group.id]
+														? faAngleUp
+														: faAngleDown
+												}
+												onClick={() => model.extendGroup(group.id)}
+												variant={"icon"}
+												className="m-1"
+											/>
+											<Button
+												icon={faTrashCan}
+												className="p-0"
+												variant={"icon"}
+												onClick={() => model.deleteGroup(docRef, group)}
+											/>
 										</div>
-									</>
-								)}
-							</div>
+									</div>
+									{model.expandedGroups[group.id] && (
+										<>
+											<div className="grouped-companies">
+												{group.companies.map((company, index) => (
+													<div
+														key={index}
+														className="d-flex align-items-center justify-content-between"
+													>
+														<li>{company.name}</li>
+														<Icon
+															symbol={faSquareMinus}
+															style="saved-company-delete"
+															onClick={() =>
+																model.deleteCompanyAssignedInGroup(
+																	user.uid,
+																	company.id,
+																	group.id
+																)
+															}
+														/>
+													</div>
+												))}
+											</div>
+										</>
+									)}
+								</div>
+							</DragDrop>
 						))}
 					</div>
 				</div>
