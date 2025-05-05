@@ -87,6 +87,7 @@ const Favorites = observer(() => {
 								setItems={model.setFavorite}
 								key={company.id}
 								id={company.id}
+								secondary={false}
 							>
 								<div
 									className="saved-company-container"

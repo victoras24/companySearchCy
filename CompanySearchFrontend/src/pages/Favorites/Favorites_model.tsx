@@ -6,7 +6,7 @@ import {
 	getDocs,
 	updateDoc,
 } from "firebase/firestore";
-import { action, makeObservable, observable } from "mobx";
+import { action, makeObservable, observable, runInAction } from "mobx";
 import { firestore } from "../../Firebase/firebase";
 
 export class FavoritesModel {

@@ -33,91 +33,102 @@ const Organiser: React.FC = observer(() => {
 				Categorize your favorites for easy access and streamlined management.
 			</p>
 			<AnimatePresence>
-				{
-					<motion.div
-						className="create-group-container"
-						initial={{ opacity: 0, scale: 0.9 }}
-						animate={{ opacity: 1, scale: 1 }}
-						exit={{ opacity: 0, scale: 0.9 }}
-						transition={{ duration: 0.2 }}
-					>
-						<h2>Name group</h2>
-						<input
-							className="create-group-input"
-							type="text"
-							value={model.groupName}
-							onChange={model.handleInputChange}
-						/>
-						<Button
-							onClick={() => model.createGroup(docRef)}
-							content="Create group"
-						/>
-					</motion.div>
-				}
+				<motion.div
+					className="create-group-container"
+					initial={{ opacity: 0, scale: 0.9 }}
+					animate={{ opacity: 1, scale: 1 }}
+					exit={{ opacity: 0, scale: 0.9 }}
+					transition={{ duration: 0.2 }}
+				>
+					<h2>Name group</h2>
+					<input
+						className="create-group-input"
+						type="text"
+						value={model.groupName}
+						onChange={model.handleInputChange}
+					/>
+					<Button
+						onClick={() => model.createGroup(docRef)}
+						content="Create group"
+					/>
+				</motion.div>
 			</AnimatePresence>
 			{model.isLoading ? (
 				<p>Loading...</p>
 			) : (
-				<div>
-					<div className="groups-container">
-						{model.groups?.map((group) => (
+				<div className="groups-container">
+					{model.groups?.map((group) => (
+						<div key={group.id} id={group.id} className="group-wrapper">
 							<DragDrop
 								items={model.groups}
 								setItems={model.setGroups}
 								key={group.id}
 								id={group.id}
+								groupId={group.id}
+								secondary={false}
 							>
-								<div id={group.id} className="group-wrapper">
-									<div id={group.id} className="group-wrapper-top-section">
-										<h2>{group.name}</h2>
-										<div>
-											<Button
-												icon={
-													model.expandedGroups[group.id]
-														? faAngleUp
-														: faAngleDown
-												}
-												onClick={() => model.extendGroup(group.id)}
-												variant={"icon"}
-												className="m-1"
-											/>
-											<Button
-												icon={faTrashCan}
-												className="p-0"
-												variant={"icon"}
-												onClick={() => model.deleteGroup(docRef, group)}
-											/>
-										</div>
+								<div id={group.id} className="group-wrapper-top-section">
+									<h2>{group.name}</h2>
+									<div>
+										<Button
+											icon={
+												model.expandedGroups[group.id] ? faAngleUp : faAngleDown
+											}
+											onClick={() => model.extendGroup(group.id)}
+											variant={"icon"}
+											className="m-1"
+										/>
+										<Button
+											icon={faTrashCan}
+											className="p-0"
+											variant={"icon"}
+											onClick={() => model.deleteGroup(docRef, group)}
+										/>
 									</div>
-									{model.expandedGroups[group.id] && (
-										<>
-											<div className="grouped-companies">
-												{group.companies.map((company, index) => (
-													<div
-														key={index}
-														className="d-flex align-items-center justify-content-between"
-													>
-														<li>{company.name}</li>
-														<Icon
-															symbol={faSquareMinus}
-															style="saved-company-delete"
-															onClick={() =>
-																model.deleteCompanyAssignedInGroup(
-																	user.uid,
-																	company.id,
-																	group.id
-																)
-															}
-														/>
-													</div>
-												))}
-											</div>
-										</>
-									)}
 								</div>
 							</DragDrop>
-						))}
-					</div>
+							{model.expandedGroups[group.id] && (
+								<div className="grouped-companies">
+									{group.companies.map((company) => (
+										<DragDrop
+											items={group.companies}
+											setItems={(updatedCompanies) => {
+												const updatedGroups = model.groups.map((g) =>
+													g.id === group.id
+														? { ...g, companies: updatedCompanies }
+														: g
+												);
+												model.setGroups(updatedGroups);
+											}}
+											key={company.id}
+											id={company.id}
+											groupId={group.id}
+											secondary
+											secondaryId={company.id}
+										>
+											<div
+												id={company.id}
+												className="d-flex align-items-center justify-content-between"
+											>
+												<li>{company.name}</li>
+												<Icon
+													symbol={faSquareMinus}
+													style="saved-company-delete"
+													onClick={() =>
+														model.deleteCompanyAssignedInGroup(
+															user.uid,
+															company.id,
+															group.id
+														)
+													}
+												/>
+											</div>
+										</DragDrop>
+									))}
+								</div>
+							)}
+						</div>
+					))}
 				</div>
 			)}
 		</div>

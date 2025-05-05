@@ -1,0 +1,8 @@
+.drag-drop-container {
+	animation: pulse 1s linear infinite both;
+	transition: transform 0.3s ease, opacity 0.2s;
+}
+
+.dragging {
+	opacity: 0;
+}
