@@ -1,0 +1,16 @@
+.accountDetail-count {
+	font-size: 2rem;
+	font-weight: 700;
+	color: $text-active;
+}
+
+.acountDetail-summary {
+	height: 200px;
+}
+
+.accountDetail-page {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 2rem 1rem;
+}

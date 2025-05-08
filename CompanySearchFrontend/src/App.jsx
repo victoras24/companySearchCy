@@ -5,7 +5,7 @@ import { Home } from "./pages/Home";
 import Favorites from "./pages/Favorites/Favorites_view";
 import Organiser from "./pages/Organiser/Organiser_view";
 import Account from "./pages/Account";
-import AccountDetails from "./pages/AccountDetails";
+import AccountDetails from "./pages/Account/AccountDetails_view";
 import { SavedCompanyProvider } from "./context/SavedCompanyContext";
 import { AuthProvider, useAuth } from "./context/AuthStoreContext";
 import OrganisationDetails from "./pages/OrganisationDetails/OrganisationDetails_view";

@@ -1,6 +1,6 @@
 import React from "react";
 import { firestore } from "../../Firebase/firebase";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 import { useAuth } from "../../context/AuthStoreContext";
 
 interface DragDropProps {
@@ -95,8 +95,6 @@ const DragDrop: React.FC<DragDropProps> = ({
 				(c) => c.id !== companyId
 			);
 			targetGroup.companies.push(company);
-
-			console.log(updatedItems);
 
 			setItems(updatedItems);
 			await updateDoc(userRef, { groups: updatedItems });
